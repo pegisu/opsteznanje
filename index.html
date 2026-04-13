@@ -4,7 +4,7 @@
   <link rel="icon" type="image/png" href="/favicon.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Opste Znanje - Priprema za test opste informisanosti</title>
+  <title>Opšte Znanje — Priprema za test opšte informisanosti</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -662,20 +662,18 @@
     .cat-count {
       font-size: 11px;
       color: var(--text-muted);
-      /* Animacija ucitavanja */
-      transition: opacity 0.4s;
+      min-height: 16px;
     }
 
-    /* Skeleton pulsiranje dok se ucitava */
     .cat-count.loading {
       display: inline-block;
       width: 60px;
       height: 11px;
       background: linear-gradient(90deg, var(--dark-4) 25%, var(--dark-3) 50%, var(--dark-4) 75%);
       background-size: 200% 100%;
-      animation: shimmer 1.4s infinite;
+      animation: shimmer 1.2s infinite;
       border-radius: 4px;
-      opacity: 0.6;
+      vertical-align: middle;
     }
 
     @keyframes shimmer {
@@ -1007,7 +1005,6 @@
 </head>
 <body>
 
-<!-- MODAL ZA IZBOR KATEGORIJE -->
 <div class="modal-overlay" id="categoryModal">
   <div class="modal-box">
     <div class="modal-header">
@@ -1021,7 +1018,6 @@
   </div>
 </div>
 
-<!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">Opste<span>Znanje</span></a>
   <ul class="nav-links">
@@ -1034,14 +1030,12 @@
   </button>
 </nav>
 
-<!-- MOBILNI MENI -->
 <nav class="mobile-nav" id="mobileNav">
   <a href="#nacin" onclick="closeMobileNav()">Nacin igranja</a>
   <a href="#kategorije" onclick="closeMobileNav()">Kategorije</a>
   <a href="quiz.html?mod=random" class="mobile-nav-btn">Zapocni test</a>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-glow"></div>
   <div class="hero-tag">Priprema za test opste informisanosti</div>
@@ -1058,11 +1052,10 @@
   </div>
 </div>
 
-<!-- STATS -->
 <div class="stats-wrap">
   <div class="stats-strip fade-in">
     <div class="stat-item">
-      <span class="stat-number" id="statTotalPitanja">...</span>
+      <span class="stat-number" id="statUkupno">...</span>
       <span class="stat-label">Pitanja</span>
     </div>
     <div class="stat-item">
@@ -1078,7 +1071,6 @@
 
 <div class="divider"></div>
 
-<!-- MODE CARDS -->
 <section id="nacin">
   <div class="section-header fade-in">
     <span class="section-tag">Nacin testiranja</span>
@@ -1087,6 +1079,7 @@
   </div>
 
   <div class="mode-cards">
+
     <a href="quiz.html?mod=random&limit=20" class="mode-card fade-in" style="animation-delay:0.1s">
       <div class="mode-badge">Popularno</div>
       <div class="mode-card-inner">
@@ -1118,7 +1111,7 @@
         </div>
         <div class="mode-content">
           <h3 class="mode-title">Po kategoriji</h3>
-          <p class="mode-desc">Fokusiraj se na specificnu oblast i izuci je do savrsentsva.</p>
+          <p class="mode-desc">Fokusiraj se na specificnu oblast i izuci je do savrsensva.</p>
           <div class="mode-meta">
             <div class="mode-dot"></div>
             <span>20 pitanja</span>
@@ -1155,17 +1148,17 @@
         </div>
       </div>
     </a>
+
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- QUIZ PREVIEW -->
 <section>
   <div class="section-header fade-in">
     <span class="section-tag">Kako izgleda test</span>
     <h2 class="section-title">Intuitivno i jasno</h2>
-    <p class="section-subtitle">Odmah vidis da li si u pravu - zeleno znaci tacno, crveno netacno.</p>
+    <p class="section-subtitle">Odmah vidis da li si u pravu — zeleno znaci tacno, crveno netacno.</p>
   </div>
 
   <div class="quiz-preview fade-in">
@@ -1195,12 +1188,11 @@
 
 <div class="divider"></div>
 
-<!-- CATEGORIES -->
 <section id="kategorije">
   <div class="section-header fade-in">
     <span class="section-tag">20 oblasti znanja</span>
     <h2 class="section-title">Izaberi svoju kategoriju</h2>
-    <p class="section-subtitle">Od istorije do astronomije - sveobuhvatna priprema.</p>
+    <p class="section-subtitle">Od istorije do astronomije — sveobuhvatna priprema.</p>
   </div>
 
   <div class="categories-grid fade-in">
@@ -1232,7 +1224,7 @@
 <div class="footer-wrap">
   <footer>
     <div class="footer-logo">Opste Znanje</div>
-    <div class="footer-copy">opsteznanje.com - Priprema za test opste informisanosti</div>
+    <div class="footer-copy">opsteznanje.com — Priprema za test opste informisanosti</div>
   </footer>
 </div>
 
@@ -1243,6 +1235,86 @@
   const { createClient } = supabase;
   const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  // =============================================
+  // KLJUCNA FUNKCIJA — ucitava broj pitanja po kategoriji
+  // =============================================
+  async function loadCategoryCounts() {
+    try {
+      // Dohvatamo SVE redove iz tabele quiz_pitanja, samo kolonu kategorija
+      // Supabase vraca max 1000 po defaultu, zato koristimo range petlju
+      let sviRedovi = [];
+      let from = 0;
+      const korak = 1000;
+
+      while (true) {
+        const { data, error } = await db
+          .from('quiz_pitanja')
+          .select('kategorija')
+          .range(from, from + korak - 1);
+
+        if (error) {
+          console.error('Supabase greska:', error);
+          break;
+        }
+
+        if (!data || data.length === 0) break;
+
+        sviRedovi = sviRedovi.concat(data);
+
+        // Ako smo dobili manje od korak redova, nema vise podataka
+        if (data.length < korak) break;
+
+        from += korak;
+      }
+
+      console.log('Ukupno dohvaceno redova:', sviRedovi.length);
+
+      // Brojimo koliko ima po kategoriji
+      const brojevi = {};
+      sviRedovi.forEach(function(red) {
+        const kat = red.kategorija;
+        if (kat) {
+          brojevi[kat] = (brojevi[kat] || 0) + 1;
+        }
+      });
+
+      console.log('Brojevi po kategoriji:', brojevi);
+
+      // Azuriramo svaku cat-card
+      document.querySelectorAll('.cat-card').forEach(function(card) {
+        const kat = card.getAttribute('data-kat');
+        const countEl = card.querySelector('.cat-count');
+        if (!countEl) return;
+
+        countEl.classList.remove('loading');
+
+        if (kat && brojevi[kat] !== undefined) {
+          countEl.textContent = brojevi[kat] + ' pitanja';
+        } else {
+          countEl.textContent = '0 pitanja';
+        }
+      });
+
+      // Azuriramo ukupan broj u stats-strip
+      const ukupno = sviRedovi.length;
+      const statEl = document.getElementById('statUkupno');
+      if (statEl) {
+        statEl.textContent = ukupno.toLocaleString('sr-RS') + '+';
+      }
+
+    } catch (err) {
+      console.error('Greska u loadCategoryCounts:', err);
+      // Fallback — ukloni loading stanje
+      document.querySelectorAll('.cat-count.loading').forEach(function(el) {
+        el.classList.remove('loading');
+        el.textContent = '— pitanja';
+      });
+    }
+  }
+
+  // =============================================
+  // MODAL
+  // =============================================
   const SVE_KATEGORIJE = [
     { name: 'Istorija',      svg: '<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>' },
     { name: 'Geografija',    svg: '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>' },
@@ -1266,76 +1338,6 @@
     { name: 'Opsta kultura', svg: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>' }
   ];
 
-  /* =========================================================
-     NOVA FUNKCIJA: ucitava realan broj pitanja po kategoriji
-     ========================================================= */
-  async function loadCategoryCounts() {
-    try {
-      // Jedan upit — dohvata kategorija + count iz tabele pitanja
-      const { data, error } = await db
-        .from('pitanja')
-        .select('kategorija', { count: 'exact', head: false });
-
-      if (error) throw error;
-
-      // Broji po kategoriji lokalno
-      var counts = {};
-      data.forEach(function(row) {
-        var kat = row.kategorija;
-        if (kat) {
-          counts[kat] = (counts[kat] || 0) + 1;
-        }
-      });
-
-      var ukupno = data.length;
-
-      // Azuriraj svaku cat-card
-      document.querySelectorAll('.cat-card[data-kat]').forEach(function(card) {
-        var kat      = card.getAttribute('data-kat');
-        var countEl  = card.querySelector('.cat-count');
-        var broj     = counts[kat] || 0;
-        countEl.classList.remove('loading');
-        countEl.textContent = broj + ' pitanja';
-      });
-
-      // Azuriraj i stat-total u stats-strip
-      var statEl = document.getElementById('statTotalPitanja');
-      if (statEl) {
-        statEl.textContent = ukupno.toLocaleString('sr-RS') + '+';
-      }
-
-    } catch (e) {
-      // Ako upit ne uspe, prikazuje fallback
-      document.querySelectorAll('.cat-count.loading').forEach(function(el) {
-        el.classList.remove('loading');
-        el.textContent = '— pitanja';
-      });
-      var statEl = document.getElementById('statTotalPitanja');
-      if (statEl) statEl.textContent = '2,400+';
-      console.warn('Greska pri ucitavanju broja pitanja:', e);
-    }
-  }
-
-  /* =========================================================
-     Ako je tabela velika (1000+ redova), koristi RPC za COUNT
-     — ostavi zakomentirano kao alternativu:
-
-     async function loadCategoryCounts() {
-       const { data, error } = await db.rpc('count_by_kategorija');
-       // Ocekuje: [{ kategorija: 'Istorija', broj: 87 }, ...]
-       if (error) { ... }
-       data.forEach(function(row) {
-         var card = document.querySelector('.cat-card[data-kat="' + row.kategorija + '"]');
-         if (card) {
-           var el = card.querySelector('.cat-count');
-           el.classList.remove('loading');
-           el.textContent = row.broj + ' pitanja';
-         }
-       });
-     }
-     ========================================================= */
-
-  // Modal
   var modal       = document.getElementById('categoryModal');
   var modalGrid   = document.getElementById('modalGrid');
   var modalClose  = document.getElementById('modalClose');
@@ -1363,6 +1365,9 @@
     document.body.style.overflow = '';
   }
 
+  // =============================================
+  // HAMBURGER
+  // =============================================
   var hamburger = document.getElementById('hamburger');
   var mobileNav = document.getElementById('mobileNav');
   var menuOpen  = false;
@@ -1377,6 +1382,9 @@
     mobileNav.classList.remove('open');
   }
 
+  // =============================================
+  // ANALYTICS
+  // =============================================
   async function logPageView() {
     try {
       await db.from('page_views').insert([{
@@ -1397,6 +1405,9 @@
     window.location.href = 'quiz.html?kategorija=' + encodeURIComponent(name);
   }
 
+  // =============================================
+  // SCROLL FADE
+  // =============================================
   var fadeEls  = document.querySelectorAll('.fade-in');
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry, i) {
@@ -1408,6 +1419,9 @@
   }, { threshold: 0.08 });
   fadeEls.forEach(function(el) { observer.observe(el); });
 
+  // =============================================
+  // QUIZ PREVIEW INTERAKCIJA
+  // =============================================
   document.querySelectorAll('.answer').forEach(function(ans) {
     ans.addEventListener('click', function() {
       document.querySelectorAll('.answer').forEach(function(a) {
@@ -1418,16 +1432,21 @@
     });
   });
 
+  // =============================================
+  // KATEGORIJE KLIKOVI (sa cat-card grid-a)
+  // =============================================
   document.querySelectorAll('.cat-card').forEach(function(card) {
     card.addEventListener('click', function() {
-      var name = this.querySelector('.cat-name').textContent.trim();
-      logCategoryClick(name);
+      var name = this.getAttribute('data-kat');
+      if (name) logCategoryClick(name);
     });
   });
 
-  // Pokretanje
+  // =============================================
+  // POKRETANJE
+  // =============================================
   logPageView();
-  loadCategoryCounts(); // <-- NOVA FUNKCIJA
+  loadCategoryCounts();  // <-- ovo ucitava realne brojeve
 </script>
 </body>
 </html>
