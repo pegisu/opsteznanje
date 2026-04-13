@@ -3,914 +3,913 @@
 <head>
   <meta charset="UTF-8">
   <link rel="icon" type="image/png" href="/favicon.png">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Opšte Znanje — Priprema za test opšte informisanosti </title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --gold: #D4B558;
-    --gold-light: #EDD07E;
-    --gold-pale: #F5E8C0;
-    --dark: #0D0D0F;
-    --dark-2: #141418;
-    --dark-3: #1C1C22;
-    --dark-4: #24242C;
-    --text: #E8E6E0;
-    --text-muted: #8A8880;
-    --border: rgba(212,181,88,0.15);
-    --shadow-gold: 0 20px 60px rgba(212,181,88,0.12);
-    --shadow-lift: 0 30px 80px rgba(212,181,88,0.22);
-    --radius: 16px;
-    --radius-sm: 10px;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--dark);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    overflow-x: hidden;
-    min-height: 100vh;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-  }
-
-  /* ===== NAVIGATION ===== */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 20px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(to bottom, rgba(13,13,15,0.95), transparent);
-    backdrop-filter: blur(10px);
-  }
-
-  .nav-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--gold);
-    letter-spacing: 0.5px;
-    text-decoration: none;
-  }
-
-  .nav-logo span { color: var(--text); }
-
-  .nav-links {
-    display: flex;
-    gap: 32px;
-    list-style: none;
-    align-items: center;
-  }
-
-  .nav-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-    transition: color 0.25s;
-  }
-
-  .nav-links a:hover { color: var(--gold); }
-
-  .nav-btn {
-    background: var(--gold);
-    color: var(--dark) !important;
-    padding: 10px 22px;
-    border-radius: 8px;
-    font-weight: 600 !important;
-    transition: background 0.25s, transform 0.2s !important;
-  }
-
-  .nav-btn:hover {
-    background: var(--gold-light) !important;
-    transform: translateY(-1px);
-  }
-
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    padding: 4px;
-  }
-
-  .hamburger span {
-    width: 24px;
-    height: 2px;
-    background: var(--gold);
-    border-radius: 2px;
-    transition: all 0.3s;
-  }
-
-  /* ===== HERO ===== */
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 120px 20px 80px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-glow {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 700px; height: 500px;
-    background: radial-gradient(ellipse, rgba(212,181,88,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-glow-2 {
-    position: absolute;
-    top: 20%; right: -10%;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(212,181,88,0.04) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-tag {
-    display: inline-block;
-    background: rgba(212,181,88,0.1);
-    border: 1px solid var(--border);
-    color: var(--gold);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    padding: 8px 20px;
-    border-radius: 50px;
-    margin-bottom: 28px;
-    animation: fadeSlideUp 0.8s ease both;
-  }
-
-  .hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(40px, 7vw, 82px);
-    font-weight: 900;
-    line-height: 1.05;
-    margin-bottom: 16px;
-    color: var(--text);
-    animation: fadeSlideUp 0.8s 0.1s ease both;
-  }
-
-  .hero-title .accent {
-    color: var(--gold);
-    display: block;
-    font-size: 0.75em;
-  }
-
-  .hero-subtitle {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-weight: 400;
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-    color: var(--text-muted);
-    margin-bottom: 3rem;
-    max-width: 600px;
-    line-height: 1.5;
-    animation: fadeInUp 0.7s ease 0.2s both;
-  }
-
-  .hero-desc {
-    font-size: 15px;
-    color: var(--text-muted);
-    max-width: 580px;
-    line-height: 1.7;
-    margin-bottom: 52px;
-    padding: 20px 28px;
-    background: rgba(212,181,88,0.05);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    animation: fadeSlideUp 0.8s 0.3s ease both;
-  }
-
-  .hero-desc strong { color: var(--gold); }
-
-  .hero-cta {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    justify-content: center;
-    animation: fadeSlideUp 0.8s 0.4s ease both;
-  }
-
-  .btn-primary {
-    background: var(--gold);
-    color: var(--dark);
-    border: none;
-    padding: 16px 36px;
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    letter-spacing: 0.3px;
-    text-decoration: none;
-    display: inline-block;
-  }
-
-  .btn-primary:hover {
-    background: var(--gold-light);
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(212,181,88,0.35);
-  }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid rgba(255,255,255,0.15);
-    padding: 16px 36px;
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-decoration: none;
-    display: inline-block;
-  }
-
-  .btn-secondary:hover {
-    border-color: var(--gold);
-    color: var(--gold);
-    transform: translateY(-3px);
-  }
-
-  /* ===== STATS STRIP ===== */
-  .stats-strip {
-    display: flex;
-    justify-content: center;
-    gap: 0;
-    padding: 0 20px;
-    margin-bottom: 80px;
-    animation: fadeSlideUp 0.8s 0.5s ease both;
-  }
-
-  .stat-item {
-    text-align: center;
-    padding: 28px 48px;
-    border: 1px solid var(--border);
-    position: relative;
-    background: var(--dark-2);
-  }
-
-  .stat-item:first-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
-  .stat-item:last-child  { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
-  .stat-item + .stat-item { border-left: none; }
-
-  .stat-number {
-    font-family: 'Playfair Display', serif;
-    font-size: 36px;
-    font-weight: 900;
-    color: var(--gold);
-    display: block;
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-
-  .stat-label {
-    font-size: 12px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    font-weight: 500;
-  }
-
-  /* ===== SECTION ===== */
-  section {
-    padding: 80px 20px;
-    max-width: 1100px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: 56px;
-  }
-
-  .section-tag {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 14px;
-    display: block;
-  }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1.2;
-    margin-bottom: 14px;
-  }
-
-  .section-subtitle {
-    font-size: 16px;
-    color: var(--text-muted);
-    max-width: 480px;
-    margin: 0 auto;
-    line-height: 1.6;
-  }
-
-  /* ===== MODE CARDS ===== */
-  .mode-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    margin-bottom: 80px;
-  }
-
-  .mode-card {
-    background: var(--dark-3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 40px 32px;
-    cursor: pointer;
-    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    text-decoration: none;
-    display: block;
-  }
-
-  .mode-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    opacity: 0;
-    transition: opacity 0.35s;
-  }
-
-  .mode-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, rgba(212,181,88,0.06) 0%, transparent 70%);
-    opacity: 0;
-    transition: opacity 0.35s;
-  }
-
-  .mode-card:hover {
-    transform: translateY(-12px);
-    border-color: rgba(212,181,88,0.4);
-    box-shadow: 0 32px 80px rgba(212,181,88,0.18), 0 8px 32px rgba(0,0,0,0.4);
-  }
-
-  .mode-card:hover::before { opacity: 1; }
-  .mode-card:hover::after  { opacity: 1; }
-
-  /* Pulsiranje na mode karticama — vizuelni poziv na akciju */
-  .mode-card-action {
-    margin-top: 24px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--gold);
-    opacity: 0;
-    transform: translateY(6px);
-    transition: all 0.3s;
-  }
-
-  .mode-card:hover .mode-card-action {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .mode-card-action svg {
-    width: 14px; height: 14px;
-    stroke: var(--gold);
-    fill: none;
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    transition: transform 0.25s;
-  }
-
-  .mode-card:hover .mode-card-action svg {
-    transform: translateX(4px);
-  }
-
-  .mode-icon {
-    width: 56px; height: 56px;
-    background: rgba(212,181,88,0.1);
-    border: 1px solid rgba(212,181,88,0.2);
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 24px;
-    transition: all 0.35s;
-  }
-
-  .mode-card:hover .mode-icon {
-    background: rgba(212,181,88,0.18);
-    border-color: rgba(212,181,88,0.4);
-    transform: scale(1.05);
-  }
-
-  .mode-icon svg {
-    width: 26px; height: 26px;
-    stroke: var(--gold);
-    fill: none;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .mode-badge {
-    position: absolute;
-    top: 20px; right: 20px;
-    background: rgba(212,181,88,0.12);
-    border: 1px solid rgba(212,181,88,0.25);
-    color: var(--gold);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 4px 10px;
-    border-radius: 50px;
-  }
-
-  .mode-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 10px;
-  }
-
-  .mode-desc {
-    font-size: 14px;
-    color: var(--text-muted);
-    line-height: 1.65;
-    margin-bottom: 28px;
-  }
-
-  .mode-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    color: var(--text-muted);
-    font-weight: 500;
-  }
-
-  .mode-dot {
-    width: 6px; height: 6px;
-    background: var(--gold);
-    border-radius: 50%;
-  }
-
-  /* ===== CATEGORY MODAL ===== */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(8px);
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s;
-  }
-
-  .modal-overlay.active {
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  .modal-box {
-    background: var(--dark-2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 780px;
-    width: 100%;
-    max-height: 80vh;
-    overflow-y: auto;
-    transform: translateY(30px) scale(0.97);
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,181,88,0.1);
-  }
-
-  .modal-overlay.active .modal-box {
-    transform: translateY(0) scale(1);
-  }
-
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 32px;
-  }
-
-  .modal-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--text);
-  }
-
-  .modal-subtitle {
-    font-size: 14px;
-    color: var(--text-muted);
-    margin-top: 4px;
-  }
-
-  .modal-close {
-    width: 36px; height: 36px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 8px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-    color: var(--text-muted);
-    font-size: 18px;
-    line-height: 1;
-  }
-
-  .modal-close:hover {
-    background: rgba(212,181,88,0.1);
-    border-color: rgba(212,181,88,0.3);
-    color: var(--gold);
-  }
-
-  .modal-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
-  }
-
-  .modal-cat-btn {
-    background: var(--dark-3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 16px 12px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.34, 1.4, 0.64, 1);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .modal-cat-btn:hover {
-    background: var(--dark-4);
-    border-color: rgba(212,181,88,0.4);
-    color: var(--gold);
-    transform: translateY(-4px);
-    box-shadow: 0 10px 30px rgba(212,181,88,0.12);
-  }
-
-  .modal-cat-btn svg {
-    width: 20px; height: 20px;
-    stroke: var(--gold);
-    fill: none;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  /* ===== CATEGORIES ===== */
-  .categories-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
-  }
-
-  .cat-card {
-    background: var(--dark-3);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 20px 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.34, 1.4, 0.64, 1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cat-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(212,181,88,0.35);
-    box-shadow: 0 16px 40px rgba(212,181,88,0.12);
-    background: var(--dark-4);
-  }
-
-  .cat-icon {
-    width: 40px; height: 40px;
-    background: rgba(212,181,88,0.1);
-    border: 1px solid rgba(212,181,88,0.2);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 12px;
-    transition: all 0.3s;
-  }
-
-  .cat-card:hover .cat-icon {
-    background: rgba(212,181,88,0.18);
-    border-color: rgba(212,181,88,0.4);
-  }
-
-  .cat-icon svg {
-    width: 18px; height: 18px;
-    stroke: var(--gold);
-    fill: none;
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .cat-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
-
-  .cat-count {
-    font-size: 11px;
-    color: var(--text-muted);
-    letter-spacing: 0.5px;
-  }
-
-  /* ===== QUIZ PREVIEW ===== */
-  .quiz-preview {
-    background: var(--dark-2);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 680px;
-    margin: 0 auto;
-    box-shadow: var(--shadow-gold);
-  }
-
-  .quiz-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-
-  .quiz-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-
-  .quiz-counter {
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-
-  .progress-bar {
-    width: 100%;
-    height: 3px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 3px;
-    margin-bottom: 32px;
-    overflow: hidden;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--gold), var(--gold-light));
-    border-radius: 3px;
-    width: 25%;
-    animation: progressFill 1.5s 0.8s ease both;
-  }
-
-  @keyframes progressFill {
-    from { width: 0%; }
-    to   { width: 25%; }
-  }
-
-  .quiz-question {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--text);
-    line-height: 1.45;
-    margin-bottom: 28px;
-  }
-
-  .answers {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .answer {
-    padding: 16px 20px;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: var(--radius-sm);
-    background: var(--dark-3);
-    cursor: pointer;
-    transition: all 0.25s;
-    font-size: 15px;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-
-  .answer:hover {
-    border-color: rgba(212,181,88,0.35);
-    background: var(--dark-4);
-    transform: translateX(4px);
-  }
-
-  .answer.correct {
-    border-color: #3DAB6A;
-    background: rgba(61,171,106,0.1);
-    color: #6ECFA0;
-  }
-
-  .answer.wrong {
-    border-color: #E05C5C;
-    background: rgba(224,92,92,0.1);
-    color: #F08080;
-  }
-
-  .answer-letter {
-    width: 28px; height: 28px;
-    border-radius: 7px;
-    background: rgba(255,255,255,0.05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-muted);
-    flex-shrink: 0;
-    transition: all 0.25s;
-  }
-
-  .answer.correct .answer-letter {
-    background: rgba(61,171,106,0.2);
-    color: #6ECFA0;
-  }
-
-  .answer.wrong .answer-letter {
-    background: rgba(224,92,92,0.15);
-    color: #F08080;
-  }
-
-  .answer-feedback {
-    margin-left: auto;
-    font-size: 13px;
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-
-  .answer.correct .answer-feedback { color: #6ECFA0; }
-  .answer.wrong   .answer-feedback { color: #F08080; }
-
-  /* ===== FOOTER ===== */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .footer-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--gold);
-  }
-
-  .footer-copy {
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-
-  /* ===== DIVIDER ===== */
-  .divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-    margin: 0 40px;
-  }
-
-  /* ===== ANIMATIONS ===== */
-  @keyframes fadeSlideUp {
-    from { opacity: 0; transform: translateY(28px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .fade-in {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 768px) {
-    nav { padding: 16px 20px; }
-    .nav-links { display: none; }
-    .hamburger { display: flex; }
-
-    .stats-strip {
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opšte Znanje — Priprema za test opšte informisanosti</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #D4B558;
+      --gold-light: #EDD07E;
+      --gold-pale: #F5E8C0;
+      --dark: #0D0D0F;
+      --dark-2: #141418;
+      --dark-3: #1C1C22;
+      --dark-4: #24242C;
+      --text: #E8E6E0;
+      --text-muted: #8A8880;
+      --border: rgba(212,181,88,0.15);
+      --shadow-gold: 0 20px 60px rgba(212,181,88,0.12);
+      --shadow-lift: 0 30px 80px rgba(212,181,88,0.22);
+      --radius: 16px;
+      --radius-sm: 10px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ===== NAVIGATION ===== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(13,13,15,0.95), transparent);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--text); }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      transition: color 0.25s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-btn {
+      background: var(--gold);
+      color: var(--dark) !important;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      transition: background 0.25s, transform 0.2s !important;
+    }
+
+    .nav-btn:hover {
+      background: var(--gold-light) !important;
+      transform: translateY(-1px);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 20px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(ellipse, rgba(212,181,88,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-glow-2 {
+      position: absolute;
+      top: 20%; right: -10%;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(212,181,88,0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: rgba(212,181,88,0.1);
+      border: 1px solid var(--border);
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 8px 20px;
+      border-radius: 50px;
+      margin-bottom: 28px;
+      animation: fadeSlideUp 0.8s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 7vw, 82px);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 16px;
+      color: var(--text);
+      animation: fadeSlideUp 0.8s 0.1s ease both;
+    }
+
+    .hero-title .accent {
+      color: var(--gold);
+      display: block;
+      font-size: 0.75em;
+    }
+
+    .hero-subtitle {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      color: var(--text-muted);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      line-height: 1.5;
+      animation: fadeInUp 0.7s ease 0.2s both;
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 580px;
+      line-height: 1.7;
+      margin-bottom: 52px;
+      padding: 20px 28px;
+      background: rgba(212,181,88,0.05);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      animation: fadeSlideUp 0.8s 0.3s ease both;
+    }
+
+    .hero-desc strong { color: var(--gold); }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeSlideUp 0.8s 0.4s ease both;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--dark);
+      border: none;
+      padding: 16px 36px;
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      letter-spacing: 0.3px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(212,181,88,0.35);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 16px 36px;
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-3px);
+    }
+
+    /* ===== STATS STRIP ===== */
+    .stats-strip {
+      display: flex;
+      justify-content: center;
       gap: 0;
+      padding: 0 20px;
+      margin-bottom: 80px;
+      animation: fadeSlideUp 0.8s 0.5s ease both;
     }
 
     .stat-item {
-      width: 100%;
-      max-width: 320px;
-      border-radius: 0 !important;
-      border-left: 1px solid var(--border) !important;
-    }
-
-    .stat-item:first-child { border-radius: var(--radius-sm) var(--radius-sm) 0 0 !important; }
-    .stat-item:last-child  { border-radius: 0 0 var(--radius-sm) var(--radius-sm) !important; }
-    .stat-item + .stat-item { border-top: none; border-left: 1px solid var(--border) !important; }
-
-    .mode-cards { grid-template-columns: 1fr; gap: 16px; }
-
-    .categories-grid {
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    }
-
-    .quiz-preview { padding: 24px 20px; }
-
-    footer {
-      flex-direction: column;
       text-align: center;
-      padding: 32px 20px;
+      padding: 28px 48px;
+      border: 1px solid var(--border);
+      position: relative;
+      background: var(--dark-2);
     }
 
-    .modal-box { padding: 24px 20px; }
-    .modal-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
-  }
+    .stat-item:first-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+    .stat-item:last-child  { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+    .stat-item + .stat-item { border-left: none; }
 
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .mode-cards { grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  }
-</style>
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--gold);
+      display: block;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 500;
+    }
+
+    /* ===== SECTION ===== */
+    section {
+      padding: 80px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .section-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .section-subtitle {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ===== MODE CARDS ===== */
+    .mode-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+
+    .mode-card {
+      background: var(--dark-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px 32px;
+      cursor: pointer;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      text-decoration: none;
+      display: block;
+    }
+
+    .mode-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+
+    .mode-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(212,181,88,0.06) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+
+    .mode-card:hover {
+      transform: translateY(-12px);
+      border-color: rgba(212,181,88,0.4);
+      box-shadow: 0 32px 80px rgba(212,181,88,0.18), 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    .mode-card:hover::before { opacity: 1; }
+    .mode-card:hover::after  { opacity: 1; }
+
+    .mode-card-action {
+      margin-top: 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gold);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 0.3s;
+    }
+
+    .mode-card:hover .mode-card-action {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .mode-card-action svg {
+      width: 14px; height: 14px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.25s;
+    }
+
+    .mode-card:hover .mode-card-action svg {
+      transform: translateX(4px);
+    }
+
+    .mode-icon {
+      width: 56px; height: 56px;
+      background: rgba(212,181,88,0.1);
+      border: 1px solid rgba(212,181,88,0.2);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      transition: all 0.35s;
+    }
+
+    .mode-card:hover .mode-icon {
+      background: rgba(212,181,88,0.18);
+      border-color: rgba(212,181,88,0.4);
+      transform: scale(1.05);
+    }
+
+    .mode-icon svg {
+      width: 26px; height: 26px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .mode-badge {
+      position: absolute;
+      top: 20px; right: 20px;
+      background: rgba(212,181,88,0.12);
+      border: 1px solid rgba(212,181,88,0.25);
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 50px;
+    }
+
+    .mode-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .mode-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    .mode-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .mode-dot {
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+
+    /* ===== CATEGORY MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-box {
+      background: var(--dark-2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 780px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      transform: translateY(30px) scale(0.97);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,181,88,0.1);
+    }
+
+    .modal-overlay.active .modal-box {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 32px;
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .modal-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .modal-close {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      color: var(--text-muted);
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      background: rgba(212,181,88,0.1);
+      border-color: rgba(212,181,88,0.3);
+      color: var(--gold);
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    .modal-cat-btn {
+      background: var(--dark-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.34, 1.4, 0.64, 1);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-cat-btn:hover {
+      background: var(--dark-4);
+      border-color: rgba(212,181,88,0.4);
+      color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(212,181,88,0.12);
+    }
+
+    .modal-cat-btn svg {
+      width: 20px; height: 20px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* ===== CATEGORIES ===== */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .cat-card {
+      background: var(--dark-3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 20px 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.4, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cat-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(212,181,88,0.35);
+      box-shadow: 0 16px 40px rgba(212,181,88,0.12);
+      background: var(--dark-4);
+    }
+
+    .cat-icon {
+      width: 40px; height: 40px;
+      background: rgba(212,181,88,0.1);
+      border: 1px solid rgba(212,181,88,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      transition: all 0.3s;
+    }
+
+    .cat-card:hover .cat-icon {
+      background: rgba(212,181,88,0.18);
+      border-color: rgba(212,181,88,0.4);
+    }
+
+    .cat-icon svg {
+      width: 18px; height: 18px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .cat-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .cat-count {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== QUIZ PREVIEW ===== */
+    .quiz-preview {
+      background: var(--dark-2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 680px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-gold);
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .quiz-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .quiz-counter {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 3px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 3px;
+      margin-bottom: 32px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      border-radius: 3px;
+      width: 25%;
+      animation: progressFill 1.5s 0.8s ease both;
+    }
+
+    @keyframes progressFill {
+      from { width: 0%; }
+      to   { width: 25%; }
+    }
+
+    .quiz-question {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.45;
+      margin-bottom: 28px;
+    }
+
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .answer {
+      padding: 16px 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-sm);
+      background: var(--dark-3);
+      cursor: pointer;
+      transition: all 0.25s;
+      font-size: 15px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .answer:hover {
+      border-color: rgba(212,181,88,0.35);
+      background: var(--dark-4);
+      transform: translateX(4px);
+    }
+
+    .answer.correct {
+      border-color: #3DAB6A;
+      background: rgba(61,171,106,0.1);
+      color: #6ECFA0;
+    }
+
+    .answer.wrong {
+      border-color: #E05C5C;
+      background: rgba(224,92,92,0.1);
+      color: #F08080;
+    }
+
+    .answer-letter {
+      width: 28px; height: 28px;
+      border-radius: 7px;
+      background: rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      transition: all 0.25s;
+    }
+
+    .answer.correct .answer-letter {
+      background: rgba(61,171,106,0.2);
+      color: #6ECFA0;
+    }
+
+    .answer.wrong .answer-letter {
+      background: rgba(224,92,92,0.15);
+      color: #F08080;
+    }
+
+    .answer-feedback {
+      margin-left: auto;
+      font-size: 13px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .answer.correct .answer-feedback { color: #6ECFA0; }
+    .answer.wrong   .answer-feedback { color: #F08080; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 40px;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .stats-strip {
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+      }
+
+      .stat-item {
+        width: 100%;
+        max-width: 320px;
+        border-radius: 0 !important;
+        border-left: 1px solid var(--border) !important;
+      }
+
+      .stat-item:first-child { border-radius: var(--radius-sm) var(--radius-sm) 0 0 !important; }
+      .stat-item:last-child  { border-radius: 0 0 var(--radius-sm) var(--radius-sm) !important; }
+      .stat-item + .stat-item { border-top: none; border-left: 1px solid var(--border) !important; }
+
+      .mode-cards { grid-template-columns: 1fr; gap: 16px; }
+
+      .categories-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      }
+
+      .quiz-preview { padding: 24px 20px; }
+
+      footer {
+        flex-direction: column;
+        text-align: center;
+        padding: 32px 20px;
+      }
+
+      .modal-box { padding: 24px 20px; }
+      .modal-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .mode-cards { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -920,7 +919,7 @@
     <div class="modal-header">
       <div>
         <div class="modal-title">Izaberi kategoriju</div>
-        <div class="modal-subtitle">Klikni na oblast koju zelis da vezbas</div>
+        <div class="modal-subtitle">Klikni na oblast koju želiš da vežbaš</div>
       </div>
       <button class="modal-close" id="modalClose">x</button>
     </div>
@@ -932,12 +931,11 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">Opste<span>Znanje</span></a>
+  <a href="#" class="nav-logo">Opšte<span>Znanje</span></a>
   <ul class="nav-links">
-    <li><a href="#nacin">Nacin igranja</a></li>
+    <li><a href="#nacin">Način igranja</a></li>
     <li><a href="#kategorije">Kategorije</a></li>
-    <!-- ISPRAVLJENO: vodi na quiz.html?mod=random -->
-    <li><a href="quiz.html?mod=random" class="nav-btn">Zapocni test</a></li>
+    <li><a href="quiz.html?mod=random" class="nav-btn">Započni test</a></li>
   </ul>
   <div class="hamburger">
     <span></span><span></span><span></span>
@@ -949,24 +947,23 @@
   <div class="hero-glow"></div>
   <div class="hero-glow-2"></div>
 
-  <div class="hero-tag">Priprema za test opste informisanosti</div>
+  <div class="hero-tag">Priprema za test opšte informisanosti</div>
 
   <h1 class="hero-title">
     Proveri svoje
-    <span class="accent">Opste znanje</span>
+    <span class="accent">Opšte znanje</span>
   </h1>
 
   <p class="hero-subtitle">
-    Hiljade pitanja iz svih oblasti. Uci, vezbaj i napreduj kroz interaktivne testove.
+    Hiljade pitanja iz svih oblasti. Uči, vežbaj i napreduj kroz interaktivne testove.
   </p>
 
   <div class="hero-desc">
-    <strong>Hiljadu pitanja iz 20 kategorija.</strong> Testiraj svoje znanje, prati napredak i spremi se za svaki izazov — od prijemnih ispita do licnog usavrsavanja.
+    <strong>Hiljadu pitanja iz 20 kategorija.</strong> Testiraj svoje znanje, prati napredak i spremi se za svaki izazov — od prijemnih ispita do ličnog usavršavanja.
   </div>
 
   <div class="hero-cta">
-    <!-- ISPRAVLJENO: vodi na quiz.html?mod=random umesto na #nacin -->
-    <a href="quiz.html?mod=random" class="btn-primary">Zapocni test odmah</a>
+    <a href="quiz.html?mod=random" class="btn-primary">Započni test odmah</a>
     <a href="#kategorije" class="btn-secondary">Pregledaj kategorije</a>
   </div>
 </div>
@@ -975,7 +972,7 @@
 <div style="max-width:1100px; margin: 0 auto; padding: 0 20px 80px;">
   <div class="stats-strip fade-in">
     <div class="stat-item">
-      <span class="stat-number">2,400+</span>
+      <span class="stat-number">2.400+</span>
       <span class="stat-label">Pitanja</span>
     </div>
     <div class="stat-item">
@@ -994,21 +991,20 @@
 <!-- MODE CARDS -->
 <section id="nacin">
   <div class="section-header fade-in">
-    <span class="section-tag">Nacin testiranja</span>
-    <h2 class="section-title">Izaberi kako zelis da vezbas</h2>
-    <p class="section-subtitle">Tri nacina testiranja, svaki prilagodjen drugom cilju i ritmu ucenja.</p>
+    <span class="section-tag">Način testiranja</span>
+    <h2 class="section-title">Izaberi kako želiš da vežbaš</h2>
+    <p class="section-subtitle">Tri načina testiranja, svaki prilagođen drugom cilju i ritmu učenja.</p>
   </div>
 
   <div class="mode-cards">
 
-    <!-- KARTICA 1: Nasumicna pitanja -> quiz.html?mod=random&limit=20 -->
     <a href="quiz.html?mod=random&limit=20" class="mode-card fade-in" style="animation-delay:0.1s">
       <div class="mode-badge">Popularno</div>
       <div class="mode-icon">
         <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
       </div>
-      <h3 class="mode-title">Nasumicna pitanja</h3>
-      <p class="mode-desc">Nasumicna pitanja iz svih 20 kategorija. Pravi test opsteg znanja — nikad ne znas sta sledi.</p>
+      <h3 class="mode-title">Nasumična pitanja</h3>
+      <p class="mode-desc">Nasumična pitanja iz svih 20 kategorija. Pravi test opšteg znanja — nikad ne znaš šta sledi.</p>
       <div class="mode-meta">
         <div class="mode-dot"></div>
         <span>20 pitanja</span>
@@ -1016,19 +1012,18 @@
         <span>Sve kategorije</span>
       </div>
       <div class="mode-card-action">
-        Zapocni odmah
+        Započni odmah
         <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </div>
     </a>
 
-    <!-- KARTICA 2: Po kategoriji -> otvara modal za izbor kategorije -->
     <div class="mode-card fade-in" style="animation-delay:0.2s" id="categoryModeCard">
       <div class="mode-badge">Ciljano</div>
       <div class="mode-icon">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
       </div>
       <h3 class="mode-title">Po kategoriji</h3>
-      <p class="mode-desc">Fokusiraj se na specificnu oblast. Izaberi odredjenu kategoriju i izuci je do savrstenstva.</p>
+      <p class="mode-desc">Fokusiraj se na specifičnu oblast. Izaberi određenu kategoriju i izuči je do savršenstva.</p>
       <div class="mode-meta">
         <div class="mode-dot"></div>
         <span>20 pitanja</span>
@@ -1041,14 +1036,13 @@
       </div>
     </div>
 
-    <!-- KARTICA 3: Brzi krug -> quiz.html?mod=brzi&limit=5 -->
     <a href="quiz.html?mod=brzi&limit=5" class="mode-card fade-in" style="animation-delay:0.3s">
       <div class="mode-badge">Brzo</div>
       <div class="mode-icon">
         <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
       </div>
       <h3 class="mode-title">Brzi krug</h3>
-      <p class="mode-desc">Samo 5 pitanja, odmeri se brzo. Idealno za kratku pauzu ili zagrevanje pre veceg testa.</p>
+      <p class="mode-desc">Samo 5 pitanja, odmeri se brzo. Idealno za kratku pauzu ili zagrevanje pre većeg testa.</p>
       <div class="mode-meta">
         <div class="mode-dot"></div>
         <span>5 pitanja</span>
@@ -1056,7 +1050,7 @@
         <span>Miks kategorija</span>
       </div>
       <div class="mode-card-action">
-        Zapocni brzi krug
+        Započni brzi krug
         <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </div>
     </a>
@@ -1071,7 +1065,7 @@
   <div class="section-header fade-in">
     <span class="section-tag">Kako izgleda test</span>
     <h2 class="section-title">Intuitivno i jasno</h2>
-    <p class="section-subtitle">Odmah vidis da li si u pravu — zeleno znaci tacno, crveno netacno.</p>
+    <p class="section-subtitle">Odmah vidiš da li si u pravu — zeleno znači tačno, crveno netačno.</p>
   </div>
 
   <div class="quiz-preview fade-in">
@@ -1091,12 +1085,12 @@
       <div class="answer correct">
         <div class="answer-letter">B</div>
         Kanbera
-        <span class="answer-feedback">Bravo! Tacno!</span>
+        <span class="answer-feedback">Bravo! Tačno!</span>
       </div>
       <div class="answer wrong">
         <div class="answer-letter">C</div>
         Melburn
-        <span class="answer-feedback">Netacno</span>
+        <span class="answer-feedback">Netačno</span>
       </div>
       <div class="answer">
         <div class="answer-letter">D</div>
@@ -1115,7 +1109,7 @@
 <!-- CATEGORIES -->
 <section id="kategorije">
   <div class="section-header fade-in">
-    <span class="section-tag">20 Oblast znanja</span>
+    <span class="section-tag">20 oblasti znanja</span>
     <h2 class="section-title">Izaberi svoju kategoriju</h2>
     <p class="section-subtitle">Od istorije do astronomije — sveobuhvatna priprema za sve vrste testova.</p>
   </div>
@@ -1142,7 +1136,7 @@
       <div class="cat-icon">
         <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
       </div>
-      <div class="cat-name">Knjizevnost</div>
+      <div class="cat-name">Književnost</div>
       <div class="cat-count">120 pitanja</div>
     </div>
 
@@ -1180,7 +1174,7 @@
 
     <div class="cat-card">
       <div class="cat-icon">
-        <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z" rx="2"/><path d="M7 7h4v4H7zM13 7h4M13 11h4M7 15h10"/></svg>
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h4v4H7zM13 7h4M13 11h4M7 15h10"/></svg>
       </div>
       <div class="cat-name">Matematika</div>
       <div class="cat-count">120 pitanja</div>
@@ -1278,7 +1272,7 @@
       <div class="cat-icon">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
       </div>
-      <div class="cat-name">Opsta kultura</div>
+      <div class="cat-name">Opšta kultura</div>
       <div class="cat-count">120 pitanja</div>
     </div>
 
@@ -1288,59 +1282,49 @@
 <!-- FOOTER -->
 <div class="divider"></div>
 <footer>
-  <div class="footer-logo">OpsteZnanje</div>
-  <div class="footer-copy">opsteznanje.com — Priprema za test opste informisanosti</div>
+  <div class="footer-logo">OpšteZnanje</div>
+  <div class="footer-copy">opsteznanje.com — Priprema za test opšte informisanosti</div>
 </footer>
 
 <!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // =====================================================
-  // SUPABASE KONFIGURACIJA
-  // =====================================================
   const SUPABASE_URL = 'https://ujamzoupwldtppyveguq.supabase.co';
   const SUPABASE_ANON_KEY = 'OVDE_STAVI_TVOJ_ANON_PUBLIC_KEY';
 
   const { createClient } = supabase;
   const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // =====================================================
-  // LISTA SVIH KATEGORIJA (mora biti ista kao u bazi)
-  // =====================================================
   const SVE_KATEGORIJE = [
-    { name: 'Istorija',      svg: '<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>' },
-    { name: 'Geografija',    svg: '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>' },
-    { name: 'Knjizevnost',   svg: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>' },
-    { name: 'Umetnost',      svg: '<circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>' },
-    { name: 'Film',          svg: '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>' },
-    { name: 'Muzika',        svg: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>' },
-    { name: 'Sport',         svg: '<circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>' },
-    { name: 'Matematika',    svg: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h4v4H7zM13 7h4M13 11h4M7 15h10"/>' },
-    { name: 'Fizika',        svg: '<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>' },
-    { name: 'Hemija',        svg: '<path d="M10 2v7.31"/><path d="M14 9.3V1.99"/><path d="M8.5 12.5a6 6 0 1 0 7 0"/><path d="M6.7 9.3h10.6"/>' },
-    { name: 'Biologija',     svg: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>' },
-    { name: 'Tehnologija',   svg: '<rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/>' },
-    { name: 'Astronomija',   svg: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>' },
-    { name: 'Politika',      svg: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
-    { name: 'Ekonomija',     svg: '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>' },
-    { name: 'Pravo',         svg: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>' },
-    { name: 'Psihologija',   svg: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>' },
-    { name: 'Sociologija',   svg: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
-    { name: 'Religija',      svg: '<path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z"/><path d="M12 6v6l4 2"/>' },
-    { name: 'Opsta kultura', svg: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>' }
+    { name: 'Istorija',       svg: '<path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>' },
+    { name: 'Geografija',     svg: '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>' },
+    { name: 'Književnost',    svg: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>' },
+    { name: 'Umetnost',       svg: '<circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>' },
+    { name: 'Film',           svg: '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>' },
+    { name: 'Muzika',         svg: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>' },
+    { name: 'Sport',          svg: '<circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>' },
+    { name: 'Matematika',     svg: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h4v4H7zM13 7h4M13 11h4M7 15h10"/>' },
+    { name: 'Fizika',         svg: '<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>' },
+    { name: 'Hemija',         svg: '<path d="M10 2v7.31"/><path d="M14 9.3V1.99"/><path d="M8.5 12.5a6 6 0 1 0 7 0"/><path d="M6.7 9.3h10.6"/>' },
+    { name: 'Biologija',      svg: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>' },
+    { name: 'Tehnologija',    svg: '<rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/>' },
+    { name: 'Astronomija',    svg: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>' },
+    { name: 'Politika',       svg: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
+    { name: 'Ekonomija',      svg: '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>' },
+    { name: 'Pravo',          svg: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>' },
+    { name: 'Psihologija',    svg: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>' },
+    { name: 'Sociologija',    svg: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+    { name: 'Religija',       svg: '<path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z"/><path d="M12 6v6l4 2"/>' },
+    { name: 'Opšta kultura',  svg: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>' }
   ];
 
-  // =====================================================
-  // MODAL ZA IZBOR KATEGORIJE
-  // =====================================================
-  const modal        = document.getElementById('categoryModal');
-  const modalGrid    = document.getElementById('modalGrid');
-  const modalClose   = document.getElementById('modalClose');
-  const catModeCard  = document.getElementById('categoryModeCard');
+  const modal       = document.getElementById('categoryModal');
+  const modalGrid   = document.getElementById('modalGrid');
+  const modalClose  = document.getElementById('modalClose');
+  const catModeCard = document.getElementById('categoryModeCard');
 
-  // Popuni modal grid sa kategorijama
   SVE_KATEGORIJE.forEach(function(kat) {
-    const btn = document.createElement('button');
+    var btn = document.createElement('button');
     btn.className = 'modal-cat-btn';
     btn.innerHTML = '<svg viewBox="0 0 24 24">' + kat.svg + '</svg>' + kat.name;
     btn.addEventListener('click', function() {
@@ -1349,13 +1333,11 @@
     modalGrid.appendChild(btn);
   });
 
-  // Otvori modal na klik kartice "Po kategoriji"
   catModeCard.addEventListener('click', function() {
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
   });
 
-  // Zatvori modal
   modalClose.addEventListener('click', function() {
     modal.classList.remove('active');
     document.body.style.overflow = '';
@@ -1375,17 +1357,14 @@
     }
   });
 
-  // =====================================================
-  // SUPABASE LOGGING FUNKCIJE
-  // =====================================================
   async function logPageView() {
     try {
-      const { error } = await db.from('page_views').insert([{
+      var { error } = await db.from('page_views').insert([{
         page: 'home',
         visited_at: new Date().toISOString(),
         user_agent: navigator.userAgent
       }]);
-      if (error) console.warn('Supabase log greska:', error.message);
+      if (error) console.warn('Supabase log greška:', error.message);
     } catch (e) {
       console.warn('Supabase nije dostupan:', e.message);
     }
@@ -1393,37 +1372,33 @@
 
   async function logCategoryClick(categoryName) {
     try {
-      const { error } = await db.from('category_clicks').insert([{
+      var { error } = await db.from('category_clicks').insert([{
         category: categoryName,
         clicked_at: new Date().toISOString()
       }]);
-      if (error) console.warn('Supabase kategorija greska:', error.message);
+      if (error) console.warn('Supabase kategorija greška:', error.message);
     } catch (e) {
       console.warn('Supabase nije dostupan:', e.message);
     }
-    // Nakon logovanja, idi na quiz sa izabranom kategorijom
     window.location.href = 'quiz.html?kategorija=' + encodeURIComponent(categoryName);
   }
 
   async function logQuizAnswer(question, selectedAnswer, isCorrect) {
     try {
-      const { error } = await db.from('quiz_answers').insert([{
+      var { error } = await db.from('quiz_answers').insert([{
         question: question,
         selected_answer: selectedAnswer,
         is_correct: isCorrect,
         answered_at: new Date().toISOString()
       }]);
-      if (error) console.warn('Supabase odgovor greska:', error.message);
+      if (error) console.warn('Supabase odgovor greška:', error.message);
     } catch (e) {
       console.warn('Supabase nije dostupan:', e.message);
     }
   }
 
-  // =====================================================
-  // FADE IN OBSERVER
-  // =====================================================
-  const fadeEls = document.querySelectorAll('.fade-in');
-  const observer = new IntersectionObserver(function(entries) {
+  var fadeEls = document.querySelectorAll('.fade-in');
+  var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry, i) {
       if (entry.isIntersecting) {
         setTimeout(function() { entry.target.classList.add('visible'); }, i * 80);
@@ -1434,9 +1409,6 @@
 
   fadeEls.forEach(function(el) { observer.observe(el); });
 
-  // =====================================================
-  // QUIZ PREVIEW ODGOVORI
-  // =====================================================
   document.querySelectorAll('.answer').forEach(function(ans) {
     ans.addEventListener('click', function() {
       var question = document.querySelector('.quiz-question').textContent.trim();
@@ -1448,14 +1420,10 @@
         a.style.pointerEvents = 'none';
       });
       this.style.opacity = '1';
-
       logQuizAnswer(question, selectedText, isCorrect);
     });
   });
 
-  // =====================================================
-  // KATEGORIJE NA GLAVNOJ STRANI — klik vodi na quiz
-  // =====================================================
   document.querySelectorAll('.cat-card').forEach(function(card) {
     card.addEventListener('click', function() {
       var categoryName = this.querySelector('.cat-name').textContent.trim();
@@ -1463,9 +1431,6 @@
     });
   });
 
-  // =====================================================
-  // HAMBURGER MENI
-  // =====================================================
   document.querySelector('.hamburger').addEventListener('click', function() {
     var links = document.querySelector('.nav-links');
     links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
@@ -1480,7 +1445,6 @@
     links.style.gap = '16px';
   });
 
-  // Pokretanje page view log-a
   logPageView();
 </script>
 
