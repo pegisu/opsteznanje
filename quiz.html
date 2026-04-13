@@ -802,11 +802,11 @@
 
     if (isRight) {
       fb.className   = 'feedback-bar correct';
-      ft.textContent = 'Tacno! Odlican odgovor.';
+      ft.textContent = 'Tačno! Odličan odgovor.';
     } else {
       fb.className   = 'feedback-bar wrong';
       const correctText = q['odgovor_' + correct] || correct.toUpperCase();
-      ft.textContent = `Netacno. Tacan odgovor je: ${correctText}`;
+      ft.textContent = `Netačno. Tačan odgovor je: ${correctText}`;
     }
 
     const nextBtn = document.getElementById('next-btn');
