@@ -101,6 +101,47 @@
       gap: 14px;
     }
 
+    /* Pill koji pokazuje ko je ulogovan */
+    .header-user-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(201,168,76,0.08);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 5px 14px 5px 8px;
+    }
+
+    .header-user-avatar {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      font-weight: 900;
+      color: #0d0d0d;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+
+    .header-user-info { line-height: 1.2; }
+
+    .header-user-name {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+    }
+
+    .header-user-email {
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+    }
+
     .header-badge {
       background: rgba(201,168,76,0.12);
       border: 1px solid var(--border);
@@ -146,8 +187,10 @@
     @media (max-width: 900px) {
       .container { grid-template-columns: 1fr; }
       header { padding: 0 20px; }
+      .header-badge { display: none; }
       .stats-bar { grid-template-columns: 1fr 1fr; }
       .stat-card:last-child { grid-column: 1 / -1; }
+      .user-stats-bar { grid-template-columns: 1fr; }
     }
 
     .card {
@@ -360,11 +403,12 @@
     .alert-success { background: rgba(30,126,52,0.18); border: 1px solid rgba(30,126,52,0.5); color: #58d68d; }
     .alert-error { background: rgba(192,57,43,0.18); border: 1px solid rgba(192,57,43,0.5); color: #ec7063; }
 
+    /* --- GORNJA STATISTIKA --- */
     .stats-bar {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
-      margin-bottom: 32px;
+      margin-bottom: 20px;
       grid-column: 1 / -1;
     }
 
@@ -416,6 +460,134 @@
       margin-top: 4px;
     }
 
+    /* --- KORISNICKE STATISTIKE --- */
+    .user-stats-bar {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .user-stat-card {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .user-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 3px 3px 0 0;
+    }
+
+    .user-stat-card.mine { border-color: rgba(201,168,76,0.45); }
+    .user-stat-card.mine::before { background: linear-gradient(90deg, var(--gold-dark), var(--gold)); }
+
+    .user-stat-card.other::before { background: linear-gradient(90deg, #4a5568, #718096); }
+
+    .usc-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .usc-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 900;
+      color: #0d0d0d;
+      flex-shrink: 0;
+    }
+
+    .usc-avatar.gold { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); }
+    .usc-avatar.silver { background: linear-gradient(135deg, #636e72, #b2bec3); }
+    .usc-avatar.bronze { background: linear-gradient(135deg, #a04000, #d35400); }
+
+    .usc-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.3px;
+    }
+
+    .usc-email {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 160px;
+    }
+
+    .usc-count {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .usc-count.muted { color: var(--text-muted); }
+
+    .usc-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .usc-label {
+      font-size: 0.65rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .usc-bar-wrap {
+      height: 4px;
+      background: var(--dark3);
+      border-radius: 4px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    .usc-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .usc-bar-fill.gold-bar { background: linear-gradient(90deg, var(--gold-dark), var(--gold)); }
+    .usc-bar-fill.silver-bar { background: linear-gradient(90deg, #636e72, #b2bec3); }
+    .usc-bar-fill.bronze-bar { background: linear-gradient(90deg, #a04000, #d35400); }
+
+    .usc-mine-badge {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid var(--border);
+      color: var(--gold);
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    /* --- LISTA PITANJA --- */
     .search-wrap {
       position: relative;
       margin-bottom: 18px;
@@ -463,6 +635,7 @@
     }
 
     .q-item:hover { border-color: rgba(201,168,76,0.35); }
+    .q-item.mine { border-left: 3px solid var(--gold); }
 
     .q-item-top {
       display: flex;
@@ -539,6 +712,35 @@
     .ans-d { background: rgba(231,76,60,0.15); color: #ec7063; }
     .ans-e { background: rgba(155,89,182,0.15); color: #c39bd3; }
 
+    /* Pill za korisnika koji je uneo pitanje */
+    .q-user-pill {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 3px 9px;
+      border-radius: 20px;
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.15);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .q-user-pill.is-mine {
+      background: rgba(201,168,76,0.15);
+      border-color: rgba(201,168,76,0.35);
+      color: var(--gold);
+    }
+
+    .q-user-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      flex-shrink: 0;
+    }
+
     .empty-state {
       text-align: center;
       padding: 50px 20px;
@@ -561,7 +763,7 @@
       gap: 8px;
       overflow-x: auto;
       padding-bottom: 4px;
-      margin-bottom: 16px;
+      margin-bottom: 8px;
       scrollbar-width: none;
     }
 
@@ -584,6 +786,45 @@
 
     .filter-tab:hover { border-color: var(--gold); color: var(--gold); }
     .filter-tab.active { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold); }
+
+    /* Filter po korisniku */
+    .user-filter-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .user-filter-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px 4px 6px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .user-filter-btn:hover { border-color: var(--gold); color: var(--text); }
+
+    .user-filter-btn.active {
+      background: rgba(201,168,76,0.12);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .ufb-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
 
     .divider { height: 1px; background: var(--border); margin: 20px 0; }
 
@@ -618,12 +859,21 @@
   </div>
   <div class="header-right">
     <div class="header-badge">Administratorski Pristup</div>
+    <!-- Dinamicki popunjen JS-om -->
+    <div class="header-user-pill" id="header-user-pill" style="display:none;">
+      <div class="header-user-avatar" id="header-avatar">?</div>
+      <div class="header-user-info">
+        <div class="header-user-name" id="header-user-name">-</div>
+        <div class="header-user-email" id="header-user-email">-</div>
+      </div>
+    </div>
     <button class="btn-logout" onclick="odjavi()">Odjavi se</button>
   </div>
 </header>
 
 <div class="container">
 
+  <!-- GORNJA STATISTIKA -->
   <div class="stats-bar">
     <div class="stat-card">
       <div class="stat-icon">
@@ -636,11 +886,11 @@
     </div>
     <div class="stat-card">
       <div class="stat-icon">
-        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h10"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </div>
       <div>
-        <div class="stat-value">20</div>
-        <div class="stat-label">Kategorija</div>
+        <div class="stat-value" id="stat-moja">0</div>
+        <div class="stat-label">Moja pitanja</div>
       </div>
     </div>
     <div class="stat-card">
@@ -652,6 +902,11 @@
         <div class="stat-label">Danas dodato</div>
       </div>
     </div>
+  </div>
+
+  <!-- STATISTIKE PO KORISNIKU -->
+  <div class="user-stats-bar" id="user-stats-bar">
+    <!-- Popunjava JS -->
   </div>
 
   <!-- FORMA ZA UNOS -->
@@ -758,9 +1013,15 @@
       </div>
     </div>
     <div class="card-body">
+
       <div class="search-wrap">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
         <input type="text" id="pretraga" placeholder="Pretrazi pitanja..." oninput="filtrirajPitanja()" />
+      </div>
+
+      <!-- Filter po korisniku -->
+      <div class="user-filter-row" id="user-filter-row">
+        <!-- Popunjava JS -->
       </div>
 
       <div class="filter-scroll">
@@ -801,24 +1062,56 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  const SUPABASE_URL = 'https://ujamzoupwldtppyveguq.supabase.co';
+  const SUPABASE_URL     = 'https://ujamzoupwldtppyveguq.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_EcF3QnSyfxGW_ZJa741PRA_y-xVaH4N';
-
-  // =============================================
-  // NAZIV TABELE — JEDINO MJESTO KOJE TREBA MIJENJATI
-  // =============================================
-  const TABELA = 'quiz_pitanja';
+  const TABELA           = 'quiz_pitanja';
 
   const { createClient } = supabase;
   const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  let svaPitanja = [];
-  let aktivnaKat = 'sve';
-  let tacnoOdg = '';
+  let svaPitanja    = [];
+  let aktivnaKat    = 'sve';
+  let aktivniUser   = 'sve';   // filter po korisniku u listi
+  let tacnoOdg      = '';
+  let trenutniEmail = '';      // email ulogovanog korisnika
 
-  // =====================
+  // Boje za korisnike (do 6, ali obicno vas troje)
+  const USER_COLORS = [
+    { dot: '#c9a84c', avatarClass: 'gold',   barClass: 'gold-bar'   },
+    { dot: '#b2bec3', avatarClass: 'silver', barClass: 'silver-bar' },
+    { dot: '#d35400', avatarClass: 'bronze', barClass: 'bronze-bar' },
+    { dot: '#5dade2', avatarClass: 'gold',   barClass: 'gold-bar'   },
+    { dot: '#58d68d', avatarClass: 'silver', barClass: 'silver-bar' },
+    { dot: '#c39bd3', avatarClass: 'bronze', barClass: 'bronze-bar' },
+  ];
+
+  // ============================================================
+  // POMOCNE FUNKCIJE
+  // ============================================================
+
+  // Inicijali iz emaila: "ana.jovic@gmail.com" -> "AJ"
+  function inicijali(email) {
+    if (!email) return '?';
+    const local = email.split('@')[0];
+    const parts = local.split(/[._\-]/);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return local.slice(0, 2).toUpperCase();
+  }
+
+  // Kratko ime iz emaila: "ana.jovic@gmail.com" -> "Ana"
+  function kratkoIme(email) {
+    if (!email) return 'Nepoznato';
+    const local = email.split('@')[0];
+    const parts = local.split(/[._\-]/);
+    const ime = parts[0];
+    return ime.charAt(0).toUpperCase() + ime.slice(1).toLowerCase();
+  }
+
+  // ============================================================
   // AUTH
-  // =====================
+  // ============================================================
   async function provjeriAdmin() {
     try {
       const { data: { session } } = await db.auth.getSession();
@@ -826,8 +1119,19 @@
         window.location.href = 'admin-login.html';
         return;
       }
-      document.getElementById('auth-loader').style.display = 'none';
+
+      trenutniEmail = session.user.email || '';
+
+      // Popuni header sa podacima korisnika
+      const pill = document.getElementById('header-user-pill');
+      document.getElementById('header-avatar').textContent      = inicijali(trenutniEmail);
+      document.getElementById('header-user-name').textContent   = kratkoIme(trenutniEmail);
+      document.getElementById('header-user-email').textContent  = trenutniEmail;
+      pill.style.display = 'flex';
+
+      document.getElementById('auth-loader').style.display  = 'none';
       document.getElementById('page-content').style.display = 'block';
+
       await ucitajPitanja();
     } catch (e) {
       console.error('Auth greska:', e);
@@ -840,18 +1144,18 @@
     window.location.href = 'admin-login.html';
   }
 
-  // =====================
+  // ============================================================
   // TACAN ODGOVOR
-  // =====================
+  // ============================================================
   function selectTacno(btn) {
     document.querySelectorAll('.tacno-btn').forEach(b => b.className = 'tacno-btn');
     tacnoOdg = btn.dataset.val;
     btn.classList.add('active-' + tacnoOdg.toLowerCase());
   }
 
-  // =====================
+  // ============================================================
   // ALERT
-  // =====================
+  // ============================================================
   function showAlert(tip, poruka) {
     const el = document.getElementById('alert');
     el.className = 'alert show alert-' + tip;
@@ -859,19 +1163,19 @@
     setTimeout(() => el.classList.remove('show'), 5000);
   }
 
-  // =====================
+  // ============================================================
   // LOADING
-  // =====================
+  // ============================================================
   function setLoading(val) {
     const btn = document.getElementById('btn-sacuvaj');
-    document.getElementById('spinner').style.display = val ? 'inline-block' : 'none';
-    document.getElementById('btn-text').textContent = val ? 'Cuvanje...' : 'Sacuvaj Pitanje';
+    document.getElementById('spinner').style.display  = val ? 'inline-block' : 'none';
+    document.getElementById('btn-text').textContent   = val ? 'Cuvanje...' : 'Sacuvaj Pitanje';
     btn.disabled = val;
   }
 
-  // =====================
-  // SACUVAJ PITANJE
-  // =====================
+  // ============================================================
+  // SACUVAJ PITANJE  ← KLJUCNA IZMENA: dodaje uneo_korisnik
+  // ============================================================
   async function sacuvajPitanje() {
     const kat = document.getElementById('kategorija').value.trim();
     const pit = document.getElementById('pitanje').value.trim();
@@ -889,17 +1193,16 @@
     setLoading(true);
 
     const noviUnos = {
-      kategorija: kat,
-      pitanje:    pit,
-      odgovor_a:  a,
-      odgovor_b:  b,
-      odgovor_c:  c,
-      odgovor_d:  d,
-      odgovor_e:  e,
-      tacno_odgovor: tacnoOdg   /* tacno_odogovor — typo iz baze, ne mijenjati! */
+      kategorija:    kat,
+      pitanje:       pit,
+      odgovor_a:     a,
+      odgovor_b:     b,
+      odgovor_c:     c,
+      odgovor_d:     d,
+      odgovor_e:     e,
+      tacno_odgovor: tacnoOdg,
+      uneo_korisnik: trenutniEmail   // ← AUTOMATSKI iz sesije!
     };
-
-    console.log('Saljem u bazu:', noviUnos);
 
     const { data, error } = await db
       .from(TABELA)
@@ -914,35 +1217,36 @@
       return;
     }
 
-    console.log('Uspjesno sacuvano:', data);
     showAlert('success', 'Pitanje uspjesno sacuvano!');
     ocistiFormu();
 
     if (data && data.length > 0) {
       svaPitanja.unshift(data[0]);
       azurirajStats();
+      renderUserStats();
+      renderUserFilters();
       filtrirajPitanja();
     }
   }
 
-  // =====================
+  // ============================================================
   // OCISTI FORMU
-  // =====================
+  // ============================================================
   function ocistiFormu() {
     document.getElementById('kategorija').value = '';
-    document.getElementById('pitanje').value = '';
-    document.getElementById('odg_a').value = '';
-    document.getElementById('odg_b').value = '';
-    document.getElementById('odg_c').value = '';
-    document.getElementById('odg_d').value = '';
-    document.getElementById('odg_e').value = '';
+    document.getElementById('pitanje').value    = '';
+    document.getElementById('odg_a').value      = '';
+    document.getElementById('odg_b').value      = '';
+    document.getElementById('odg_c').value      = '';
+    document.getElementById('odg_d').value      = '';
+    document.getElementById('odg_e').value      = '';
     document.querySelectorAll('.tacno-btn').forEach(b => b.className = 'tacno-btn');
     tacnoOdg = '';
   }
 
-  // =====================
+  // ============================================================
   // UCITAJ PITANJA
-  // =====================
+  // ============================================================
   async function ucitajPitanja() {
     document.getElementById('questions-list').innerHTML = `
       <div class="empty-state">
@@ -964,24 +1268,115 @@
     }
 
     svaPitanja = data || [];
-    console.log('Ucitano pitanja:', svaPitanja.length);
     azurirajStats();
+    renderUserStats();
+    renderUserFilters();
     filtrirajPitanja();
   }
 
-  // =====================
+  // ============================================================
   // AZURIRAJ STATISTIKU
-  // =====================
+  // ============================================================
   function azurirajStats() {
-    document.getElementById('stat-ukupno').textContent = svaPitanja.length;
+    document.getElementById('stat-ukupno').textContent =
+      svaPitanja.length;
+
+    // Moja pitanja
+    const moja = svaPitanja.filter(p => p.uneo_korisnik === trenutniEmail).length;
+    document.getElementById('stat-moja').textContent = moja;
+
+    // Danas dodato (svi zajedno)
     const danas = new Date().toISOString().split('T')[0];
-    const novo = svaPitanja.filter(p => p.created_at && p.created_at.startsWith(danas)).length;
+    const novo  = svaPitanja.filter(p => p.created_at && p.created_at.startsWith(danas)).length;
     document.getElementById('stat-novo').textContent = novo;
   }
 
-  // =====================
+  // ============================================================
+  // RENDER STATISTIKE PO KORISNIKU
+  // ============================================================
+  function renderUserStats() {
+    // Grupisemo po emailu
+    const mapa = {};
+    svaPitanja.forEach(p => {
+      const key = p.uneo_korisnik || 'nepoznato';
+      mapa[key] = (mapa[key] || 0) + 1;
+    });
+
+    // Sortiramo po broju pitanja (vise = prvo)
+    const sortiran = Object.entries(mapa).sort((a, b) => b[1] - a[1]);
+    const maxBroj  = sortiran.length > 0 ? sortiran[0][1] : 1;
+
+    const container = document.getElementById('user-stats-bar');
+    container.innerHTML = sortiran.map(([email, broj], idx) => {
+      const boja    = USER_COLORS[idx % USER_COLORS.length];
+      const jaMoj   = email === trenutniEmail;
+      const postotak = Math.round((broj / svaPitanja.length) * 100);
+      const barWidth = Math.round((broj / maxBroj) * 100);
+
+      return `
+        <div class="user-stat-card ${jaMoj ? 'mine' : 'other'}">
+          <div class="usc-top">
+            <div class="usc-avatar ${boja.avatarClass}">${inicijali(email)}</div>
+            <div style="flex:1;min-width:0;">
+              <div class="usc-name">${kratkoIme(email)}</div>
+              <div class="usc-email">${escHTML(email)}</div>
+            </div>
+            ${jaMoj ? '<span class="usc-mine-badge">Ja</span>' : ''}
+          </div>
+          <div class="usc-bottom">
+            <div>
+              <div class="usc-count ${jaMoj ? '' : 'muted'}">${broj}</div>
+              <div class="usc-label">${postotak}% svih pitanja</div>
+            </div>
+          </div>
+          <div class="usc-bar-wrap">
+            <div class="usc-bar-fill ${boja.barClass}" style="width:${barWidth}%"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // ============================================================
+  // RENDER FILTERA PO KORISNIKU
+  // ============================================================
+  function renderUserFilters() {
+    const emailovi = [...new Set(svaPitanja.map(p => p.uneo_korisnik || 'nepoznato'))];
+    const container = document.getElementById('user-filter-row');
+
+    const allBtn = `
+      <button class="user-filter-btn ${aktivniUser === 'sve' ? 'active' : ''}"
+              onclick="filterUser(this, 'sve')">
+        <span class="ufb-dot" style="background:var(--gold);"></span>
+        Svi korisnici
+      </button>`;
+
+    const ostali = emailovi.map((email, idx) => {
+      const boja = USER_COLORS[idx % USER_COLORS.length];
+      const jaMoj = email === trenutniEmail;
+      return `
+        <button class="user-filter-btn ${aktivniUser === email ? 'active' : ''}"
+                onclick="filterUser(this, '${escAttr(email)}')">
+          <span class="ufb-dot" style="background:${boja.dot};"></span>
+          ${kratkoIme(email)}${jaMoj ? ' (ja)' : ''}
+        </button>`;
+    }).join('');
+
+    container.innerHTML = allBtn + ostali;
+  }
+
+  // ============================================================
+  // FILTER PO KORISNIKU
+  // ============================================================
+  function filterUser(btn, email) {
+    aktivniUser = email;
+    renderUserFilters();  // re-render da osvjezi active state
+    filtrirajPitanja();
+  }
+
+  // ============================================================
   // PRIKAZI PITANJA
-  // =====================
+  // ============================================================
   function prikaziPitanja(lista) {
     const el = document.getElementById('questions-list');
 
@@ -994,31 +1389,46 @@
       return;
     }
 
-    el.innerHTML = lista.map((p, i) => `
-      <div class="q-item" style="animation-delay:${Math.min(i * 0.03, 0.3)}s">
-        <div class="q-item-top">
-          <div class="q-text">${escHTML(p.pitanje)}</div>
-          <div class="q-actions">
-            <button class="btn-del" onclick="obrisiPitanje(${p.id})" title="Obrisi">
-              <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-            </button>
+    // Napravimo mapu email -> index boje
+    const emailovi = [...new Set(svaPitanja.map(p => p.uneo_korisnik || 'nepoznato'))];
+    const colorMap  = {};
+    emailovi.forEach((e, i) => { colorMap[e] = USER_COLORS[i % USER_COLORS.length]; });
+
+    el.innerHTML = lista.map((p, i) => {
+      const jaMoj     = p.uneo_korisnik === trenutniEmail;
+      const boja      = colorMap[p.uneo_korisnik || 'nepoznato'] || USER_COLORS[0];
+      const imeUnosioca = kratkoIme(p.uneo_korisnik);
+
+      return `
+        <div class="q-item ${jaMoj ? 'mine' : ''}" style="animation-delay:${Math.min(i * 0.03, 0.3)}s">
+          <div class="q-item-top">
+            <div class="q-text">${escHTML(p.pitanje)}</div>
+            <div class="q-actions">
+              <button class="btn-del" onclick="obrisiPitanje(${p.id})" title="Obrisi">
+                <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="q-meta">
+            <span class="q-cat-pill">${escHTML(p.kategorija)}</span>
+            <span class="q-ans-pill ans-${(p.tacno_odogovor || 'a').toLowerCase()}">
+              Tacno: ${escHTML(p.tacno_odogovor)}
+            </span>
+            <span class="q-user-pill ${jaMoj ? 'is-mine' : ''}" style="border-color:${boja.dot}33;">
+              <span class="q-user-dot" style="background:${boja.dot};"></span>
+              ${escHTML(imeUnosioca)}${jaMoj ? ' (ja)' : ''}
+            </span>
           </div>
         </div>
-        <div class="q-meta">
-          <span class="q-cat-pill">${escHTML(p.kategorija)}</span>
-          <span class="q-ans-pill ans-${(p.tacno_odogovor || 'a').toLowerCase()}">
-            Tacno: ${escHTML(p.tacno_odogovor)}
-          </span>
-        </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
-  // =====================
+  // ============================================================
   // OBRISI PITANJE
-  // =====================
+  // ============================================================
   async function obrisiPitanje(id) {
-    if (!confirm('Da li si siguran da zelis da obrises ovo pitanje?')) return;
+    if (!confirm('Da li si sigurna da zelis da obrises ovo pitanje?')) return;
 
     const { error } = await db.from(TABELA).delete().eq('id', id);
 
@@ -1029,13 +1439,15 @@
 
     svaPitanja = svaPitanja.filter(p => p.id !== id);
     azurirajStats();
+    renderUserStats();
+    renderUserFilters();
     showAlert('success', 'Pitanje obrisano.');
     filtrirajPitanja();
   }
 
-  // =====================
-  // FILTER + PRETRAGA
-  // =====================
+  // ============================================================
+  // FILTER KATEGORIJA + KORISNIK + PRETRAGA
+  // ============================================================
   function filterKat(btn) {
     document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -1045,15 +1457,19 @@
 
   function filtrirajPitanja() {
     const term = document.getElementById('pretraga').value.toLowerCase().trim();
-    let lista = svaPitanja;
+    let lista  = svaPitanja;
 
     if (aktivnaKat !== 'sve') {
       lista = lista.filter(p => p.kategorija === aktivnaKat);
     }
 
+    if (aktivniUser !== 'sve') {
+      lista = lista.filter(p => (p.uneo_korisnik || 'nepoznato') === aktivniUser);
+    }
+
     if (term) {
       lista = lista.filter(p =>
-        (p.pitanje || '').toLowerCase().includes(term) ||
+        (p.pitanje    || '').toLowerCase().includes(term) ||
         (p.kategorija || '').toLowerCase().includes(term)
       );
     }
@@ -1061,9 +1477,9 @@
     prikaziPitanja(lista);
   }
 
-  // =====================
-  // ESCAPE HTML
-  // =====================
+  // ============================================================
+  // ESCAPE POMOCNICI
+  // ============================================================
   function escHTML(str) {
     if (!str) return '';
     return str
@@ -1073,9 +1489,14 @@
       .replace(/"/g, '&quot;');
   }
 
-  // =====================
+  function escAttr(str) {
+    if (!str) return '';
+    return str.replace(/'/g, "\\'");
+  }
+
+  // ============================================================
   // START
-  // =====================
+  // ============================================================
   provjeriAdmin();
 </script>
 </body>
