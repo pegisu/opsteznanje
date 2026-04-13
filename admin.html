@@ -724,29 +724,32 @@
           <input type="text" id="pretraga" placeholder="Pretrazi pitanja..." oninput="filtrirajPitanja()" />
         </div>
 
-        <div class="filter-scroll" id="filter-tabs">
-          <button class="filter-tab active" data-kat="sve" onclick="filterKat(this)">Sve</button>
-          <button class="filter-tab" data-kat="Istorija Srbije" onclick="filterKat(this)">Istorija Srbije</button>
-          <button class="filter-tab" data-kat="Geografija Srbije" onclick="filterKat(this)">Geografija Srbije</button>
-          <button class="filter-tab" data-kat="Kultura i Umetnost" onclick="filterKat(this)">Kultura i Umetnost</button>
-          <button class="filter-tab" data-kat="Sport" onclick="filterKat(this)">Sport</button>
-          <button class="filter-tab" data-kat="Nauka i Tehnologija" onclick="filterKat(this)">Nauka i Tehnologija</button>
-          <button class="filter-tab" data-kat="Knjizevnost" onclick="filterKat(this)">Knjizevnost</button>
-          <button class="filter-tab" data-kat="Muzika" onclick="filterKat(this)">Muzika</button>
-          <button class="filter-tab" data-kat="Film i Televizija" onclick="filterKat(this)">Film i Televizija</button>
-          <button class="filter-tab" data-kat="Biologija i Priroda" onclick="filterKat(this)">Biologija i Priroda</button>
-          <button class="filter-tab" data-kat="Fizika i Hemija" onclick="filterKat(this)">Fizika i Hemija</button>
-          <button class="filter-tab" data-kat="Matematika" onclick="filterKat(this)">Matematika</button>
-          <button class="filter-tab" data-kat="Svetska Istorija" onclick="filterKat(this)">Svetska Istorija</button>
-          <button class="filter-tab" data-kat="Svetska Geografija" onclick="filterKat(this)">Svetska Geografija</button>
-          <button class="filter-tab" data-kat="Politika i Pravo" onclick="filterKat(this)">Politika i Pravo</button>
-          <button class="filter-tab" data-kat="Ekonomija i Biznis" onclick="filterKat(this)">Ekonomija i Biznis</button>
-          <button class="filter-tab" data-kat="Hrana i Kuhinja" onclick="filterKat(this)">Hrana i Kuhinja</button>
-          <button class="filter-tab" data-kat="Moda i Stil" onclick="filterKat(this)">Moda i Stil</button>
-          <button class="filter-tab" data-kat="Religija i Filozofija" onclick="filterKat(this)">Religija i Filozofija</button>
-          <button class="filter-tab" data-kat="Medicina i Zdravlje" onclick="filterKat(this)">Medicina i Zdravlje</button>
-          <button class="filter-tab" data-kat="Opste Znanje" onclick="filterKat(this)">Opste Znanje</button>
-        </div>
+       <div class="form-group">
+        <label>Kategorija</label>
+        <select id="kategorija">
+          <option value="">-- Izaberi kategoriju --</option>
+          <option value="Geografija">Geografija</option>
+          <option value="Istorija">Istorija</option>
+          <option value="Knjizevnost">Knjizevnost</option>
+          <option value="Umetnost">Umetnost</option>
+          <option value="Film">Film</option>
+          <option value="Muzika">Muzika</option>
+          <option value="Sport">Sport</option>
+          <option value="Matematika">Matematika</option>
+          <option value="Fizika">Fizika</option>
+          <option value="Hemija">Hemija</option>
+          <option value="Biologija">Biologija</option>
+          <option value="Tehnologija">Tehnologija</option>
+          <option value="Astronomija">Astronomija</option>
+          <option value="Politika">Politika</option>
+          <option value="Ekonomija">Ekonomija</option>
+          <option value="Pravo">Pravo</option>
+          <option value="Psihologija">Psihologija</option>
+          <option value="Sociologija">Sociologija</option>
+          <option value="Religija">Religija</option>
+          <option value="Opsta kultura">Opsta kultura</option>
+        </select>
+      </div>
 
         <div class="questions-list" id="questions-list">
           <div class="empty-state">
