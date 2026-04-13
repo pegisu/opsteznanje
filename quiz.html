@@ -49,12 +49,10 @@
     body::after {
       content: '';
       position: fixed;
-      width: 600px;
-      height: 600px;
+      width: 600px; height: 600px;
       border-radius: 50%;
       background: radial-gradient(circle, rgba(240,192,64,0.06) 0%, transparent 70%);
-      top: -150px;
-      right: -150px;
+      top: -150px; right: -150px;
       pointer-events: none;
       z-index: 0;
     }
@@ -66,6 +64,7 @@
       z-index: 1;
     }
 
+    /* ── HEADER ── */
     .quiz-header {
       display: flex;
       align-items: center;
@@ -103,6 +102,7 @@
       border-radius: 100px;
     }
 
+    /* ── PROGRESS ── */
     .progress-section { margin-bottom: 28px; }
 
     .progress-meta {
@@ -141,6 +141,7 @@
       transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
     }
 
+    /* ── QUESTION CARD ── */
     .question-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -176,6 +177,7 @@
       letter-spacing: -0.2px;
     }
 
+    /* ── OPTIONS ── */
     .options-grid {
       display: flex;
       flex-direction: column;
@@ -211,11 +213,13 @@
     }
 
     .option-btn:hover:not(:disabled)::before { opacity: 1; }
-    .option-btn:hover:not(:disabled) { border-color: rgba(240,192,64,0.3); transform: translateX(3px); }
+    .option-btn:hover:not(:disabled) {
+      border-color: rgba(240,192,64,0.3);
+      transform: translateX(3px);
+    }
 
     .option-letter {
-      width: 34px;
-      height: 34px;
+      width: 34px; height: 34px;
       border-radius: 8px;
       background: var(--surface2);
       border: 1px solid var(--border);
@@ -261,6 +265,7 @@
     .option-btn.correct:disabled,
     .option-btn.wrong:disabled { opacity: 1; }
 
+    /* ── FEEDBACK ── */
     .feedback-bar {
       padding: 14px 20px;
       border-radius: 12px;
@@ -292,6 +297,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── NEXT BTN ── */
     .next-btn {
       width: 100%;
       padding: 16px;
@@ -310,6 +316,7 @@
     .next-btn:hover { background: #f7d060; transform: translateY(-1px); }
     .next-btn.visible { display: block; animation: slideUp 0.3s ease; }
 
+    /* ── DOTS ── */
     .score-dots {
       display: flex;
       gap: 6px;
@@ -318,8 +325,7 @@
     }
 
     .dot {
-      width: 10px;
-      height: 10px;
+      width: 10px; height: 10px;
       border-radius: 50%;
       background: var(--surface2);
       border: 1px solid var(--border);
@@ -328,6 +334,7 @@
     .dot.correct { background: var(--correct); border-color: var(--correct); }
     .dot.wrong   { background: var(--wrong);   border-color: var(--wrong); }
 
+    /* ── RESULT ── */
     #result-screen {
       display: none;
       text-align: center;
@@ -348,15 +355,13 @@
     }
 
     .result-score-ring {
-      width: 140px;
-      height: 140px;
+      width: 140px; height: 140px;
       margin: 0 auto 28px;
       position: relative;
     }
 
     .result-score-ring svg {
-      width: 140px;
-      height: 140px;
+      width: 140px; height: 140px;
       transform: rotate(-90deg);
     }
 
@@ -386,11 +391,7 @@
       line-height: 1;
     }
 
-    .ring-total {
-      font-size: 12px;
-      color: var(--muted);
-      letter-spacing: 1px;
-    }
+    .ring-total { font-size: 12px; color: var(--muted); letter-spacing: 1px; }
 
     .result-title {
       font-family: 'Bebas Neue', sans-serif;
@@ -433,16 +434,19 @@
       color: var(--text);
       border: 1px solid var(--border);
     }
-    .result-btn.secondary:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-1px); }
+    .result-btn.secondary:hover {
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-1px);
+    }
 
+    /* ── LOADING ── */
     #loading-screen {
       text-align: center;
       padding: 80px 40px;
     }
 
     .loader {
-      width: 40px;
-      height: 40px;
+      width: 40px; height: 40px;
       border: 3px solid var(--surface2);
       border-top-color: var(--accent);
       border-radius: 50%;
@@ -460,6 +464,7 @@
       text-transform: uppercase;
     }
 
+    /* ── ERROR ── */
     #error-screen {
       display: none;
       text-align: center;
@@ -483,6 +488,7 @@
       line-height: 1.6;
     }
 
+    /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
       .question-card { padding: 24px 20px; }
       .question-text { font-size: 17px; }
@@ -574,9 +580,9 @@
     </div>
 
     <div class="result-title" id="result-title">ODLICNO!</div>
-    <div class="result-subtitle" id="result-subtitle">Uspesno si zavrsila kviz.</div>
+    <div class="result-subtitle" id="result-subtitle">Uspesno si zavrsio kviz.</div>
 
-    <div class="score-dots" id="result-dots" style="justify-content:center; margin-bottom: 28px;"></div>
+    <div class="score-dots" id="result-dots" style="justify-content:center; margin-bottom:28px;"></div>
 
     <div class="result-actions">
       <button class="result-btn primary" onclick="restartQuiz()">Igraj ponovo</button>
@@ -588,60 +594,142 @@
 
 <script>
   // ============================================================
-  //  KONFIGURACIJA
+  //  KONFIGURACIJA — zameni sa tvojim podacima
   // ============================================================
   const SUPABASE_URL      = 'https://ujamzoupwldtppyveguq.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVqYW16b3Vwd2xkdHBweXZlZ3VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MjI3MjUsImV4cCI6MjA5MTQ5ODcyNX0.sHfuZ3tgJTkfucwiAxWLAK8lOidh1o_hLeh3CSHQxT4';
 
-  // KLJUCNA ISPRAVKA: koristimo supabaseClient umjesto supabase
-  // jer CDN vec kreira globalni 'supabase' namespace
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   // ============================================================
 
-  let questions  = [];
-  let currentIdx = 0;
-  let score      = 0;
-  let answered   = false;
-  let results    = [];
-  let kategorija = '';
+  let questions    = [];
+  let currentIdx   = 0;
+  let score        = 0;
+  let answered     = false;
+  let results      = [];
+  let quizMode     = '';   // 'random' | 'brzi' | 'kategorija'
+  let quizLabel    = '';   // naziv za badge
+  let originalUrl  = '';   // sacuvaj URL za restart
 
   const LETTERS = ['a', 'b', 'c', 'd', 'e'];
 
-  // ── URL PARAMETAR ──
-  function getKategorija() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('kategorija') || '';
+  // ============================================================
+  //  CITANJE URL PARAMETARA
+  //  Podrzani URL-ovi:
+  //    quiz.html?mod=random              → 20 random iz sve baze
+  //    quiz.html?mod=random&limit=20     → N random iz sve baze
+  //    quiz.html?mod=brzi                → 5 random iz sve baze
+  //    quiz.html?mod=brzi&limit=5        → N random iz sve baze
+  //    quiz.html?kategorija=Geografija   → 20 pitanja iz kategorije
+  // ============================================================
+  function parseUrlParams() {
+    const params     = new URLSearchParams(window.location.search);
+    const mod        = params.get('mod')        || '';
+    const kategorija = params.get('kategorija') || '';
+    const limit      = parseInt(params.get('limit')) || 0;
+
+    if (mod === 'random') {
+      return { mode: 'random', limit: limit || 20, label: 'SVE KATEGORIJE' };
+    }
+
+    if (mod === 'brzi') {
+      return { mode: 'brzi', limit: limit || 5, label: 'BRZI KRUG' };
+    }
+
+    if (kategorija) {
+      return { mode: 'kategorija', limit: limit || 20, label: kategorija.toUpperCase(), kategorija };
+    }
+
+    // Nije prosledjen nijedan validan parametar
+    return null;
   }
 
-  // ── EKRANI ──
+  // ============================================================
+  //  EKRANI
+  // ============================================================
   function showScreen(id) {
-    const screens = ['loading-screen', 'error-screen', 'quiz-screen', 'result-screen'];
-    screens.forEach(s => {
+    ['loading-screen', 'error-screen', 'quiz-screen', 'result-screen'].forEach(s => {
       const el = document.getElementById(s);
-      if (!el) return;
-      el.style.display = 'none';
+      if (el) el.style.display = 'none';
     });
     const target = document.getElementById(id);
     if (target) target.style.display = 'block';
   }
 
-  // ── FETCH PITANJA ──
-  async function fetchQuestions(kat) {
+  // ============================================================
+  //  FETCH PITANJA — tri razlicita nacina
+  // ============================================================
+
+  // Moda 1: Pitanja iz konkretne kategorije
+  async function fetchByKategorija(kategorija, limit) {
     const { data, error } = await supabaseClient
       .from('quiz_pitanja')
       .select('*')
-      .eq('kategorija', kat)
-      .limit(20);
+      .eq('kategorija', kategorija)
+      .limit(limit * 3); // uzimamo vise pa nasumicno biramo
 
-    if (error) {
-      console.error('Supabase greska:', error);
-      throw new Error(error.message);
-    }
-
-    return data || [];
+    if (error) throw new Error(error.message);
+    return shuffleArray(data || []).slice(0, limit);
   }
 
-  // ── RENDER PITANJA ──
+  // Moda 2 i 3: Random pitanja iz CELE baze
+  // Supabase nema direktan random, pa uzimamo veci uzorak i shufflujemo
+  async function fetchRandom(limit) {
+    // Prvo saznajemo ukupan broj pitanja
+    const { count, error: countError } = await supabaseClient
+      .from('quiz_pitanja')
+      .select('*', { count: 'exact', head: true });
+
+    if (countError) throw new Error(countError.message);
+
+    const totalRows = count || 0;
+
+    if (totalRows === 0) {
+      throw new Error('Baza pitanja je prazna.');
+    }
+
+    // Uzimamo random offset da dobijemo razlicita pitanja svaki put
+    const maxOffset = Math.max(0, totalRows - limit * 3);
+    const offset    = Math.floor(Math.random() * (maxOffset + 1));
+
+    const { data, error } = await supabaseClient
+      .from('quiz_pitanja')
+      .select('*')
+      .range(offset, offset + limit * 3 - 1);
+
+    if (error) throw new Error(error.message);
+
+    // Ako nismo dobili dovoljno (kraj tabele), uzimamo od pocetka
+    let pool = data || [];
+    if (pool.length < limit) {
+      const { data: extraData, error: extraError } = await supabaseClient
+        .from('quiz_pitanja')
+        .select('*')
+        .limit(limit * 3);
+
+      if (!extraError && extraData) {
+        pool = extraData;
+      }
+    }
+
+    return shuffleArray(pool).slice(0, limit);
+  }
+
+  // ============================================================
+  //  POMOCNA: Fisher-Yates shuffle
+  // ============================================================
+  function shuffleArray(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // ============================================================
+  //  RENDER PITANJA
+  // ============================================================
   function renderQuestion() {
     const q   = questions[currentIdx];
     const tot = questions.length;
@@ -662,9 +750,9 @@
       if (!val || val.trim() === '') return;
 
       const btn = document.createElement('button');
-      btn.className    = 'option-btn';
+      btn.className      = 'option-btn';
       btn.dataset.letter = l;
-      btn.innerHTML    = `
+      btn.innerHTML = `
         <span class="option-letter">${l.toUpperCase()}</span>
         <span>${val}</span>
       `;
@@ -687,7 +775,9 @@
     grid.style.animation = 'slideUp 0.4s ease 0.05s both';
   }
 
-  // ── ODABIR ODGOVORA ──
+  // ============================================================
+  //  ODABIR ODGOVORA
+  // ============================================================
   function selectAnswer(letter, clickedBtn) {
     if (answered) return;
     answered = true;
@@ -726,7 +816,9 @@
     nextBtn.classList.add('visible');
   }
 
-  // ── SLEDECE PITANJE ──
+  // ============================================================
+  //  SLEDECE PITANJE
+  // ============================================================
   function nextQuestion() {
     currentIdx++;
     if (currentIdx >= questions.length) {
@@ -736,20 +828,24 @@
     }
   }
 
-  // ── DOTS ──
+  // ============================================================
+  //  DOTS — tracker tacnih/netacnih
+  // ============================================================
   function renderDots() {
     const container = document.getElementById('score-dots');
     container.innerHTML = '';
     questions.forEach((_, i) => {
       const d = document.createElement('div');
-      if (results[i] === true)       d.className = 'dot correct';
+      if      (results[i] === true)  d.className = 'dot correct';
       else if (results[i] === false) d.className = 'dot wrong';
       else                           d.className = 'dot';
       container.appendChild(d);
     });
   }
 
-  // ── REZULTAT ──
+  // ============================================================
+  //  REZULTAT
+  // ============================================================
   function showResult() {
     showScreen('result-screen');
 
@@ -759,8 +855,7 @@
     document.getElementById('final-score').textContent = score;
     document.getElementById('final-total').textContent = '/ ' + tot;
 
-    const r    = 58;
-    const circ = 2 * Math.PI * r;
+    const circ = 2 * Math.PI * 58;
     const el   = document.getElementById('ring-fill-el');
     el.style.strokeDasharray  = circ;
     el.style.strokeDashoffset = circ;
@@ -769,22 +864,11 @@
     }, 100);
 
     let title, subtitle;
-    if (pct === 100) {
-      title    = 'SAVRSENO!';
-      subtitle = 'Sve tacno! Pravi sampion!';
-    } else if (pct >= 80) {
-      title    = 'ODLICNO!';
-      subtitle = `Tacan odgovor na ${score} od ${tot} pitanja. Sjajan rezultat!`;
-    } else if (pct >= 60) {
-      title    = 'SOLIDNO!';
-      subtitle = `Tacan odgovor na ${score} od ${tot} pitanja. Ima prostora za napredak!`;
-    } else if (pct >= 40) {
-      title    = 'MOZE BOLJE!';
-      subtitle = `Tacan odgovor na ${score} od ${tot} pitanja. Pokusaj ponovo!`;
-    } else {
-      title    = 'POKUSAJ OPET!';
-      subtitle = `Tacan odgovor na ${score} od ${tot} pitanja. Ne odustaj!`;
-    }
+    if      (pct === 100) { title = 'SAVRSENO!';    subtitle = 'Sve tacno! Pravi sampion!'; }
+    else if (pct >= 80)   { title = 'ODLICNO!';     subtitle = `Tacno: ${score} od ${tot}. Sjajan rezultat!`; }
+    else if (pct >= 60)   { title = 'SOLIDNO!';     subtitle = `Tacno: ${score} od ${tot}. Ima prostora za napredak!`; }
+    else if (pct >= 40)   { title = 'MOZE BOLJE!';  subtitle = `Tacno: ${score} od ${tot}. Pokusaj ponovo!`; }
+    else                  { title = 'POKUSAJ OPET!';subtitle = `Tacno: ${score} od ${tot}. Ne odustaj!`; }
 
     document.getElementById('result-title').textContent    = title;
     document.getElementById('result-subtitle').textContent = subtitle;
@@ -798,51 +882,81 @@
     });
   }
 
-  // ── RESTART ──
-  function restartQuiz() {
+  // ============================================================
+  //  RESTART — novi set pitanja istog moda
+  // ============================================================
+  async function restartQuiz() {
     currentIdx = 0;
     score      = 0;
     results    = [];
-    questions  = questions.sort(() => Math.random() - 0.5);
-    showScreen('quiz-screen');
-    renderQuestion();
+    showScreen('loading-screen');
+
+    try {
+      const config = parseUrlParams();
+      if (!config) { window.location.href = 'index.html'; return; }
+
+      if (config.mode === 'kategorija') {
+        questions = await fetchByKategorija(config.kategorija, config.limit);
+      } else {
+        questions = await fetchRandom(config.limit);
+      }
+
+      results = new Array(questions.length).fill(null);
+      showScreen('quiz-screen');
+      renderQuestion();
+    } catch (err) {
+      document.getElementById('error-msg-text').textContent =
+        'Greska pri ucitavanju: ' + err.message;
+      showScreen('error-screen');
+    }
   }
 
-  // ── INIT ──
+  // ============================================================
+  //  INIT — glavna funkcija
+  // ============================================================
   async function init() {
     showScreen('loading-screen');
-    kategorija = getKategorija();
 
-    if (!kategorija) {
+    const config = parseUrlParams();
+
+    // Nije prosledjen nijedan validan parametar
+    if (!config) {
       document.getElementById('error-msg-text').textContent =
-        'Nije izabrana kategorija. Vrati se na pocetnu i klikni na kategoriju.';
+        'Nije izabran nacin testiranja. Vrati se na pocetnu stranicu i izaberi kategoriju ili nacin igre.';
       showScreen('error-screen');
       return;
     }
 
-    document.getElementById('category-label').textContent = kategorija.toUpperCase();
-    document.title = `Kviz - ${kategorija}`;
+    // Postavi badge label
+    document.getElementById('category-label').textContent = config.label;
+    document.title = `Kviz - ${config.label}`;
 
     try {
-      const data = await fetchQuestions(kategorija);
+      // Ucitaj pitanja prema modu
+      if (config.mode === 'kategorija') {
+        questions = await fetchByKategorija(config.kategorija, config.limit);
+      } else {
+        // mod === 'random' ili 'brzi' — oba uzimaju random iz cele baze
+        questions = await fetchRandom(config.limit);
+      }
 
-      if (!data || data.length === 0) {
-        document.getElementById('error-msg-text').textContent =
-          `Nema pitanja za kategoriju "${kategorija}". Dodaj pitanja u admin panelu.`;
+      if (!questions || questions.length === 0) {
+        const msg = config.mode === 'kategorija'
+          ? `Nema pitanja za kategoriju "${config.kategorija}". Dodaj pitanja u admin panelu.`
+          : 'Baza pitanja je prazna. Dodaj pitanja u admin panelu.';
+        document.getElementById('error-msg-text').textContent = msg;
         showScreen('error-screen');
         return;
       }
 
-      questions = data.sort(() => Math.random() - 0.5);
-      results   = new Array(questions.length).fill(null);
-
+      results = new Array(questions.length).fill(null);
       showScreen('quiz-screen');
       renderQuestion();
 
     } catch (err) {
       console.error('Init greska:', err);
       document.getElementById('error-msg-text').textContent =
-        'Greska pri konekciji sa bazom. Detalji: ' + err.message;
+        'Greska pri konekciji sa bazom: ' + err.message;
       showScreen('error-screen');
     }
   }
