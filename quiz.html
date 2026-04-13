@@ -864,11 +864,11 @@
     }, 100);
 
     let title, subtitle;
-    if      (pct === 100) { title = 'SAVRŠENO!';    subtitle = 'Sve tacno! Pravi šampion!'; }
-    else if (pct >= 80)   { title = 'ODLIČNO!';     subtitle = `Tacno: ${score} od ${tot}. Sjajan rezultat!`; }
-    else if (pct >= 60)   { title = 'SOLIDNO!';     subtitle = `Tacno: ${score} od ${tot}. Ima prostora za napredak!`; }
-    else if (pct >= 40)   { title = 'MOŽE BOLJE!';  subtitle = `Tacno: ${score} od ${tot}. Pokušaj ponovo!`; }
-    else                  { title = 'POKUŠAJ OPET!';subtitle = `Tacno: ${score} od ${tot}. Ne odustaj!`; }
+    if      (pct === 100) { title = 'SAVRŠENO!';    subtitle = 'Sve tačno! Pravi šampion!'; }
+    else if (pct >= 80)   { title = 'ODLIČNO!';     subtitle = `Tačno: ${score} od ${tot}. Sjajan rezultat!`; }
+    else if (pct >= 60)   { title = 'SOLIDNO!';     subtitle = `Tačno: ${score} od ${tot}. Ima prostora za napredak!`; }
+    else if (pct >= 40)   { title = 'MOŽE BOLJE!';  subtitle = `Tačno: ${score} od ${tot}. Pokušaj ponovo!`; }
+    else                  { title = 'POKUŠAJ OPET!';subtitle = `Tačno: ${score} od ${tot}. Ne odustaj!`; }
 
     document.getElementById('result-title').textContent    = title;
     document.getElementById('result-subtitle').textContent = subtitle;
