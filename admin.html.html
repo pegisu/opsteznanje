@@ -1,0 +1,985 @@
+
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - Kviz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --gold-dark: #9a7a2e;
+      --dark: #0d0d0d;
+      --dark2: #141414;
+      --dark3: #1c1c1c;
+      --dark4: #242424;
+      --border: rgba(201,168,76,0.25);
+      --text: #e8e0d0;
+      --text-muted: #8a7f6e;
+      --red: #c0392b;
+      --green: #1e7e34;
+      --radius: 10px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'Lato', sans-serif;
+      min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse at 10% 0%, rgba(201,168,76,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse at 90% 100%, rgba(201,168,76,0.05) 0%, transparent 55%);
+    }
+
+    /* HEADER */
+    header {
+      background: var(--dark2);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .header-logo span {
+      color: var(--text);
+      font-weight: 300;
+      font-size: 0.85rem;
+      display: block;
+      letter-spacing: 4px;
+      font-family: 'Lato', sans-serif;
+    }
+
+    .header-badge {
+      background: rgba(201,168,76,0.12);
+      border: 1px solid var(--border);
+      color: var(--gold);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 30px;
+    }
+
+    /* LAYOUT */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .container { grid-template-columns: 1fr; }
+      header { padding: 0 20px; }
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(90deg, rgba(201,168,76,0.08) 0%, transparent 100%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-icon {
+      width: 36px;
+      height: 36px;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-icon svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+    }
+
+    .card-subtitle {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .card-body {
+      padding: 28px;
+    }
+
+    /* FORM */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 7px;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      background: var(--dark3);
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.9rem;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+    }
+
+    textarea { resize: vertical; min-height: 90px; }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+    }
+
+    select option {
+      background: var(--dark3);
+      color: var(--text);
+    }
+
+    .odgovori-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .odgovor-wrap {
+      position: relative;
+    }
+
+    .odgovor-label-pill {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.65rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .pill-a { background: rgba(52,152,219,0.25); color: #5dade2; }
+    .pill-b { background: rgba(39,174,96,0.25); color: #58d68d; }
+    .pill-c { background: rgba(243,156,18,0.25); color: #f8c471; }
+    .pill-d { background: rgba(231,76,60,0.25); color: #ec7063; }
+
+    .odgovor-wrap input {
+      padding-left: 40px;
+    }
+
+    .tacno-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tacno-btn {
+      flex: 1;
+      min-width: 60px;
+      padding: 10px 8px;
+      border-radius: 8px;
+      border: 1.5px solid rgba(201,168,76,0.2);
+      background: var(--dark3);
+      color: var(--text-muted);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.18s;
+      text-align: center;
+    }
+
+    .tacno-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,168,76,0.08);
+    }
+
+    .tacno-btn.active-a { background: rgba(52,152,219,0.2); border-color: #5dade2; color: #5dade2; }
+    .tacno-btn.active-b { background: rgba(39,174,96,0.2); border-color: #58d68d; color: #58d68d; }
+    .tacno-btn.active-c { background: rgba(243,156,18,0.2); border-color: #f8c471; color: #f8c471; }
+    .tacno-btn.active-d { background: rgba(231,76,60,0.2); border-color: #ec7063; color: #ec7063; }
+
+    /* SUBMIT BTN */
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      color: #0d0d0d;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 6px;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(201,168,76,0.25);
+    }
+
+    .btn-primary:active { transform: translateY(0); }
+
+    /* ALERT */
+    .alert {
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 18px;
+      display: none;
+    }
+
+    .alert.show { display: block; }
+    .alert-success { background: rgba(30,126,52,0.18); border: 1px solid rgba(30,126,52,0.5); color: #58d68d; }
+    .alert-error { background: rgba(192,57,43,0.18); border: 1px solid rgba(192,57,43,0.5); color: #ec7063; }
+
+    /* STATS BAR */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+      grid-column: 1 / -1;
+    }
+
+    .stat-card {
+      background: var(--dark2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--gold);
+      fill: none;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .stat-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.68rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* QUESTIONS LIST */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 18px;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-muted);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+
+    .search-wrap input {
+      padding-left: 42px;
+    }
+
+    .questions-list {
+      max-height: 520px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold-dark) var(--dark3);
+    }
+
+    .questions-list::-webkit-scrollbar { width: 5px; }
+    .questions-list::-webkit-scrollbar-track { background: var(--dark3); }
+    .questions-list::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 3px; }
+
+    .q-item {
+      background: var(--dark3);
+      border: 1px solid rgba(201,168,76,0.12);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      transition: border-color 0.18s;
+      animation: fadeUp 0.3s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .q-item:hover { border-color: rgba(201,168,76,0.35); }
+
+    .q-item-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .q-text {
+      font-size: 0.88rem;
+      color: var(--text);
+      line-height: 1.45;
+      flex: 1;
+    }
+
+    .q-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn-del {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      border: 1px solid rgba(192,57,43,0.3);
+      background: rgba(192,57,43,0.1);
+      color: #ec7063;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .btn-del:hover {
+      background: rgba(192,57,43,0.25);
+      border-color: #ec7063;
+    }
+
+    .btn-del svg {
+      width: 13px;
+      height: 13px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+
+    .q-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .q-cat-pill {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 20px;
+      background: rgba(201,168,76,0.12);
+      border: 1px solid var(--border);
+      color: var(--gold);
+    }
+
+    .q-ans-pill {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 3px 9px;
+      border-radius: 20px;
+    }
+
+    .ans-a { background: rgba(52,152,219,0.15); color: #5dade2; }
+    .ans-b { background: rgba(39,174,96,0.15); color: #58d68d; }
+    .ans-c { background: rgba(243,156,18,0.15); color: #f8c471; }
+    .ans-d { background: rgba(231,76,60,0.15); color: #ec7063; }
+
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      stroke: var(--border);
+      fill: none;
+      stroke-width: 1.5;
+      margin-bottom: 14px;
+    }
+
+    .empty-state p {
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    /* FILTER TABS */
+    .filter-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 16px;
+      scrollbar-width: none;
+    }
+
+    .filter-scroll::-webkit-scrollbar { display: none; }
+
+    .filter-tab {
+      flex-shrink: 0;
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(201,168,76,0.2);
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-tab:hover { border-color: var(--gold); color: var(--gold); }
+    .filter-tab.active { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold); }
+
+    /* DIVIDER */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    /* LOADING SPINNER */
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(201,168,76,0.2);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-text { display: none; }
+    .loading-text.show { display: inline; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-logo">
+    Opšte znanje
+    <span>Admin Panel</span>
+  </div>
+  <div class="header-badge">Administratorski Pristup</div>
+</header>
+
+<div class="container">
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+      </div>
+      <div>
+        <div class="stat-value" id="stat-ukupno">0</div>
+        <div class="stat-label">Ukupno pitanja</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h10"/></svg>
+      </div>
+      <div>
+        <div class="stat-value" id="stat-kategorije">20</div>
+        <div class="stat-label">Kategorija</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <div>
+        <div class="stat-value" id="stat-novo">0</div>
+        <div class="stat-label">Danas dodato</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMA ZA UNOS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      </div>
+      <div>
+        <div class="card-title">Novo Pitanje</div>
+        <div class="card-subtitle">Unesi pitanje u bazu</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div id="alert" class="alert"></div>
+
+      <div class="form-group">
+        <label>Kategorija</label>
+        <select id="kategorija">
+          <option value="">-- Izaberi kategoriju --</option>
+          <option value="Istorija Srbije">Istorija Srbije</option>
+          <option value="Geografija Srbije">Geografija Srbije</option>
+          <option value="Kultura i Umetnost">Kultura i Umetnost</option>
+          <option value="Sport">Sport</option>
+          <option value="Nauka i Tehnologija">Nauka i Tehnologija</option>
+          <option value="Knjizevnost">Knjizevnost</option>
+          <option value="Muzika">Muzika</option>
+          <option value="Film i Televizija">Film i Televizija</option>
+          <option value="Biologija i Priroda">Biologija i Priroda</option>
+          <option value="Fizika i Hemija">Fizika i Hemija</option>
+          <option value="Matematika">Matematika</option>
+          <option value="Svetska Istorija">Svetska Istorija</option>
+          <option value="Svetska Geografija">Svetska Geografija</option>
+          <option value="Politika i Pravo">Politika i Pravo</option>
+          <option value="Ekonomija i Biznis">Ekonomija i Biznis</option>
+          <option value="Hrana i Kuhinja">Hrana i Kuhinja</option>
+          <option value="Moda i Stil">Moda i Stil</option>
+          <option value="Religija i Filozofija">Religija i Filozofija</option>
+          <option value="Medicina i Zdravlje">Medicina i Zdravlje</option>
+          <option value="Opste Znanje">Opste Znanje</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Pitanje</label>
+        <textarea id="pitanje" placeholder="Unesi tekst pitanja ovde..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Ponudjeni Odgovori</label>
+        <div class="odgovori-grid">
+          <div class="odgovor-wrap">
+            <span class="odgovor-label-pill pill-a">A</span>
+            <input type="text" id="odg_a" placeholder="Odgovor A" />
+          </div>
+          <div class="odgovor-wrap">
+            <span class="odgovor-label-pill pill-b">B</span>
+            <input type="text" id="odg_b" placeholder="Odgovor B" />
+          </div>
+          <div class="odgovor-wrap">
+            <span class="odgovor-label-pill pill-c">C</span>
+            <input type="text" id="odg_c" placeholder="Odgovor C" />
+          </div>
+          <div class="odgovor-wrap">
+            <span class="odgovor-label-pill pill-d">D</span>
+            <input type="text" id="odg_d" placeholder="Odgovor D" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Tacan Odgovor</label>
+        <div class="tacno-group">
+          <button class="tacno-btn" data-val="A" onclick="selectTacno(this)">A</button>
+          <button class="tacno-btn" data-val="B" onclick="selectTacno(this)">B</button>
+          <button class="tacno-btn" data-val="C" onclick="selectTacno(this)">C</button>
+          <button class="tacno-btn" data-val="D" onclick="selectTacno(this)">D</button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <button class="btn-primary" onclick="sacuvajPitanje()">
+        <span class="spinner" id="spinner" style="display:none;"></span>
+        <span id="btn-text">Sacuvaj Pitanje</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- LISTA PITANJA -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+      </div>
+      <div>
+        <div class="card-title">Baza Pitanja</div>
+        <div class="card-subtitle">Pregled i upravljanje</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="pretraga" placeholder="Pretrazi pitanja..." oninput="filtrirajPitanja()" />
+      </div>
+
+      <div class="filter-scroll" id="filter-tabs">
+        <button class="filter-tab active" data-kat="sve" onclick="filterKat(this)">Sve</button>
+        <button class="filter-tab" data-kat="Istorija Srbije" onclick="filterKat(this)">Istorija Srbije</button>
+        <button class="filter-tab" data-kat="Geografija Srbije" onclick="filterKat(this)">Geografija Srbije</button>
+        <button class="filter-tab" data-kat="Kultura i Umetnost" onclick="filterKat(this)">Kultura i Umetnost</button>
+        <button class="filter-tab" data-kat="Sport" onclick="filterKat(this)">Sport</button>
+        <button class="filter-tab" data-kat="Nauka i Tehnologija" onclick="filterKat(this)">Nauka i Tehnologija</button>
+        <button class="filter-tab" data-kat="Knjizevnost" onclick="filterKat(this)">Knjizevnost</button>
+        <button class="filter-tab" data-kat="Muzika" onclick="filterKat(this)">Muzika</button>
+        <button class="filter-tab" data-kat="Film i Televizija" onclick="filterKat(this)">Film i Televizija</button>
+        <button class="filter-tab" data-kat="Biologija i Priroda" onclick="filterKat(this)">Biologija i Priroda</button>
+        <button class="filter-tab" data-kat="Fizika i Hemija" onclick="filterKat(this)">Fizika i Hemija</button>
+        <button class="filter-tab" data-kat="Matematika" onclick="filterKat(this)">Matematika</button>
+        <button class="filter-tab" data-kat="Svetska Istorija" onclick="filterKat(this)">Svetska Istorija</button>
+        <button class="filter-tab" data-kat="Svetska Geografija" onclick="filterKat(this)">Svetska Geografija</button>
+        <button class="filter-tab" data-kat="Politika i Pravo" onclick="filterKat(this)">Politika i Pravo</button>
+        <button class="filter-tab" data-kat="Ekonomija i Biznis" onclick="filterKat(this)">Ekonomija i Biznis</button>
+        <button class="filter-tab" data-kat="Hrana i Kuhinja" onclick="filterKat(this)">Hrana i Kuhinja</button>
+        <button class="filter-tab" data-kat="Moda i Stil" onclick="filterKat(this)">Moda i Stil</button>
+        <button class="filter-tab" data-kat="Religija i Filozofija" onclick="filterKat(this)">Religija i Filozofija</button>
+        <button class="filter-tab" data-kat="Medicina i Zdravlje" onclick="filterKat(this)">Medicina i Zdravlje</button>
+        <button class="filter-tab" data-kat="Opste Znanje" onclick="filterKat(this)">Opste Znanje</button>
+      </div>
+
+      <div class="questions-list" id="questions-list">
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+          <p>Ucitavanje pitanja...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+const SUPABASE_URL = 'https://ujamzoupwldtppyveguq.supabase.co';  // ← DA LI JE TVOJ URL?
+const SUPABASE_ANON_KEY = 'sb_publishable_EcF3QnSyfxGW_ZJa741PRA_y-xVaH4N';  // ← DA LI JE TVOJ KEY?
+
+
+  const { createClient } = supabase;
+  const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  let svaPitanja = [];
+  let aktivnaKat = 'sve';
+  let tacnoOdg = '';
+
+  // --- Selektuj tacan odgovor ---
+  function selectTacno(btn) {
+    document.querySelectorAll('.tacno-btn').forEach(b => {
+      b.className = 'tacno-btn';
+    });
+    tacnoOdg = btn.dataset.val;
+    btn.classList.add('active-' + tacnoOdg.toLowerCase());
+  }
+
+  // --- Prikazi alert ---
+  function showAlert(tip, poruka) {
+    const el = document.getElementById('alert');
+    el.className = 'alert show alert-' + tip;
+    el.textContent = poruka;
+    setTimeout(() => el.classList.remove('show'), 4000);
+  }
+
+  // --- Loading dugme ---
+  function setLoading(val) {
+    document.getElementById('spinner').style.display = val ? 'inline-block' : 'none';
+    document.getElementById('btn-text').textContent = val ? 'Cuvanje...' : 'Sacuvaj Pitanje';
+  }
+
+  // --- Sacuvaj pitanje u Supabase ---
+  async function sacuvajPitanje() {
+    const kat = document.getElementById('kategorija').value.trim();
+    const pit = document.getElementById('pitanje').value.trim();
+    const a = document.getElementById('odg_a').value.trim();
+    const b = document.getElementById('odg_b').value.trim();
+    const c = document.getElementById('odg_c').value.trim();
+    const d = document.getElementById('odg_d').value.trim();
+
+    if (!kat || !pit || !a || !b || !c || !d || !tacnoOdg) {
+      showAlert('error', 'Molim te popuni sva polja i izaberi tacan odgovor!');
+      return;
+    }
+
+    setLoading(true);
+
+    const { data, error } = await db.from('pitanja').insert([{
+      kategorija: kat,
+      pitanje: pit,
+      odgovor_a: a,
+      odgovor_b: b,
+      odgovor_c: c,
+      odgovor_d: d,
+      tacno_odgovor: tacnoOdg,
+      created_at: new Date().toISOString()
+    }]).select();
+
+    setLoading(false);
+
+    if (error) {
+      showAlert('error', 'Greska pri cuvanju: ' + error.message);
+      return;
+    }
+
+    showAlert('success', 'Pitanje uspesno sacuvano u bazu!');
+    ocistiFormu();
+    ucitajPitanja();
+    updateStats();
+  }
+
+  // --- Ocisti formu ---
+  function ocistiFormu() {
+    document.getElementById('kategorija').value = '';
+    document.getElementById('pitanje').value = '';
+    document.getElementById('odg_a').value = '';
+    document.getElementById('odg_b').value = '';
+    document.getElementById('odg_c').value = '';
+    document.getElementById('odg_d').value = '';
+    document.querySelectorAll('.tacno-btn').forEach(b => b.className = 'tacno-btn');
+    tacnoOdg = '';
+  }
+
+  // --- Ucitaj pitanja iz Supabase ---
+  async function ucitajPitanja() {
+    const { data, error } = await db
+      .from('pitanja')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(200);
+
+    if (error) {
+      document.getElementById('questions-list').innerHTML =
+        '<div class="empty-state"><p>Greska pri ucitavanju pitanja.</p></div>';
+      return;
+    }
+
+    svaPitanja = data || [];
+    document.getElementById('stat-ukupno').textContent = svaPitanja.length;
+
+    const danas = new Date().toISOString().split('T')[0];
+    const novo = svaPitanja.filter(p => p.created_at && p.created_at.startsWith(danas)).length;
+    document.getElementById('stat-novo').textContent = novo;
+
+    prikaziPitanja(svaPitanja);
+  }
+
+  // --- Prikazi pitanja u listi ---
+  function prikaziPitanja(lista) {
+    const el = document.getElementById('questions-list');
+
+    if (!lista.length) {
+      el.innerHTML = `
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+          <p>Nema pitanja u ovoj kategoriji.</p>
+        </div>`;
+      return;
+    }
+
+    el.innerHTML = lista.map(p => `
+      <div class="q-item">
+        <div class="q-item-top">
+          <div class="q-text">${escHTML(p.pitanje)}</div>
+          <div class="q-actions">
+            <button class="btn-del" onclick="obrisiPitanje(${p.id})" title="Obrisi">
+              <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="q-meta">
+          <span class="q-cat-pill">${escHTML(p.kategorija)}</span>
+          <span class="q-ans-pill ans-${(p.tacno_odgovor||'a').toLowerCase()}">
+            Tacno: ${escHTML(p.tacno_odgovor)}
+          </span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // --- Obrisi pitanje ---
+  async function obrisiPitanje(id) {
+    if (!confirm('Da li si siguran da zelis da obrises ovo pitanje?')) return;
+
+    const { error } = await db.from('pitanja').delete().eq('id', id);
+
+    if (error) {
+      showAlert('error', 'Greska pri brisanju!');
+      return;
+    }
+
+    showAlert('success', 'Pitanje obrisano.');
+    ucitajPitanja();
+  }
+
+  // --- Filtriranje po kategoriji ---
+  function filterKat(btn) {
+    document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    aktivnaKat = btn.dataset.kat;
+    filtrirajPitanja();
+  }
+
+  // --- Pretraga i filtriranje ---
+  function filtrirajPitanja() {
+    const term = document.getElementById('pretraga').value.toLowerCase();
+    let lista = svaPitanja;
+
+    if (aktivnaKat !== 'sve') {
+      lista = lista.filter(p => p.kategorija === aktivnaKat);
+    }
+
+    if (term) {
+      lista = lista.filter(p =>
+        p.pitanje.toLowerCase().includes(term) ||
+        (p.kategorija || '').toLowerCase().includes(term)
+      );
+    }
+
+    prikaziPitanja(lista);
+  }
+
+  // --- Update stats ---
+  async function updateStats() {
+    const { count } = await db
+      .from('pitanja')
+      .select('*', { count: 'exact', head: true });
+    if (count !== null) document.getElementById('stat-ukupno').textContent = count;
+  }
+
+  // --- Escape HTML ---
+  function escHTML(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // --- Init ---
+  ucitajPitanja();
+</script>
+// Provjeri prijavu
+async function provjeriAdmin() {
+  const { data: { session } } = await db.auth.getSession();
+  if (!session) {
+    window.location.href = 'admin-login.html';
+  }
+}
+provjeriAdmin();
+
+</body>
+</html>
