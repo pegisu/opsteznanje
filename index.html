@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Opste Znanje - Kviz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --border: #1e1e2e;
+      --gold: #c9a84c;
+      --gold-light: #e8c97a;
+      --text: #f0ede6;
+      --text-muted: #7a7a8c;
+      --accent: #4c6ef5;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% -10%, rgba(201,168,76,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 110%, rgba(76,110,245,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* HEADER */
+    header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 3rem;
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      background: rgba(10,10,15,0.8);
+      position: sticky;
+      top: 0;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+
+    .logo span {
+      color: var(--gold);
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--gold); }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.1);
+      border: 1px solid rgba(201,168,76,0.3);
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 540px;
+      margin: 0 auto 2.5rem;
+      animation: fadeUp 0.6s 0.2s ease both;
+      font-weight: 300;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--gold);
+      color: #0a0a0f;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.85rem 2rem;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .hero-cta:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    /* DIVIDER */
+    .section-label {
+      text-align: center;
+      margin: 3rem 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-label span {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      background: var(--bg);
+      padding: 0 1rem;
+    }
+
+    .section-label::before {
+      content: '';
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      top: 50%;
+      height: 1px;
+      background: var(--border);
+      z-index: -1;
+    }
+
+    /* CATEGORIES GRID */
+    .categories-section {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .category-card {
+      background: var(--surface);
+      padding: 2rem 1.5rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .category-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(201,168,76,0.06) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .category-card:hover {
+      background: #1a1a26;
+    }
+
+    .category-card:hover::before {
+      opacity: 1;
+    }
+
+    .category-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .category-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+
+    .category-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .category-count {
+      margin-top: 1.2rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* LOADING */
+    .loading-state {
+      text-align: center;
+      padding: 4rem;
+      color: var(--text-muted);
+    }
+
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--border);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    /* ERROR */
+    .error-state {
+      text-align: center;
+      padding: 4rem;
+      color: #f87171;
+      background: rgba(248,113,113,0.05);
+      border: 1px solid rgba(248,113,113,0.2);
+      border-radius: 12px;
+    }
+
+    /* QUIZ MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem;
+      max-width: 560px;
+      width: 90%;
+      animation: scaleIn 0.3s ease;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .quiz-question {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .quiz-option {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: var(--text);
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .quiz-option:hover {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.05);
+    }
+
+    .quiz-option.correct {
+      border-color: #4ade80;
+      background: rgba(74,222,128,0.08);
+      color: #4ade80;
+    }
+
+    .quiz-option.wrong {
+      border-color: #f87171;
+      background: rgba(248,113,113,0.08);
+      color: #f87171;
+    }
+
+    .quiz-progress {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 3px;
+      background: var(--border);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--gold);
+      border-radius: 100px;
+      transition: width 0.4s ease;
+    }
+
+    .progress-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    /* No questions notice */
+    .no-questions {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 640px) {
+      header { padding: 1rem 1.5rem; }
+      nav { display: none; }
+      .categories-grid { grid-template-columns: repeat(2, 1fr); }
+      .modal { padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">Opste<span>Znanje</span></div>
+    <nav>
+      <a href="#">Kvizovi</a>
+      <a href="#">Rang Lista</a>
+      <a href="#">O Nama</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">Besplatan kviz platform</div>
+    <h1>Testiraj svoje<br /><em>znanje</em> danas</h1>
+    <p>Vise od 20 kategorija, stotine pitanja. Izazovi sebe i saznaj koliko zaista znas.</p>
+    <a href="#kategorije" class="hero-cta">Izaberi kategoriju</a>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="categories-section" id="kategorije">
+    <div class="section-label"><span>Kategorije</span></div>
+    <div id="categories-container">
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Ucitavamo kategorije...</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIZ MODAL -->
+  <div class="modal-overlay" id="quizModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">Kviz</div>
+        <button class="modal-close" onclick="closeModal()">X</button>
+      </div>
+      <div class="quiz-progress">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        <div class="progress-text" id="progressText">1 / 1</div>
+      </div>
+      <div id="quizContent"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>OPSteZnanje &copy; 2026 — Sva prava zadrzana</p>
+  </footer>
+
+  <script>
+    // ─── SUPABASE SETUP ───────────────────────────────────────
+    const SUPABASE_URL = 'https://ujamzoupwldtppyveguq.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_EcF3QnSyfxGW_ZJa741PRA_y-xVaH4N';
+    const { createClient } = supabase;
+    const db = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // ─── STATE ────────────────────────────────────────────────
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let currentCategory = '';
+    let answered = false;
+
+    // ─── LOAD CATEGORIES ─────────────────────────────────────
+    async function loadCategories() {
+      const container = document.getElementById('categories-container');
+
+      const { data: kategorije, error } = await db
+        .from('kategorije')
+        .select('*')
+        .order('naziv');
+
+      if (error) {
+        container.innerHTML = `
+          <div class="error-state">
+            <p>Greska pri ucitavanju kategorija.</p>
+            <small>${error.message}</small>
+          </div>`;
+        return;
+      }
+
+      if (!kategorije || kategorije.length === 0) {
+        container.innerHTML = `<div class="loading-state"><p>Nema kategorija u bazi.</p></div>`;
+        return;
+      }
+
+      const grid = document.createElement('div');
+      grid.className = 'categories-grid';
+
+      kategorije.forEach((kat, i) => {
+        const card = document.createElement('div');
+        card.className = 'category-card';
+        card.style.animationDelay = `${i * 0.04}s`;
+        card.innerHTML = `
+          <span class="category-icon">${kat.ikona || '?'}</span>
+          <div class="category-name">${kat.naziv}</div>
+          <div class="category-desc">${kat.opis || ''}</div>
+          <div class="category-count">Zapocni kviz &rarr;</div>
+        `;
+        card.addEventListener('click', () => startQuiz(kat.id, kat.naziv));
+        grid.appendChild(card);
+      });
+
+      container.innerHTML = '';
+      container.appendChild(grid);
+    }
+
+    // ─── START QUIZ ───────────────────────────────────────────
+    async function startQuiz(categoryId, categoryName) {
+      currentCategory = categoryName;
+      currentIndex = 0;
+      score = 0;
+      currentQuestions = [];
+      answered = false;
+
+      document.getElementById('modalTitle').textContent = categoryName;
+      document.getElementById('quizContent').innerHTML = `
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Ucitavamo pitanja...</p>
+        </div>`;
+      document.getElementById('quizModal').classList.add('active');
+
+      const { data: pitanja, error } = await db
+        .from('pitanja')
+        .select(`
+          id, tekst,
+          odgovori (id, tekst, tacan)
+        `)
+        .eq('kategorija_id', categoryId)
+        .limit(10);
+
+      if (error || !pitanja || pitanja.length === 0) {
+        document.getElementById('quizContent').innerHTML = `
+          <div class="no-questions">
+            <p>Trenutno nema pitanja za ovu kategoriju.</p>
+            <p style="margin-top:0.5rem;color:var(--gold);font-size:0.8rem;">
+              Dodaj pitanja kroz admin panel!
+            </p>
+          </div>`;
+        return;
+      }
+
+      currentQuestions = pitanja;
+      renderQuestion();
+    }
+
+    // ─── RENDER QUESTION ─────────────────────────────────────
+    function renderQuestion() {
+      answered = false;
+      const total = currentQuestions.length;
+      const q = currentQuestions[currentIndex];
+      const pct = ((currentIndex) / total) * 100;
+
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressText').textContent = `${currentIndex + 1} / ${total}`;
+
+      const odgovori = q.odgovori || [];
+      const shuffled = [...odgovori].sort(() => Math.random() - 0.5);
+
+      document.getElementById('quizContent').innerHTML = `
+        <div class="quiz-question">${q.tekst}</div>
+        <div class="quiz-options">
+          ${shuffled.map(o => `
+            <button class="quiz-option" data-id="${o.id}" data-correct="${o.tacan}" onclick="selectAnswer(this)">
+              ${o.tekst}
+            </button>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    // ─── SELECT ANSWER ────────────────────────────────────────
+    function selectAnswer(btn) {
+      if (answered) return;
+      answered = true;
+
+      const isCorrect = btn.dataset.correct === 'true';
+      if (isCorrect) score++;
+
+      // Mark all options
+      document.querySelectorAll('.quiz-option').forEach(opt => {
+        opt.disabled = true;
+        if (opt.dataset.correct === 'true') opt.classList.add('correct');
+        else if (opt === btn && !isCorrect) opt.classList.add('wrong');
+      });
+
+      // Auto-advance after 1.5s
+      setTimeout(() => {
+        currentIndex++;
+        if (currentIndex < currentQuestions.length) {
+          renderQuestion();
+        } else {
+          showResult();
+        }
+      }, 1500);
+    }
+
+    // ─── SHOW RESULT ──────────────────────────────────────────
+    function showResult() {
+      const total = currentQuestions.length;
+      const pct = Math.round((score / total) * 100);
+      document.getElementById('progressFill').style.width = '100%';
+      document.getElementById('progressText').textContent = `${total} / ${total}`;
+
+      document.getElementById('quizContent').innerHTML = `
+        <div style="text-align:center;padding:2rem 0;">
+          <div style="font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:900;color:var(--gold);">
+            ${pct}%
+          </div>
+          <div style="font-size:1rem;color:var(--text-muted);margin:0.5rem 0 0.25rem;">
+            Tacnih odgovora: <strong style="color:var(--text)">${score} / ${total}</strong>
+          </div>
+          <div style="font-size:0.85rem;color:var(--text-muted);margin-bottom:2rem;">
+            Kategorija: ${currentCategory}
+          </div>
+          <button onclick="closeModal()" style="
+            background:var(--gold);color:#0a0a0f;font-weight:700;
+            font-size:0.85rem;letter-spacing:0.06em;text-transform:uppercase;
+            padding:0.75rem 2rem;border:none;border-radius:6px;cursor:pointer;
+            font-family:'DM Sans',sans-serif;transition:background 0.2s;
+          " onmouseover="this.style.background='#e8c97a'" onmouseout="this.style.background='var(--gold)'">
+            Zatvori
+          </button>
+        </div>
+      `;
+    }
+
+    // ─── CLOSE MODAL ─────────────────────────────────────────
+    function closeModal() {
+      document.getElementById('quizModal').classList.remove('active');
+    }
+
+    // Close on overlay click
+    document.getElementById('quizModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    // ─── INIT ─────────────────────────────────────────────────
+    loadCategories();
+  </script>
+</body>
+</html>
