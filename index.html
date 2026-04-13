@@ -4,7 +4,7 @@
   <link rel="icon" type="image/png" href="/favicon.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Opšte Znanje — Priprema za test opšte informisanosti</title>
+  <title>Opste Znanje - Priprema za test opste informisanosti</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -44,7 +44,6 @@
       opacity: 0.4;
     }
 
-    /* ===== NAVIGATION ===== */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -153,7 +152,6 @@
       margin-top: 8px;
     }
 
-    /* ===== HERO ===== */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -267,7 +265,6 @@
       color: var(--gold);
     }
 
-    /* ===== STATS STRIP ===== */
     .stats-wrap {
       max-width: 1100px;
       margin: 0 auto;
@@ -310,7 +307,6 @@
       font-weight: 500;
     }
 
-    /* ===== SECTION ===== */
     section {
       padding: 72px 20px;
       max-width: 1100px;
@@ -351,7 +347,6 @@
       line-height: 1.6;
     }
 
-    /* ===== MODE CARDS ===== */
     .mode-cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -490,7 +485,6 @@
       border-radius: 50%;
     }
 
-    /* ===== CATEGORY MODAL ===== */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -609,7 +603,6 @@
       stroke-linejoin: round;
     }
 
-    /* ===== CATEGORIES ===== */
     .categories-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
@@ -669,9 +662,27 @@
     .cat-count {
       font-size: 11px;
       color: var(--text-muted);
+      /* Animacija ucitavanja */
+      transition: opacity 0.4s;
     }
 
-    /* ===== QUIZ PREVIEW ===== */
+    /* Skeleton pulsiranje dok se ucitava */
+    .cat-count.loading {
+      display: inline-block;
+      width: 60px;
+      height: 11px;
+      background: linear-gradient(90deg, var(--dark-4) 25%, var(--dark-3) 50%, var(--dark-4) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 4px;
+      opacity: 0.6;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
     .quiz-preview {
       background: var(--dark-2);
       border: 1px solid var(--border);
@@ -797,7 +808,6 @@
     .answer.correct .answer-feedback { color: #6ECFA0; }
     .answer.wrong   .answer-feedback { color: #F08080; }
 
-    /* ===== FOOTER ===== */
     .footer-wrap {
       border-top: 1px solid var(--border);
     }
@@ -825,14 +835,12 @@
       color: var(--text-muted);
     }
 
-    /* ===== DIVIDER ===== */
     .divider {
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--border), transparent);
       margin: 0 40px;
     }
 
-    /* ===== ANIMATIONS ===== */
     @keyframes fadeSlideUp {
       from { opacity: 0; transform: translateY(28px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -849,19 +857,11 @@
       transform: translateY(0);
     }
 
-    /* ===================================================
-       MOBILE — sve ispod 768px
-       =================================================== */
     @media (max-width: 768px) {
-
-      /* Nav */
       nav { padding: 14px 16px; }
       .nav-links { display: none; }
       .hamburger { display: flex; }
 
-      /* Hero — sakrivamo stats pa hero mora da ima
-         padding-bottom jednak margin-bottom od subtitla
-         da bi razmak gore i dole od dugmadi bio isti     */
       .hero {
         padding: 80px 16px 48px;
         min-height: auto;
@@ -874,15 +874,11 @@
         margin-bottom: 18px;
       }
 
-      /* *** KLJUCNA IZMENA ***
-         margin-bottom subtitla = padding-bottom hero-a = 48px
-         Na taj nacin: razmak tekst->dugme = razmak dugme->sekcija */
       .hero-subtitle {
         font-size: 1rem;
         margin-bottom: 48px;
       }
 
-      /* CTA dugmad — puna sirina na mobilnom */
       .hero-cta {
         flex-direction: column;
         width: 100%;
@@ -892,26 +888,21 @@
 
       .btn-primary,
       .btn-secondary {
-        width: auto ;
+        width: auto;
         min-width: 200px;
         text-align: center;
         padding: 15px 24px;
         font-size: 15px;
       }
 
-      /* Stats + divider iza njega — potpuno skriveni na mobilnom */
       .stats-wrap         { display: none; }
       .stats-wrap + .divider { display: none; }
 
-      /* Divider — manje margine */
       .divider { margin: 0 16px; }
 
-      /* Section padding */
       section { padding: 48px 16px; }
-
       .section-header { margin-bottom: 32px; }
 
-      /* Mode cards — jedna po jedna, kompaktno */
       .mode-cards {
         grid-template-columns: 1fr;
         gap: 12px;
@@ -922,7 +913,6 @@
         border-radius: var(--radius-sm);
       }
 
-      /* Horizontalni layout za mode kartice na mobilnom */
       .mode-card-inner {
         display: flex;
         align-items: flex-start;
@@ -936,9 +926,7 @@
       }
 
       .mode-icon svg { width: 20px; height: 20px; }
-
       .mode-content { flex: 1; }
-
       .mode-title { font-size: 16px; margin-bottom: 6px; }
       .mode-desc  { font-size: 13px; margin-bottom: 12px; line-height: 1.5; }
 
@@ -950,7 +938,6 @@
 
       .mode-card-action { margin-top: 12px; opacity: 1; transform: none; }
 
-      /* Quiz preview — kompaktno */
       .quiz-preview {
         padding: 20px 16px;
         border-radius: var(--radius-sm);
@@ -971,7 +958,6 @@
 
       .answer-feedback { font-size: 11px; }
 
-      /* Categories — 2 kolone na mobilnom */
       .categories-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
@@ -989,7 +975,6 @@
 
       .cat-icon svg { width: 16px; height: 16px; }
 
-      /* Modal */
       .modal-box {
         padding: 20px 16px;
         max-height: 85vh;
@@ -1004,7 +989,6 @@
         font-size: 12px;
       }
 
-      /* Footer */
       footer {
         flex-direction: column;
         text-align: center;
@@ -1015,7 +999,6 @@
       .footer-copy { font-size: 12px; }
     }
 
-    /* Tablet — 769 do 1024 */
     @media (min-width: 769px) and (max-width: 1024px) {
       .mode-cards { grid-template-columns: repeat(3, 1fr); gap: 14px; }
       .categories-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
@@ -1030,7 +1013,7 @@
     <div class="modal-header">
       <div>
         <div class="modal-title">Izaberi kategoriju</div>
-        <div class="modal-subtitle">Klikni na oblast koju želiš da vežbaš</div>
+        <div class="modal-subtitle">Klikni na oblast koju zelis da vezbas</div>
       </div>
       <button class="modal-close" id="modalClose">x</button>
     </div>
@@ -1040,11 +1023,11 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">Opšte<span>Znanje</span></a>
+  <a href="#" class="nav-logo">Opste<span>Znanje</span></a>
   <ul class="nav-links">
-    <li><a href="#nacin">Način igranja</a></li>
+    <li><a href="#nacin">Nacin igranja</a></li>
     <li><a href="#kategorije">Kategorije</a></li>
-    <li><a href="quiz.html?mod=random" class="nav-btn">Započni test</a></li>
+    <li><a href="quiz.html?mod=random" class="nav-btn">Zapocni test</a></li>
   </ul>
   <button class="hamburger" id="hamburger" aria-label="Meni">
     <span></span><span></span><span></span>
@@ -1053,28 +1036,24 @@
 
 <!-- MOBILNI MENI -->
 <nav class="mobile-nav" id="mobileNav">
-  <a href="#nacin" onclick="closeMobileNav()">Način igranja</a>
+  <a href="#nacin" onclick="closeMobileNav()">Nacin igranja</a>
   <a href="#kategorije" onclick="closeMobileNav()">Kategorije</a>
-  <a href="quiz.html?mod=random" class="mobile-nav-btn">Započni test</a>
+  <a href="quiz.html?mod=random" class="mobile-nav-btn">Zapocni test</a>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
   <div class="hero-glow"></div>
-
-  <div class="hero-tag">Priprema za test opšte informisanosti</div>
-
+  <div class="hero-tag">Priprema za test opste informisanosti</div>
   <h1 class="hero-title">
     proveri svoje
-    <span class="accent">opšte znanje</span>
+    <span class="accent">opste znanje</span>
   </h1>
-
   <p class="hero-subtitle">
-    Hiljade pitanja iz svih oblasti. Uči, vežbaj i napreduj kroz interaktivne testove.
+    Hiljade pitanja iz svih oblasti. Uci, vezbaj i napreduj kroz interaktivne testove.
   </p>
-
   <div class="hero-cta">
-    <a href="quiz.html?mod=random" class="btn-primary">Započni test odmah</a>
+    <a href="quiz.html?mod=random" class="btn-primary">Zapocni test odmah</a>
     <a href="#kategorije" class="btn-secondary">Pregledaj kategorije</a>
   </div>
 </div>
@@ -1083,7 +1062,7 @@
 <div class="stats-wrap">
   <div class="stats-strip fade-in">
     <div class="stat-item">
-      <span class="stat-number">2,400+</span>
+      <span class="stat-number" id="statTotalPitanja">...</span>
       <span class="stat-label">Pitanja</span>
     </div>
     <div class="stat-item">
@@ -1102,13 +1081,12 @@
 <!-- MODE CARDS -->
 <section id="nacin">
   <div class="section-header fade-in">
-    <span class="section-tag">Način testiranja</span>
-    <h2 class="section-title">Izaberi kako želiš da vežbaš</h2>
-    <p class="section-subtitle">Tri načina testiranja, svaki prilagođen drugom cilju.</p>
+    <span class="section-tag">Nacin testiranja</span>
+    <h2 class="section-title">Izaberi kako zelis da vezbas</h2>
+    <p class="section-subtitle">Tri nacina testiranja, svaki prilagodjen drugom cilju.</p>
   </div>
 
   <div class="mode-cards">
-
     <a href="quiz.html?mod=random&limit=20" class="mode-card fade-in" style="animation-delay:0.1s">
       <div class="mode-badge">Popularno</div>
       <div class="mode-card-inner">
@@ -1116,8 +1094,8 @@
           <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
         </div>
         <div class="mode-content">
-          <h3 class="mode-title">Nasumična pitanja</h3>
-          <p class="mode-desc">Nasumična pitanja iz svih 20 kategorija. Pravi test opšteg znanja.</p>
+          <h3 class="mode-title">Nasumicna pitanja</h3>
+          <p class="mode-desc">Nasumicna pitanja iz svih 20 kategorija. Pravi test opsteg znanja.</p>
           <div class="mode-meta">
             <div class="mode-dot"></div>
             <span>20 pitanja</span>
@@ -1125,7 +1103,7 @@
             <span>Sve kategorije</span>
           </div>
           <div class="mode-card-action">
-            Započni odmah
+            Zapocni odmah
             <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </div>
         </div>
@@ -1140,7 +1118,7 @@
         </div>
         <div class="mode-content">
           <h3 class="mode-title">Po kategoriji</h3>
-          <p class="mode-desc">Fokusiraj se na specifičnu oblast i izuči je do savršenstva.</p>
+          <p class="mode-desc">Fokusiraj se na specificnu oblast i izuci je do savrsentsva.</p>
           <div class="mode-meta">
             <div class="mode-dot"></div>
             <span>20 pitanja</span>
@@ -1177,7 +1155,6 @@
         </div>
       </div>
     </a>
-
   </div>
 </section>
 
@@ -1188,7 +1165,7 @@
   <div class="section-header fade-in">
     <span class="section-tag">Kako izgleda test</span>
     <h2 class="section-title">Intuitivno i jasno</h2>
-    <p class="section-subtitle">Odmah vidiš da li si u pravu — zeleno znači tačno, crveno netačno.</p>
+    <p class="section-subtitle">Odmah vidis da li si u pravu - zeleno znaci tacno, crveno netacno.</p>
   </div>
 
   <div class="quiz-preview fade-in">
@@ -1223,30 +1200,30 @@
   <div class="section-header fade-in">
     <span class="section-tag">20 oblasti znanja</span>
     <h2 class="section-title">Izaberi svoju kategoriju</h2>
-    <p class="section-subtitle">Od istorije do astronomije — sveobuhvatna priprema.</p>
+    <p class="section-subtitle">Od istorije do astronomije - sveobuhvatna priprema.</p>
   </div>
 
   <div class="categories-grid fade-in">
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="cat-name">Istorija</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div class="cat-name">Geografija</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><div class="cat-name">Knjizevnost</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div><div class="cat-name">Umetnost</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div class="cat-name">Film</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><div class="cat-name">Muzika</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></div><div class="cat-name">Sport</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h4v4H7zM13 7h4M13 11h4M7 15h10"/></svg></div><div class="cat-name">Matematika</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="cat-name">Fizika</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M10 2v7.31M14 9.3V1.99M8.5 12.5a6 6 0 1 0 7 0M6.7 9.3h10.6"/></svg></div><div class="cat-name">Hemija</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="cat-name">Biologija</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg></div><div class="cat-name">Tehnologija</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></div><div class="cat-name">Astronomija</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="cat-name">Politika</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="cat-name">Ekonomija</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="cat-name">Pravo</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="cat-name">Psihologija</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="cat-name">Sociologija</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z"/><path d="M12 6v6l4 2"/></svg></div><div class="cat-name">Religija</div><div class="cat-count">120 pitanja</div></div>
-    <div class="cat-card"><div class="cat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div><div class="cat-name">Opsta kultura</div><div class="cat-count">120 pitanja</div></div>
+    <div class="cat-card" data-kat="Istorija"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="cat-name">Istorija</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Geografija"><div class="cat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div class="cat-name">Geografija</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Knjizevnost"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><div class="cat-name">Knjizevnost</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Umetnost"><div class="cat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div><div class="cat-name">Umetnost</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Film"><div class="cat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div class="cat-name">Film</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Muzika"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><div class="cat-name">Muzika</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Sport"><div class="cat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></div><div class="cat-name">Sport</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Matematika"><div class="cat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7h4v4H7zM13 7h4M13 11h4M7 15h10"/></svg></div><div class="cat-name">Matematika</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Fizika"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="cat-name">Fizika</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Hemija"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M10 2v7.31M14 9.3V1.99M8.5 12.5a6 6 0 1 0 7 0M6.7 9.3h10.6"/></svg></div><div class="cat-name">Hemija</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Biologija"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="cat-name">Biologija</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Tehnologija"><div class="cat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg></div><div class="cat-name">Tehnologija</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Astronomija"><div class="cat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></div><div class="cat-name">Astronomija</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Politika"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="cat-name">Politika</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Ekonomija"><div class="cat-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="cat-name">Ekonomija</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Pravo"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div><div class="cat-name">Pravo</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Psihologija"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="cat-name">Psihologija</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Sociologija"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="cat-name">Sociologija</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Religija"><div class="cat-icon"><svg viewBox="0 0 24 24"><path d="M12 22C6.5 22 2 17.5 2 12S6.5 2 12 2s10 4.5 10 10-4.5 10-10 10z"/><path d="M12 6v6l4 2"/></svg></div><div class="cat-name">Religija</div><div class="cat-count loading"></div></div>
+    <div class="cat-card" data-kat="Opsta kultura"><div class="cat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div><div class="cat-name">Opsta kultura</div><div class="cat-count loading"></div></div>
   </div>
 </section>
 
@@ -1254,8 +1231,8 @@
 
 <div class="footer-wrap">
   <footer>
-    <div class="footer-logo">Opšte Znanje</div>
-    <div class="footer-copy">opsteznanje.com — Priprema za test opšte informisanosti</div>
+    <div class="footer-logo">Opste Znanje</div>
+    <div class="footer-copy">opsteznanje.com - Priprema za test opste informisanosti</div>
   </footer>
 </div>
 
@@ -1289,6 +1266,76 @@
     { name: 'Opsta kultura', svg: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>' }
   ];
 
+  /* =========================================================
+     NOVA FUNKCIJA: ucitava realan broj pitanja po kategoriji
+     ========================================================= */
+  async function loadCategoryCounts() {
+    try {
+      // Jedan upit — dohvata kategorija + count iz tabele pitanja
+      const { data, error } = await db
+        .from('pitanja')
+        .select('kategorija', { count: 'exact', head: false });
+
+      if (error) throw error;
+
+      // Broji po kategoriji lokalno
+      var counts = {};
+      data.forEach(function(row) {
+        var kat = row.kategorija;
+        if (kat) {
+          counts[kat] = (counts[kat] || 0) + 1;
+        }
+      });
+
+      var ukupno = data.length;
+
+      // Azuriraj svaku cat-card
+      document.querySelectorAll('.cat-card[data-kat]').forEach(function(card) {
+        var kat      = card.getAttribute('data-kat');
+        var countEl  = card.querySelector('.cat-count');
+        var broj     = counts[kat] || 0;
+        countEl.classList.remove('loading');
+        countEl.textContent = broj + ' pitanja';
+      });
+
+      // Azuriraj i stat-total u stats-strip
+      var statEl = document.getElementById('statTotalPitanja');
+      if (statEl) {
+        statEl.textContent = ukupno.toLocaleString('sr-RS') + '+';
+      }
+
+    } catch (e) {
+      // Ako upit ne uspe, prikazuje fallback
+      document.querySelectorAll('.cat-count.loading').forEach(function(el) {
+        el.classList.remove('loading');
+        el.textContent = '— pitanja';
+      });
+      var statEl = document.getElementById('statTotalPitanja');
+      if (statEl) statEl.textContent = '2,400+';
+      console.warn('Greska pri ucitavanju broja pitanja:', e);
+    }
+  }
+
+  /* =========================================================
+     Ako je tabela velika (1000+ redova), koristi RPC za COUNT
+     — ostavi zakomentirano kao alternativu:
+
+     async function loadCategoryCounts() {
+       const { data, error } = await db.rpc('count_by_kategorija');
+       // Ocekuje: [{ kategorija: 'Istorija', broj: 87 }, ...]
+       if (error) { ... }
+       data.forEach(function(row) {
+         var card = document.querySelector('.cat-card[data-kat="' + row.kategorija + '"]');
+         if (card) {
+           var el = card.querySelector('.cat-count');
+           el.classList.remove('loading');
+           el.textContent = row.broj + ' pitanja';
+         }
+       });
+     }
+     ========================================================= */
+
+  // Modal
   var modal       = document.getElementById('categoryModal');
   var modalGrid   = document.getElementById('modalGrid');
   var modalClose  = document.getElementById('modalClose');
@@ -1332,13 +1379,20 @@
 
   async function logPageView() {
     try {
-      await db.from('page_views').insert([{ page: 'home', visited_at: new Date().toISOString(), user_agent: navigator.userAgent }]);
+      await db.from('page_views').insert([{
+        page: 'home',
+        visited_at: new Date().toISOString(),
+        user_agent: navigator.userAgent
+      }]);
     } catch(e) {}
   }
 
   async function logCategoryClick(name) {
     try {
-      await db.from('category_clicks').insert([{ category: name, clicked_at: new Date().toISOString() }]);
+      await db.from('category_clicks').insert([{
+        category: name,
+        clicked_at: new Date().toISOString()
+      }]);
     } catch(e) {}
     window.location.href = 'quiz.html?kategorija=' + encodeURIComponent(name);
   }
@@ -1371,7 +1425,9 @@
     });
   });
 
+  // Pokretanje
   logPageView();
+  loadCategoryCounts(); // <-- NOVA FUNKCIJA
 </script>
 </body>
 </html>
