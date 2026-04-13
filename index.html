@@ -1146,6 +1146,8 @@ const SUPABASE_ANON_KEY = 'sb_publishable_EcF3QnSyfxGW_ZJa741PRA_y-xVaH4N';
     } catch (e) {
       console.warn('Supabase nije dostupan:', e.message);
     }
+      window.location.href = `quiz.html?kategorija=${encodeURIComponent(categoryName)}`;
+ 
   }
 
   // =====================================================
