@@ -4,9 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kviz - Pitanja</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
       --bg: #0a0a0f;
       --surface: #13131a;
@@ -20,6 +22,7 @@
       --muted: #7a788a;
       --radius: 16px;
     }
+
     body {
       background: var(--bg);
       color: var(--text);
@@ -32,6 +35,7 @@
       padding: 24px 16px;
       overflow-x: hidden;
     }
+
     body::before {
       content: '';
       position: fixed;
@@ -41,6 +45,7 @@
       pointer-events: none;
       z-index: 0;
     }
+
     body::after {
       content: '';
       position: fixed;
@@ -53,18 +58,21 @@
       pointer-events: none;
       z-index: 0;
     }
+
     .quiz-wrapper {
       width: 100%;
       max-width: 720px;
       position: relative;
       z-index: 1;
     }
+
     .quiz-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 32px;
     }
+
     .back-btn {
       display: flex;
       align-items: center;
@@ -83,6 +91,7 @@
     }
     .back-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
     .back-btn svg { width: 14px; height: 14px; }
+
     .category-badge {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 13px;
@@ -93,19 +102,23 @@
       padding: 6px 14px;
       border-radius: 100px;
     }
+
     .progress-section { margin-bottom: 28px; }
+
     .progress-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
     }
+
     .progress-label {
       font-size: 12px;
       color: var(--muted);
       letter-spacing: 0.5px;
       text-transform: uppercase;
     }
+
     .progress-count {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 22px;
@@ -113,18 +126,21 @@
       color: var(--text);
     }
     .progress-count span { color: var(--accent); }
+
     .progress-bar-track {
       height: 4px;
       background: var(--surface2);
       border-radius: 100px;
       overflow: hidden;
     }
+
     .progress-bar-fill {
       height: 100%;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
       border-radius: 100px;
       transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
     }
+
     .question-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -134,6 +150,7 @@
       position: relative;
       overflow: hidden;
     }
+
     .question-card::before {
       content: '';
       position: absolute;
@@ -141,6 +158,7 @@
       height: 2px;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
     }
+
     .question-number {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 11px;
@@ -149,6 +167,7 @@
       text-transform: uppercase;
       margin-bottom: 14px;
     }
+
     .question-text {
       font-size: 20px;
       font-weight: 500;
@@ -156,12 +175,14 @@
       color: var(--text);
       letter-spacing: -0.2px;
     }
+
     .options-grid {
       display: flex;
       flex-direction: column;
       gap: 10px;
       margin-bottom: 24px;
     }
+
     .option-btn {
       display: flex;
       align-items: center;
@@ -179,6 +200,7 @@
       position: relative;
       overflow: hidden;
     }
+
     .option-btn::before {
       content: '';
       position: absolute;
@@ -187,8 +209,10 @@
       background: rgba(240,192,64,0.05);
       transition: opacity 0.2s;
     }
+
     .option-btn:hover:not(:disabled)::before { opacity: 1; }
     .option-btn:hover:not(:disabled) { border-color: rgba(240,192,64,0.3); transform: translateX(3px); }
+
     .option-letter {
       width: 34px;
       height: 34px;
@@ -205,11 +229,13 @@
       flex-shrink: 0;
       transition: all 0.2s;
     }
+
     .option-btn:hover:not(:disabled) .option-letter {
       background: rgba(240,192,64,0.15);
       border-color: rgba(240,192,64,0.4);
       color: var(--accent);
     }
+
     .option-btn.correct {
       border-color: var(--correct) !important;
       background: rgba(62,207,142,0.08) !important;
@@ -220,6 +246,7 @@
       border-color: var(--correct) !important;
       color: #0a0a0f !important;
     }
+
     .option-btn.wrong {
       border-color: var(--wrong) !important;
       background: rgba(224,92,58,0.08) !important;
@@ -229,9 +256,11 @@
       border-color: var(--wrong) !important;
       color: #fff !important;
     }
+
     .option-btn:disabled { cursor: not-allowed; opacity: 0.6; }
     .option-btn.correct:disabled,
     .option-btn.wrong:disabled { opacity: 1; }
+
     .feedback-bar {
       padding: 14px 20px;
       border-radius: 12px;
@@ -243,22 +272,26 @@
       gap: 10px;
       animation: slideUp 0.3s ease;
     }
+
     .feedback-bar.correct {
       background: rgba(62,207,142,0.12);
       border: 1px solid rgba(62,207,142,0.3);
       color: var(--correct);
       display: flex;
     }
+
     .feedback-bar.wrong {
       background: rgba(224,92,58,0.12);
       border: 1px solid rgba(224,92,58,0.3);
       color: var(--wrong);
       display: flex;
     }
+
     @keyframes slideUp {
       from { opacity: 0; transform: translateY(8px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
     .next-btn {
       width: 100%;
       padding: 16px;
@@ -273,14 +306,17 @@
       display: none;
       transition: all 0.2s;
     }
+
     .next-btn:hover { background: #f7d060; transform: translateY(-1px); }
     .next-btn.visible { display: block; animation: slideUp 0.3s ease; }
+
     .score-dots {
       display: flex;
       gap: 6px;
       flex-wrap: wrap;
       margin-bottom: 32px;
     }
+
     .dot {
       width: 10px;
       height: 10px;
@@ -291,6 +327,7 @@
     }
     .dot.correct { background: var(--correct); border-color: var(--correct); }
     .dot.wrong   { background: var(--wrong);   border-color: var(--wrong); }
+
     #result-screen {
       display: none;
       text-align: center;
@@ -301,6 +338,7 @@
       position: relative;
       overflow: hidden;
     }
+
     #result-screen::before {
       content: '';
       position: absolute;
@@ -308,25 +346,29 @@
       height: 3px;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
     }
+
     .result-score-ring {
       width: 140px;
       height: 140px;
       margin: 0 auto 28px;
       position: relative;
     }
+
     .result-score-ring svg {
       width: 140px;
       height: 140px;
       transform: rotate(-90deg);
     }
+
     .ring-track { fill: none; stroke: var(--surface2); stroke-width: 8; }
-    .ring-fill {
+    .ring-fill  {
       fill: none;
       stroke: url(#ringGrad);
       stroke-width: 8;
       stroke-linecap: round;
       transition: stroke-dashoffset 1s cubic-bezier(0.4,0,0.2,1);
     }
+
     .ring-label {
       position: absolute;
       inset: 0;
@@ -335,6 +377,7 @@
       align-items: center;
       justify-content: center;
     }
+
     .ring-score {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 40px;
@@ -342,7 +385,13 @@
       color: var(--text);
       line-height: 1;
     }
-    .ring-total { font-size: 12px; color: var(--muted); letter-spacing: 1px; }
+
+    .ring-total {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
     .result-title {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 36px;
@@ -350,18 +399,21 @@
       color: var(--text);
       margin-bottom: 8px;
     }
+
     .result-subtitle {
       font-size: 14px;
       color: var(--muted);
       margin-bottom: 36px;
       line-height: 1.6;
     }
+
     .result-actions {
       display: flex;
       gap: 12px;
       justify-content: center;
       flex-wrap: wrap;
     }
+
     .result-btn {
       padding: 13px 28px;
       border-radius: 10px;
@@ -372,15 +424,22 @@
       border: none;
       transition: all 0.2s;
     }
+
     .result-btn.primary { background: var(--accent); color: #0a0a0f; }
     .result-btn.primary:hover { background: #f7d060; transform: translateY(-1px); }
+
     .result-btn.secondary {
       background: var(--surface2);
       color: var(--text);
       border: 1px solid var(--border);
     }
     .result-btn.secondary:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-1px); }
-    #loading-screen { text-align: center; padding: 80px 40px; }
+
+    #loading-screen {
+      text-align: center;
+      padding: 80px 40px;
+    }
+
     .loader {
       width: 40px;
       height: 40px;
@@ -390,7 +449,9 @@
       animation: spin 0.8s linear infinite;
       margin: 0 auto 20px;
     }
+
     @keyframes spin { to { transform: rotate(360deg); } }
+
     .loading-text {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 14px;
@@ -398,6 +459,7 @@
       color: var(--muted);
       text-transform: uppercase;
     }
+
     #error-screen {
       display: none;
       text-align: center;
@@ -406,6 +468,7 @@
       border: 1px solid rgba(224,92,58,0.2);
       border-radius: var(--radius);
     }
+
     .error-icon {
       font-size: 40px;
       margin-bottom: 16px;
@@ -413,7 +476,13 @@
       font-family: 'Bebas Neue', sans-serif;
       letter-spacing: 2px;
     }
-    .error-msg { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+    .error-msg {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
     @media (max-width: 600px) {
       .question-card { padding: 24px 20px; }
       .question-text { font-size: 17px; }
@@ -424,6 +493,7 @@
   </style>
 </head>
 <body>
+
 <div class="quiz-wrapper">
 
   <!-- Loading -->
@@ -434,7 +504,7 @@
 
   <!-- Error -->
   <div id="error-screen">
-    <div class="error-icon">! GRESKA</div>
+    <div class="error-icon">GRESKA</div>
     <p class="error-msg" id="error-msg-text">Doslo je do greske pri ucitavanju pitanja.</p>
     <br>
     <a href="index.html" class="back-btn" style="display:inline-flex;margin-top:16px;">Nazad na pocetnu</a>
@@ -442,6 +512,7 @@
 
   <!-- Quiz -->
   <div id="quiz-screen" style="display:none;">
+
     <div class="quiz-header">
       <a href="index.html" class="back-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -457,7 +528,7 @@
     <div class="progress-section">
       <div class="progress-meta">
         <span class="progress-label">Pitanje</span>
-        <span class="progress-count" id="progress-count">
+        <span class="progress-count">
           <span id="current-num">1</span> / <span id="total-num">10</span>
         </span>
       </div>
@@ -480,6 +551,7 @@
     <button class="next-btn" id="next-btn" onclick="nextQuestion()">
       Sledece pitanje
     </button>
+
   </div>
 
   <!-- Result -->
@@ -500,9 +572,12 @@
         <div class="ring-total" id="final-total">/ 0</div>
       </div>
     </div>
+
     <div class="result-title" id="result-title">ODLICNO!</div>
-    <div class="result-subtitle" id="result-subtitle">Uspesno si zavrsio kviz.</div>
-    <div class="score-dots" id="result-dots" style="justify-content:center;margin-bottom:32px;"></div>
+    <div class="result-subtitle" id="result-subtitle">Uspesno si zavrsila kviz.</div>
+
+    <div class="score-dots" id="result-dots" style="justify-content:center; margin-bottom: 28px;"></div>
+
     <div class="result-actions">
       <button class="result-btn primary" onclick="restartQuiz()">Igraj ponovo</button>
       <button class="result-btn secondary" onclick="window.location.href='index.html'">Pocetna strana</button>
@@ -511,19 +586,17 @@
 
 </div>
 
-<!-- ✅ SUPABASE CDN — MORA BITI OVDJE! -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
   // ============================================================
   //  KONFIGURACIJA
   // ============================================================
   const SUPABASE_URL      = 'https://ujamzoupwldtppyveguq.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVqYW16b3Vwd2xkdHBweXZlZ3VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MjI3MjUsImV4cCI6MjA5MTQ5ODcyNX0.sHfuZ3tgJTkfucwiAxWLAK8lOidh1o_hLeh3CSHQxT4';
-  // ============================================================
 
-  // ✅ KREIRANJE SUPABASE KLIJENTA
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  // KLJUCNA ISPRAVKA: koristimo supabaseClient umjesto supabase
+  // jer CDN vec kreira globalni 'supabase' namespace
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  // ============================================================
 
   let questions  = [];
   let currentIdx = 0;
@@ -534,13 +607,13 @@
 
   const LETTERS = ['a', 'b', 'c', 'd', 'e'];
 
-  // ── GET CATEGORY FROM URL ──
+  // ── URL PARAMETAR ──
   function getKategorija() {
     const params = new URLSearchParams(window.location.search);
     return params.get('kategorija') || '';
   }
 
-  // ── SHOW SCREEN ──
+  // ── EKRANI ──
   function showScreen(id) {
     const screens = ['loading-screen', 'error-screen', 'quiz-screen', 'result-screen'];
     screens.forEach(s => {
@@ -552,13 +625,13 @@
     if (target) target.style.display = 'block';
   }
 
-  // ✅ ISPRAVNA fetchQuestions FUNKCIJA
+  // ── FETCH PITANJA ──
   async function fetchQuestions(kat) {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('quiz_pitanja')
       .select('*')
       .eq('kategorija', kat)
-      .limit(15);
+      .limit(20);
 
     if (error) {
       console.error('Supabase greska:', error);
@@ -568,29 +641,30 @@
     return data || [];
   }
 
-  // ── RENDER QUESTION ──
+  // ── RENDER PITANJA ──
   function renderQuestion() {
     const q   = questions[currentIdx];
     const tot = questions.length;
     answered  = false;
 
-    document.getElementById('current-num').textContent = currentIdx + 1;
-    document.getElementById('total-num').textContent   = tot;
-    document.getElementById('progress-fill').style.width =
-      `${(currentIdx / tot) * 100}%`;
+    document.getElementById('current-num').textContent   = currentIdx + 1;
+    document.getElementById('total-num').textContent     = tot;
+    document.getElementById('progress-fill').style.width = `${(currentIdx / tot) * 100}%`;
     document.getElementById('question-number').textContent =
       'PITANJE ' + String(currentIdx + 1).padStart(2, '0');
     document.getElementById('question-text').textContent = q.pitanje || '';
 
     const grid = document.getElementById('options-grid');
     grid.innerHTML = '';
+
     LETTERS.forEach(l => {
       const val = q['odgovor_' + l];
       if (!val || val.trim() === '') return;
+
       const btn = document.createElement('button');
-      btn.className      = 'option-btn';
+      btn.className    = 'option-btn';
       btn.dataset.letter = l;
-      btn.innerHTML = `
+      btn.innerHTML    = `
         <span class="option-letter">${l.toUpperCase()}</span>
         <span>${val}</span>
       `;
@@ -600,18 +674,20 @@
 
     document.getElementById('feedback-bar').className = 'feedback-bar';
     document.getElementById('next-btn').classList.remove('visible');
+
     renderDots();
 
     const card = document.querySelector('.question-card');
     card.style.animation = 'none';
     void card.offsetWidth;
     card.style.animation = 'slideUp 0.35s ease';
+
     grid.style.animation = 'none';
     void grid.offsetWidth;
     grid.style.animation = 'slideUp 0.4s ease 0.05s both';
   }
 
-  // ── SELECT ANSWER ──
+  // ── ODABIR ODGOVORA ──
   function selectAnswer(letter, clickedBtn) {
     if (answered) return;
     answered = true;
@@ -624,6 +700,7 @@
       b.disabled = true;
       if (b.dataset.letter === correct) b.classList.add('correct');
     });
+
     if (!isRight) clickedBtn.classList.add('wrong');
 
     results[currentIdx] = isRight;
@@ -632,12 +709,14 @@
 
     const fb = document.getElementById('feedback-bar');
     const ft = document.getElementById('feedback-text');
+
     if (isRight) {
       fb.className   = 'feedback-bar correct';
       ft.textContent = 'Tacno! Odlican odgovor.';
     } else {
       fb.className   = 'feedback-bar wrong';
-      ft.textContent = `Netacno. Tacan odgovor je: ${q['odgovor_' + correct] || correct.toUpperCase()}`;
+      const correctText = q['odgovor_' + correct] || correct.toUpperCase();
+      ft.textContent = `Netacno. Tacan odgovor je: ${correctText}`;
     }
 
     const nextBtn = document.getElementById('next-btn');
@@ -647,7 +726,7 @@
     nextBtn.classList.add('visible');
   }
 
-  // ── NEXT QUESTION ──
+  // ── SLEDECE PITANJE ──
   function nextQuestion() {
     currentIdx++;
     if (currentIdx >= questions.length) {
@@ -657,30 +736,31 @@
     }
   }
 
-  // ── RENDER DOTS ──
+  // ── DOTS ──
   function renderDots() {
     const container = document.getElementById('score-dots');
     container.innerHTML = '';
     questions.forEach((_, i) => {
       const d = document.createElement('div');
-      d.className = 'dot' +
-        (results[i] === true  ? ' correct' :
-         results[i] === false ? ' wrong'   : '');
+      if (results[i] === true)       d.className = 'dot correct';
+      else if (results[i] === false) d.className = 'dot wrong';
+      else                           d.className = 'dot';
       container.appendChild(d);
     });
   }
 
-  // ── SHOW RESULT ──
+  // ── REZULTAT ──
   function showResult() {
     showScreen('result-screen');
 
-    const tot  = questions.length;
-    const pct  = Math.round((score / tot) * 100);
+    const tot = questions.length;
+    const pct = Math.round((score / tot) * 100);
 
     document.getElementById('final-score').textContent = score;
     document.getElementById('final-total').textContent = '/ ' + tot;
 
-    const circ = 2 * Math.PI * 58;
+    const r    = 58;
+    const circ = 2 * Math.PI * r;
     const el   = document.getElementById('ring-fill-el');
     el.style.strokeDasharray  = circ;
     el.style.strokeDashoffset = circ;
@@ -691,7 +771,7 @@
     let title, subtitle;
     if (pct === 100) {
       title    = 'SAVRSENO!';
-      subtitle = 'Sve tacno! Nisi pogresio ni jedno pitanje. Pravi sampion!';
+      subtitle = 'Sve tacno! Pravi sampion!';
     } else if (pct >= 80) {
       title    = 'ODLICNO!';
       subtitle = `Tacan odgovor na ${score} od ${tot} pitanja. Sjajan rezultat!`;
@@ -702,7 +782,7 @@
       title    = 'MOZE BOLJE!';
       subtitle = `Tacan odgovor na ${score} od ${tot} pitanja. Pokusaj ponovo!`;
     } else {
-      title    = 'PROBA OPET!';
+      title    = 'POKUSAJ OPET!';
       subtitle = `Tacan odgovor na ${score} od ${tot} pitanja. Ne odustaj!`;
     }
 
@@ -735,7 +815,7 @@
 
     if (!kategorija) {
       document.getElementById('error-msg-text').textContent =
-        'Nije izabrana kategorija. Vrati se na pocetnu stranicu i klikni na kategoriju.';
+        'Nije izabrana kategorija. Vrati se na pocetnu i klikni na kategoriju.';
       showScreen('error-screen');
       return;
     }
@@ -744,17 +824,18 @@
     document.title = `Kviz - ${kategorija}`;
 
     try {
-      questions = await fetchQuestions(kategorija);
+      const data = await fetchQuestions(kategorija);
 
-      if (!questions || questions.length === 0) {
+      if (!data || data.length === 0) {
         document.getElementById('error-msg-text').textContent =
           `Nema pitanja za kategoriju "${kategorija}". Dodaj pitanja u admin panelu.`;
         showScreen('error-screen');
         return;
       }
 
-      questions = questions.sort(() => Math.random() - 0.5);
+      questions = data.sort(() => Math.random() - 0.5);
       results   = new Array(questions.length).fill(null);
+
       showScreen('quiz-screen');
       renderQuestion();
 
