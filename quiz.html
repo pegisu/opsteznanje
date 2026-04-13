@@ -629,16 +629,34 @@
   }
 
   // ── FETCH QUESTIONS ──
-  async function fetchQuestions(kat) {
-    const url = `${SUPABASE_URL}/rest/v1/quiz_pitanja?kategorija=eq.${encodeURIComponent(kat)}&select=*&order=random()&limit=15`;
+async function fetchQuestions() {
+  try {
+    const { data, error } = await supabase
+      .from('quiz_pitanja')
+      .select('*')
+      .eq('kategorija', selectedCategory)
+      .order('id', { ascending: false })
+      .limit(15);
 
-    const res = await fetch(url, {
-      headers: {
-        'apikey': SUPABASE_ANON_KEY,
-        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-        'Content-Type': 'application/json'
-      }
-    });
+    if (error) {
+      console.error('Supabase greška:', error);
+      throw new Error(`Greška pri učitavanju: ${error.message}`);
+    }
+
+    if (!data || data.length === 0) {
+      showError('Nema pitanja za ovu kategoriju.');
+      return;
+    }
+
+    questions = data;
+    currentQuestionIndex = 0;
+    displayQuestion();
+  } catch (error) {
+    console.error('Fetch error:', error);
+    showError(`Greška pri konekciji sa bazom. Detalji: ${error.message}`);
+  }
+}
+);
 
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return await res.json();
