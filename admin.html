@@ -193,10 +193,17 @@
 
     select option { background: var(--dark3); color: var(--text); }
 
+    /* --- Odgovori grid --- */
     .odgovori-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
+    }
+
+    /* FIX: E odgovor zauzima celu sirinu */
+    .odgovor-wrap-full {
+      grid-column: 1 / -1;
+      position: relative;
     }
 
     .odgovor-wrap { position: relative; }
@@ -216,15 +223,20 @@
       align-items: center;
       justify-content: center;
       pointer-events: none;
+      z-index: 1;
     }
 
     .pill-a { background: rgba(52,152,219,0.25); color: #5dade2; }
     .pill-b { background: rgba(39,174,96,0.25); color: #58d68d; }
     .pill-c { background: rgba(243,156,18,0.25); color: #f8c471; }
     .pill-d { background: rgba(231,76,60,0.25); color: #ec7063; }
+    /* FIX: Dodata pill-e klasa */
+    .pill-e { background: rgba(155,89,182,0.25); color: #c39bd3; }
 
-    .odgovor-wrap input { padding-left: 40px; }
+    .odgovor-wrap input,
+    .odgovor-wrap-full input { padding-left: 40px; }
 
+    /* --- Tacno dugme --- */
     .tacno-group { display: flex; gap: 10px; flex-wrap: wrap; }
 
     .tacno-btn {
@@ -254,6 +266,8 @@
     .tacno-btn.active-b { background: rgba(39,174,96,0.2); border-color: #58d68d; color: #58d68d; }
     .tacno-btn.active-c { background: rgba(243,156,18,0.2); border-color: #f8c471; color: #f8c471; }
     .tacno-btn.active-d { background: rgba(231,76,60,0.2); border-color: #ec7063; color: #ec7063; }
+    /* FIX: Dodata active-e klasa */
+    .tacno-btn.active-e { background: rgba(155,89,182,0.2); border-color: #c39bd3; color: #c39bd3; }
 
     .btn-primary {
       width: 100%;
@@ -294,6 +308,7 @@
     .alert-success { background: rgba(30,126,52,0.18); border: 1px solid rgba(30,126,52,0.5); color: #58d68d; }
     .alert-error { background: rgba(192,57,43,0.18); border: 1px solid rgba(192,57,43,0.5); color: #ec7063; }
 
+    /* --- Stats bar --- */
     .stats-bar {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -350,6 +365,7 @@
       margin-top: 4px;
     }
 
+    /* --- Search --- */
     .search-wrap {
       position: relative;
       margin-bottom: 18px;
@@ -370,6 +386,37 @@
 
     .search-wrap input { padding-left: 42px; }
 
+    /* --- Filter tabovi --- */
+    .filter-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 16px;
+      scrollbar-width: none;
+    }
+
+    .filter-scroll::-webkit-scrollbar { display: none; }
+
+    .filter-tab {
+      flex-shrink: 0;
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(201,168,76,0.2);
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-tab:hover { border-color: var(--gold); color: var(--gold); }
+    .filter-tab.active { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold); }
+
+    /* --- Questions list --- */
     .questions-list {
       max-height: 520px;
       overflow-y: auto;
@@ -466,6 +513,8 @@
     .ans-b { background: rgba(39,174,96,0.15); color: #58d68d; }
     .ans-c { background: rgba(243,156,18,0.15); color: #f8c471; }
     .ans-d { background: rgba(231,76,60,0.15); color: #ec7063; }
+    /* FIX: Dodata ans-e klasa */
+    .ans-e { background: rgba(155,89,182,0.15); color: #c39bd3; }
 
     .empty-state {
       text-align: center;
@@ -484,35 +533,6 @@
 
     .empty-state p { font-size: 0.85rem; letter-spacing: 1px; }
 
-    .filter-scroll {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-      margin-bottom: 16px;
-      scrollbar-width: none;
-    }
-
-    .filter-scroll::-webkit-scrollbar { display: none; }
-
-    .filter-tab {
-      flex-shrink: 0;
-      padding: 5px 14px;
-      border-radius: 20px;
-      border: 1px solid rgba(201,168,76,0.2);
-      background: transparent;
-      color: var(--text-muted);
-      font-family: 'Lato', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .filter-tab:hover { border-color: var(--gold); color: var(--gold); }
-    .filter-tab.active { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold); }
-
     .divider { height: 1px; background: var(--border); margin: 20px 0; }
 
     .spinner {
@@ -529,7 +549,6 @@
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* PAGE LOADER - sakriva sadrzaj dok se ne provjeri auth */
     #page-content { display: none; }
 
     .auth-checking {
@@ -552,13 +571,11 @@
 </head>
 <body>
 
-<!-- Loader dok se provjerava auth -->
 <div id="auth-loader" class="auth-checking">
   <span class="spinner"></span>
   Provjera pristupa...
 </div>
 
-<!-- Glavni sadrzaj (skriven dok se ne potvrdi login) -->
 <div id="page-content">
 
   <header>
@@ -634,9 +651,10 @@
       <div class="card-body">
         <div id="alert" class="alert"></div>
 
+        <!-- FIX: Ovaj select ima id="forma-kategorija" - JEDINSTVEN ID -->
         <div class="form-group">
           <label>Kategorija</label>
-          <select id="kategorija">
+          <select id="forma-kategorija">
             <option value="">-- Izaberi kategoriju --</option>
             <option value="Istorija Srbije">Istorija Srbije</option>
             <option value="Geografija Srbije">Geografija Srbije</option>
@@ -685,23 +703,24 @@
               <span class="odgovor-label-pill pill-d">D</span>
               <input type="text" id="odg_d" placeholder="Odgovor D" />
             </div>
-              <div class="odgovor-wrap full-width">
-            <span class="odgovor-label-pill pill-e">E</span>
-            <input type="text" id="odg_e" placeholder="Odgovor E" />
-          </div>
+            <!-- FIX: Koristim odgovor-wrap-full klasu za puni red -->
+            <div class="odgovor-wrap-full">
+              <span class="odgovor-label-pill pill-e">E</span>
+              <input type="text" id="odg_e" placeholder="Odgovor E (opciono)" />
+            </div>
           </div>
         </div>
 
-      <div class="form-group">
-        <label>Tacan Odgovor</label>
-        <div class="tacno-group">
-          <button class="tacno-btn" data-val="A" onclick="selectTacno(this)">A</button>
-          <button class="tacno-btn" data-val="B" onclick="selectTacno(this)">B</button>
-          <button class="tacno-btn" data-val="C" onclick="selectTacno(this)">C</button>
-          <button class="tacno-btn" data-val="D" onclick="selectTacno(this)">D</button>
-          <button class="tacno-btn" data-val="E" onclick="selectTacno(this)">E</button>
+        <div class="form-group">
+          <label>Tacan Odgovor</label>
+          <div class="tacno-group">
+            <button class="tacno-btn" data-val="a" onclick="selectTacno(this)">A</button>
+            <button class="tacno-btn" data-val="b" onclick="selectTacno(this)">B</button>
+            <button class="tacno-btn" data-val="c" onclick="selectTacno(this)">C</button>
+            <button class="tacno-btn" data-val="d" onclick="selectTacno(this)">D</button>
+            <button class="tacno-btn" data-val="e" onclick="selectTacno(this)">E</button>
+          </div>
         </div>
-      </div>
 
         <div class="divider"></div>
 
@@ -729,32 +748,30 @@
           <input type="text" id="pretraga" placeholder="Pretrazi pitanja..." oninput="filtrirajPitanja()" />
         </div>
 
-       <div class="form-group">
-        <label>Kategorija</label>
-        <select id="kategorija">
-          <option value="">-- Izaberi kategoriju --</option>
-          <option value="Geografija">Geografija</option>
-          <option value="Istorija">Istorija</option>
-          <option value="Knjizevnost">Knjizevnost</option>
-          <option value="Umetnost">Umetnost</option>
-          <option value="Film">Film</option>
-          <option value="Muzika">Muzika</option>
-          <option value="Sport">Sport</option>
-          <option value="Matematika">Matematika</option>
-          <option value="Fizika">Fizika</option>
-          <option value="Hemija">Hemija</option>
-          <option value="Biologija">Biologija</option>
-          <option value="Tehnologija">Tehnologija</option>
-          <option value="Astronomija">Astronomija</option>
-          <option value="Politika">Politika</option>
-          <option value="Ekonomija">Ekonomija</option>
-          <option value="Pravo">Pravo</option>
-          <option value="Psihologija">Psihologija</option>
-          <option value="Sociologija">Sociologija</option>
-          <option value="Religija">Religija</option>
-          <option value="Opsta kultura">Opsta kultura</option>
-        </select>
-      </div>
+        <!-- FIX: Zamenjen duplikat select-a sa filter tabovima -->
+        <div class="filter-scroll" id="filter-tabovi">
+          <button class="filter-tab active" data-kat="sve" onclick="filterKat(this)">Sve</button>
+          <button class="filter-tab" data-kat="Istorija Srbije" onclick="filterKat(this)">Istorija Srbije</button>
+          <button class="filter-tab" data-kat="Geografija Srbije" onclick="filterKat(this)">Geografija Srbije</button>
+          <button class="filter-tab" data-kat="Kultura i Umetnost" onclick="filterKat(this)">Kultura i Umetnost</button>
+          <button class="filter-tab" data-kat="Sport" onclick="filterKat(this)">Sport</button>
+          <button class="filter-tab" data-kat="Nauka i Tehnologija" onclick="filterKat(this)">Nauka i Tehnologija</button>
+          <button class="filter-tab" data-kat="Knjizevnost" onclick="filterKat(this)">Knjizevnost</button>
+          <button class="filter-tab" data-kat="Muzika" onclick="filterKat(this)">Muzika</button>
+          <button class="filter-tab" data-kat="Film i Televizija" onclick="filterKat(this)">Film i Televizija</button>
+          <button class="filter-tab" data-kat="Biologija i Priroda" onclick="filterKat(this)">Biologija i Priroda</button>
+          <button class="filter-tab" data-kat="Fizika i Hemija" onclick="filterKat(this)">Fizika i Hemija</button>
+          <button class="filter-tab" data-kat="Matematika" onclick="filterKat(this)">Matematika</button>
+          <button class="filter-tab" data-kat="Svetska Istorija" onclick="filterKat(this)">Svetska Istorija</button>
+          <button class="filter-tab" data-kat="Svetska Geografija" onclick="filterKat(this)">Svetska Geografija</button>
+          <button class="filter-tab" data-kat="Politika i Pravo" onclick="filterKat(this)">Politika i Pravo</button>
+          <button class="filter-tab" data-kat="Ekonomija i Biznis" onclick="filterKat(this)">Ekonomija i Biznis</button>
+          <button class="filter-tab" data-kat="Hrana i Kuhinja" onclick="filterKat(this)">Hrana i Kuhinja</button>
+          <button class="filter-tab" data-kat="Moda i Stil" onclick="filterKat(this)">Moda i Stil</button>
+          <button class="filter-tab" data-kat="Religija i Filozofija" onclick="filterKat(this)">Religija i Filozofija</button>
+          <button class="filter-tab" data-kat="Medicina i Zdravlje" onclick="filterKat(this)">Medicina i Zdravlje</button>
+          <button class="filter-tab" data-kat="Opste Znanje" onclick="filterKat(this)">Opste Znanje</button>
+        </div>
 
         <div class="questions-list" id="questions-list">
           <div class="empty-state">
@@ -780,40 +797,33 @@
   let aktivnaKat = 'sve';
   let tacnoOdg = '';
 
-  // ============================================
-  // AUTH - PRVO PROVJERI PRIJAVU, ONDA SVE OSTALO
-  // ============================================
+  // AUTH
   async function provjeriAdmin() {
     const { data: { session } } = await db.auth.getSession();
-
     if (!session) {
-      // Nije ulogovan - redirektuj na login
       window.location.href = 'admin-login.html';
       return;
     }
-
-    // Ulogovan - sakri loader, pokazi sadrzaj i ucitaj podatke
     document.getElementById('auth-loader').style.display = 'none';
     document.getElementById('page-content').style.display = 'block';
     ucitajPitanja();
   }
 
-  // Odjava
   async function odjavi() {
     await db.auth.signOut();
     window.location.href = 'admin-login.html';
   }
 
-  // --- Selektuj tacan odgovor ---
+  // Selektuj tacan odgovor
   function selectTacno(btn) {
     document.querySelectorAll('.tacno-btn').forEach(b => {
       b.className = 'tacno-btn';
     });
-    tacnoOdg = btn.dataset.val;
-    btn.classList.add('active-' + tacnoOdg.toLowerCase());
+    tacnoOdg = btn.dataset.val; // sada je vec malo slovo (a, b, c, d, e)
+    btn.classList.add('active-' + tacnoOdg);
   }
 
-  // --- Prikazi alert ---
+  // Alert
   function showAlert(tip, poruka) {
     const el = document.getElementById('alert');
     el.className = 'alert show alert-' + tip;
@@ -821,65 +831,79 @@
     setTimeout(() => el.classList.remove('show'), 4000);
   }
 
-  // --- Loading dugme ---
+  // Loading
   function setLoading(val) {
     document.getElementById('spinner').style.display = val ? 'inline-block' : 'none';
     document.getElementById('btn-text').textContent = val ? 'Cuvanje...' : 'Sacuvaj Pitanje';
   }
 
-  // --- Sacuvaj pitanje u Supabase ---
+  // FIX: Sacuvaj pitanje - ispravni nazivi kolona + odgovor_e + tacno_odogovor
   async function sacuvajPitanje() {
-    const kat = document.getElementById('kategorija').value.trim();
+    // FIX: id je sada "forma-kategorija"
+    const kat = document.getElementById('forma-kategorija').value.trim();
     const pit = document.getElementById('pitanje').value.trim();
-    const a = document.getElementById('odg_a').value.trim();
-    const b = document.getElementById('odg_b').value.trim();
-    const c = document.getElementById('odg_c').value.trim();
-    const d = document.getElementById('odg_d').value.trim();
+    const a   = document.getElementById('odg_a').value.trim();
+    const b   = document.getElementById('odg_b').value.trim();
+    const c   = document.getElementById('odg_c').value.trim();
+    const d   = document.getElementById('odg_d').value.trim();
+    const e   = document.getElementById('odg_e').value.trim(); // FIX: dodato
 
     if (!kat || !pit || !a || !b || !c || !d || !tacnoOdg) {
-      showAlert('error', 'Molim te popuni sva polja i izaberi tacan odgovor!');
+      showAlert('error', 'Molim te popuni obavezna polja (A-D) i izaberi tacan odgovor!');
       return;
     }
 
     setLoading(true);
 
-    const { data, error } = await db.from('pitanja').insert([{
-      kategorija: kat,
-      pitanje: pit,
-      odgovor_a: a,
-      odgovor_b: b,
-      odgovor_c: c,
-      odgovor_d: d,
-      tacno_odgovor: tacnoOdg,
-      created_at: new Date().toISOString()
-    }]).select();
+    // FIX: Ispravni nazivi kolona prema strukturi baze
+    // Kolona tacno_odogovor ima typo u bazi (dvostruko 'o') - koristimo taj naziv!
+    const insertObj = {
+      kategorija:      kat,
+      pitanje:         pit,
+      odgovor_a:       a,
+      odgovor_b:       b,
+      odgovor_c:       c,
+      odgovor_d:       d,
+      tacno_odogovor:  tacnoOdg  // FIX: tacno_odogovor (sa typo-om kao u bazi!)
+    };
+
+    // Dodaj odgovor_e samo ako je popunjen
+    if (e) {
+      insertObj.odgovor_e = e;
+    }
+
+    const { data, error } = await db
+      .from('pitanja')
+      .insert([insertObj])
+      .select();
 
     setLoading(false);
 
     if (error) {
       showAlert('error', 'Greska pri cuvanju: ' + error.message);
+      console.error('Supabase greska:', error);
       return;
     }
 
-    showAlert('success', 'Pitanje uspesno sacuvano u bazu!');
+    showAlert('success', 'Pitanje uspesno sacuvano!');
     ocistiFormu();
     ucitajPitanja();
-    updateStats();
   }
 
-  // --- Ocisti formu ---
+  // FIX: Ocisti formu - ukljucuje odg_e i forma-kategorija
   function ocistiFormu() {
-    document.getElementById('kategorija').value = '';
+    document.getElementById('forma-kategorija').value = '';
     document.getElementById('pitanje').value = '';
     document.getElementById('odg_a').value = '';
     document.getElementById('odg_b').value = '';
     document.getElementById('odg_c').value = '';
     document.getElementById('odg_d').value = '';
+    document.getElementById('odg_e').value = ''; // FIX: dodato
     document.querySelectorAll('.tacno-btn').forEach(b => b.className = 'tacno-btn');
     tacnoOdg = '';
   }
 
-  // --- Ucitaj pitanja iz Supabase ---
+  // Ucitaj pitanja
   async function ucitajPitanja() {
     const { data, error } = await db
       .from('pitanja')
@@ -888,8 +912,9 @@
       .limit(200);
 
     if (error) {
+      console.error('Greska ucitavanja:', error);
       document.getElementById('questions-list').innerHTML =
-        '<div class="empty-state"><p>Greska pri ucitavanju pitanja.</p></div>';
+        '<div class="empty-state"><p>Greska pri ucitavanju: ' + error.message + '</p></div>';
       return;
     }
 
@@ -900,10 +925,10 @@
     const novo = svaPitanja.filter(p => p.created_at && p.created_at.startsWith(danas)).length;
     document.getElementById('stat-novo').textContent = novo;
 
-    prikaziPitanja(svaPitanja);
+    filtrirajPitanja();
   }
 
-  // --- Prikazi pitanja u listi ---
+  // Prikazi pitanja
   function prikaziPitanja(lista) {
     const el = document.getElementById('questions-list');
 
@@ -916,34 +941,38 @@
       return;
     }
 
-    el.innerHTML = lista.map(p => `
-      <div class="q-item">
-        <div class="q-item-top">
-          <div class="q-text">${escHTML(p.pitanje)}</div>
-          <div class="q-actions">
-            <button class="btn-del" onclick="obrisiPitanje(${p.id})" title="Obrisi">
-              <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-            </button>
+    el.innerHTML = lista.map(p => {
+      // FIX: koristimo tacno_odogovor (sa typo-om) za prikaz
+      const tacno = (p.tacno_odogovor || '').toLowerCase();
+      return `
+        <div class="q-item">
+          <div class="q-item-top">
+            <div class="q-text">${escHTML(p.pitanje)}</div>
+            <div class="q-actions">
+              <button class="btn-del" onclick="obrisiPitanje(${p.id})" title="Obrisi">
+                <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="q-meta">
+            <span class="q-cat-pill">${escHTML(p.kategorija)}</span>
+            <span class="q-ans-pill ans-${tacno}">
+              Tacno: ${tacno.toUpperCase()}
+            </span>
           </div>
         </div>
-        <div class="q-meta">
-          <span class="q-cat-pill">${escHTML(p.kategorija)}</span>
-          <span class="q-ans-pill ans-${(p.tacno_odgovor||'a').toLowerCase()}">
-            Tacno: ${escHTML(p.tacno_odgovor)}
-          </span>
-        </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
-  // --- Obrisi pitanje ---
+  // Obrisi pitanje
   async function obrisiPitanje(id) {
     if (!confirm('Da li si sigurna da zelis da obrises ovo pitanje?')) return;
 
     const { error } = await db.from('pitanja').delete().eq('id', id);
 
     if (error) {
-      showAlert('error', 'Greska pri brisanju!');
+      showAlert('error', 'Greska pri brisanju: ' + error.message);
       return;
     }
 
@@ -951,7 +980,7 @@
     ucitajPitanja();
   }
 
-  // --- Filtriranje po kategoriji ---
+  // Filter po kategoriji
   function filterKat(btn) {
     document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -959,7 +988,7 @@
     filtrirajPitanja();
   }
 
-  // --- Pretraga i filtriranje ---
+  // Pretraga i filtriranje
   function filtrirajPitanja() {
     const term = document.getElementById('pretraga').value.toLowerCase();
     let lista = svaPitanja;
@@ -970,7 +999,7 @@
 
     if (term) {
       lista = lista.filter(p =>
-        p.pitanje.toLowerCase().includes(term) ||
+        (p.pitanje || '').toLowerCase().includes(term) ||
         (p.kategorija || '').toLowerCase().includes(term)
       );
     }
@@ -978,15 +1007,7 @@
     prikaziPitanja(lista);
   }
 
-  // --- Update stats ---
-  async function updateStats() {
-    const { count } = await db
-      .from('pitanja')
-      .select('*', { count: 'exact', head: true });
-    if (count !== null) document.getElementById('stat-ukupno').textContent = count;
-  }
-
-  // --- Escape HTML ---
+  // Escape HTML
   function escHTML(str) {
     if (!str) return '';
     return str
@@ -996,9 +1017,7 @@
       .replace(/"/g, '&quot;');
   }
 
-  // ============================================
-  // POKRETANJE - auth provjera je PRVA stvar!
-  // ============================================
+  // START
   provjeriAdmin();
 </script>
 </body>
