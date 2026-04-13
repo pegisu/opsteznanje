@@ -439,7 +439,7 @@
 
     <!-- NASLOV -->
     <div class="login-heading">
-      <h1>Dobrodosli</h1>
+      <h1>Dobrodošli</h1>
       <p>Prijavite se na admin panel</p>
     </div>
 
@@ -598,17 +598,17 @@
     if (error) {
       let poruka = 'Pogresni podaci. Pokusajte ponovo.';
       if (error.message.includes('Invalid login')) {
-        poruka = 'Pogresna email adresa ili lozinka.';
+        poruka = 'Pogrešna email adresa ili lozinka.';
       } else if (error.message.includes('Email not confirmed')) {
-        poruka = 'Email adresa nije potvrdjana.';
+        poruka = 'Email adresa nije potvrdjena.';
       } else if (error.message.includes('Too many requests')) {
-        poruka = 'Previse pokusaja. Sacekajte malo.';
+        poruka = 'Previše pokušaja. Sačekajte malo.';
       }
       showAlert('error', poruka);
       return;
     }
 
-    showAlert('success', 'Uspjesna prijava! Preusmeravanje...');
+    showAlert('success', 'Uspešna prijava! Preusmeravanje...');
     setTimeout(() => {
       window.location.href = 'admin.html';
     }, 1000);
