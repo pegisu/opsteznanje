@@ -513,7 +513,7 @@
     <div class="error-icon">GRESKA</div>
     <p class="error-msg" id="error-msg-text">Došlo je do greške pri učitavanju pitanja.</p>
     <br>
-    <a href="index.html" class="back-btn" style="display:inline-flex;margin-top:16px;">Nazad na pocetnu</a>
+    <a href="index.html" class="back-btn" style="display:inline-flex;margin-top:16px;">Nazad na početnu</a>
   </div>
 
   <!-- Quiz -->
@@ -586,7 +586,7 @@
 
     <div class="result-actions">
       <button class="result-btn primary" onclick="restartQuiz()">Igraj ponovo</button>
-      <button class="result-btn secondary" onclick="window.location.href='index.html'">Pocetna strana</button>
+      <button class="result-btn secondary" onclick="window.location.href='index.html'">Početna strana</button>
     </div>
   </div>
 
@@ -922,7 +922,7 @@
     // Nije prosledjen nijedan validan parametar
     if (!config) {
       document.getElementById('error-msg-text').textContent =
-        'Nije izabran nacin testiranja. Vrati se na pocetnu stranicu i izaberi kategoriju ili nacin igre.';
+        'Nije izabran način testiranja. Vrati se na početnu stranicu i izaberi kategoriju ili način igre.';
       showScreen('error-screen');
       return;
     }
