@@ -34,6 +34,36 @@
         radial-gradient(ellipse at 90% 100%, rgba(201,168,76,0.05) 0%, transparent 55%);
     }
 
+    #auth-loader {
+      position: fixed;
+      inset: 0;
+      background: var(--dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      gap: 18px;
+    }
+
+    .auth-spinner {
+      width: 44px;
+      height: 44px;
+      border: 3px solid rgba(201,168,76,0.15);
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .auth-loader-text {
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    #page-content { display: none; }
+
     header {
       background: var(--dark2);
       border-bottom: 1px solid var(--border);
@@ -65,6 +95,12 @@
       font-family: 'Lato', sans-serif;
     }
 
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
     .header-badge {
       background: rgba(201,168,76,0.12);
       border: 1px solid var(--border);
@@ -75,6 +111,26 @@
       text-transform: uppercase;
       padding: 6px 16px;
       border-radius: 30px;
+    }
+
+    .btn-logout {
+      background: rgba(192,57,43,0.12);
+      border: 1px solid rgba(192,57,43,0.3);
+      color: #ec7063;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .btn-logout:hover {
+      background: rgba(192,57,43,0.25);
+      border-color: #ec7063;
     }
 
     .container {
@@ -90,6 +146,8 @@
     @media (max-width: 900px) {
       .container { grid-template-columns: 1fr; }
       header { padding: 0 20px; }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+      .stat-card:last-child { grid-column: 1 / -1; }
     }
 
     .card {
@@ -117,6 +175,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
 
     .card-icon svg {
@@ -196,15 +255,11 @@
     .odgovori-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 12px;
     }
 
     .odgovor-wrap { position: relative; }
-
-    .odgovor-wrap-full {
-      position: relative;
-      grid-column: 1 / -1;
-    }
+    .odgovor-wrap.full-width { grid-column: 1 / -1; }
 
     .odgovor-label-pill {
       position: absolute;
@@ -229,15 +284,17 @@
     .pill-d { background: rgba(231,76,60,0.25); color: #ec7063; }
     .pill-e { background: rgba(155,89,182,0.25); color: #c39bd3; }
 
-    .odgovor-wrap input,
-    .odgovor-wrap-full input { padding-left: 40px; }
+    .odgovor-wrap input { padding-left: 40px; }
 
-    .tacno-group { display: flex; gap: 10px; flex-wrap: wrap; }
+    .tacno-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: nowrap;
+    }
 
     .tacno-btn {
       flex: 1;
-      min-width: 60px;
-      padding: 10px 8px;
+      padding: 10px 4px;
       border-radius: 8px;
       border: 1.5px solid rgba(201,168,76,0.2);
       background: var(--dark3);
@@ -287,6 +344,7 @@
     }
 
     .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
     .alert {
       border-radius: 8px;
@@ -379,7 +437,7 @@
     .search-wrap input { padding-left: 42px; }
 
     .questions-list {
-      max-height: 520px;
+      max-height: 580px;
       overflow-y: auto;
       scrollbar-width: thin;
       scrollbar-color: var(--gold-dark) var(--dark3);
@@ -448,7 +506,12 @@
       stroke-linecap: round;
     }
 
-    .q-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .q-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
 
     .q-cat-pill {
       font-size: 0.62rem;
@@ -525,10 +588,10 @@
     .divider { height: 1px; background: var(--border); margin: 20px 0; }
 
     .spinner {
-      width: 20px;
-      height: 20px;
-      border: 2px solid rgba(201,168,76,0.2);
-      border-top-color: var(--gold);
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(13,13,13,0.3);
+      border-top-color: #0d0d0d;
       border-radius: 50%;
       animation: spin 0.7s linear infinite;
       display: inline-block;
@@ -537,246 +600,214 @@
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    #page-content { display: none; }
-
-    .auth-checking {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      flex-direction: column;
-      gap: 16px;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      letter-spacing: 2px;
-    }
-
-    .auth-checking .spinner {
-      width: 32px;
-      height: 32px;
-    }
   </style>
 </head>
 <body>
 
-<div id="auth-loader" class="auth-checking">
-  <span class="spinner"></span>
-  Provjera pristupa...
+<div id="auth-loader">
+  <div class="auth-spinner"></div>
+  <div class="auth-loader-text">Provjera pristupa...</div>
 </div>
 
 <div id="page-content">
 
-  <header>
-    <div class="header-logo">
-      Opste znanje
-      <span>Admin Panel</span>
+<header>
+  <div class="header-logo">
+    Opste znanje
+    <span>Admin Panel</span>
+  </div>
+  <div class="header-right">
+    <div class="header-badge">Administratorski Pristup</div>
+    <button class="btn-logout" onclick="odjavi()">Odjavi se</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+      </div>
+      <div>
+        <div class="stat-value" id="stat-ukupno">0</div>
+        <div class="stat-label">Ukupno pitanja</div>
+      </div>
     </div>
-    <div style="display:flex; align-items:center; gap:12px;">
-      <div class="header-badge">Administratorski Pristup</div>
-      <button onclick="odjavi()" style="
-        background: rgba(192,57,43,0.15);
-        border: 1px solid rgba(192,57,43,0.4);
-        color: #ec7063;
-        font-family: 'Lato', sans-serif;
-        font-size: 0.7rem;
-        font-weight: 700;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        padding: 6px 14px;
-        border-radius: 30px;
-        cursor: pointer;
-        transition: all 0.2s;
-      " onmouseover="this.style.background='rgba(192,57,43,0.3)'" onmouseout="this.style.background='rgba(192,57,43,0.15)'">
-        Odjavi se
+    <div class="stat-card">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h10"/></svg>
+      </div>
+      <div>
+        <div class="stat-value">20</div>
+        <div class="stat-label">Kategorija</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <div>
+        <div class="stat-value" id="stat-novo">0</div>
+        <div class="stat-label">Danas dodato</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMA ZA UNOS -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      </div>
+      <div>
+        <div class="card-title">Novo Pitanje</div>
+        <div class="card-subtitle">Unesi pitanje u bazu</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div id="alert" class="alert"></div>
+
+      <div class="form-group">
+        <label>Kategorija</label>
+        <select id="kategorija">
+          <option value="">-- Izaberi kategoriju --</option>
+          <option value="Geografija">Geografija</option>
+          <option value="Istorija">Istorija</option>
+          <option value="Knjizevnost">Knjizevnost</option>
+          <option value="Umetnost">Umetnost</option>
+          <option value="Film">Film</option>
+          <option value="Muzika">Muzika</option>
+          <option value="Sport">Sport</option>
+          <option value="Matematika">Matematika</option>
+          <option value="Fizika">Fizika</option>
+          <option value="Hemija">Hemija</option>
+          <option value="Biologija">Biologija</option>
+          <option value="Tehnologija">Tehnologija</option>
+          <option value="Astronomija">Astronomija</option>
+          <option value="Politika">Politika</option>
+          <option value="Ekonomija">Ekonomija</option>
+          <option value="Pravo">Pravo</option>
+          <option value="Psihologija">Psihologija</option>
+          <option value="Sociologija">Sociologija</option>
+          <option value="Religija">Religija</option>
+          <option value="Opsta kultura">Opsta kultura</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Pitanje</label>
+        <textarea id="pitanje" placeholder="Unesi tekst pitanja ovde..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Ponudjeni Odgovori (5)</label>
+        <div class="odgovori-grid">
+          <div class="odgovor-wrap">
+            <span class="odgovor-label-pill pill-a">A</span>
+            <input type="text" id="odg_a" placeholder="Odgovor A" />
+          </div>
+          <div class="odgovor-wrap">
+            <span class="odgovor-label-pill pill-b">B</span>
+            <input type="text" id="odg_b" placeholder="Odgovor B" />
+          </div>
+          <div class="odgovor-wrap">
+            <span class="odgovor-label-pill pill-c">C</span>
+            <input type="text" id="odg_c" placeholder="Odgovor C" />
+          </div>
+          <div class="odgovor-wrap">
+            <span class="odgovor-label-pill pill-d">D</span>
+            <input type="text" id="odg_d" placeholder="Odgovor D" />
+          </div>
+          <div class="odgovor-wrap full-width">
+            <span class="odgovor-label-pill pill-e">E</span>
+            <input type="text" id="odg_e" placeholder="Odgovor E" />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Tacan Odgovor</label>
+        <div class="tacno-group">
+          <button class="tacno-btn" data-val="A" onclick="selectTacno(this)">A</button>
+          <button class="tacno-btn" data-val="B" onclick="selectTacno(this)">B</button>
+          <button class="tacno-btn" data-val="C" onclick="selectTacno(this)">C</button>
+          <button class="tacno-btn" data-val="D" onclick="selectTacno(this)">D</button>
+          <button class="tacno-btn" data-val="E" onclick="selectTacno(this)">E</button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <button class="btn-primary" id="btn-sacuvaj" onclick="sacuvajPitanje()">
+        <span class="spinner" id="spinner" style="display:none;"></span>
+        <span id="btn-text">Sacuvaj Pitanje</span>
       </button>
     </div>
-  </header>
-
-  <div class="container">
-
-    <!-- STATS -->
-    <div class="stats-bar">
-      <div class="stat-card">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
-        </div>
-        <div>
-          <div class="stat-value" id="stat-ukupno">0</div>
-          <div class="stat-label">Ukupno pitanja</div>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24"><path d="M4 6h16M4 10h16M4 14h10"/></svg>
-        </div>
-        <div>
-          <div class="stat-value" id="stat-kategorije">20</div>
-          <div class="stat-label">Kategorija</div>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        </div>
-        <div>
-          <div class="stat-value" id="stat-novo">0</div>
-          <div class="stat-label">Danas dodato</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- FORMA ZA UNOS -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-        </div>
-        <div>
-          <div class="card-title">Novo Pitanje</div>
-          <div class="card-subtitle">Unesi pitanje u bazu</div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div id="alert" class="alert"></div>
-
-        <div class="form-group">
-          <label>Kategorija</label>
-          <select id="forma-kategorija">
-            <option value="">-- Izaberi kategoriju --</option>
-            <option value="Istorija Srbije">Istorija Srbije</option>
-            <option value="Geografija Srbije">Geografija Srbije</option>
-            <option value="Kultura i Umetnost">Kultura i Umetnost</option>
-            <option value="Sport">Sport</option>
-            <option value="Nauka i Tehnologija">Nauka i Tehnologija</option>
-            <option value="Knjizevnost">Knjizevnost</option>
-            <option value="Muzika">Muzika</option>
-            <option value="Film i Televizija">Film i Televizija</option>
-            <option value="Biologija i Priroda">Biologija i Priroda</option>
-            <option value="Fizika i Hemija">Fizika i Hemija</option>
-            <option value="Matematika">Matematika</option>
-            <option value="Svetska Istorija">Svetska Istorija</option>
-            <option value="Svetska Geografija">Svetska Geografija</option>
-            <option value="Politika i Pravo">Politika i Pravo</option>
-            <option value="Ekonomija i Biznis">Ekonomija i Biznis</option>
-            <option value="Hrana i Kuhinja">Hrana i Kuhinja</option>
-            <option value="Moda i Stil">Moda i Stil</option>
-            <option value="Religija i Filozofija">Religija i Filozofija</option>
-            <option value="Medicina i Zdravlje">Medicina i Zdravlje</option>
-            <option value="Opste Znanje">Opste Znanje</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Pitanje</label>
-          <textarea id="pitanje" placeholder="Unesi tekst pitanja ovde..."></textarea>
-        </div>
-
-        <div class="form-group">
-          <label>Ponudjeni Odgovori</label>
-          <div class="odgovori-grid">
-            <div class="odgovor-wrap">
-              <span class="odgovor-label-pill pill-a">A</span>
-              <input type="text" id="odg_a" placeholder="Odgovor A" />
-            </div>
-            <div class="odgovor-wrap">
-              <span class="odgovor-label-pill pill-b">B</span>
-              <input type="text" id="odg_b" placeholder="Odgovor B" />
-            </div>
-            <div class="odgovor-wrap">
-              <span class="odgovor-label-pill pill-c">C</span>
-              <input type="text" id="odg_c" placeholder="Odgovor C" />
-            </div>
-            <div class="odgovor-wrap">
-              <span class="odgovor-label-pill pill-d">D</span>
-              <input type="text" id="odg_d" placeholder="Odgovor D" />
-            </div>
-            <div class="odgovor-wrap-full">
-              <span class="odgovor-label-pill pill-e">E</span>
-              <input type="text" id="odg_e" placeholder="Odgovor E (opciono)" />
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Tacan Odgovor</label>
-          <div class="tacno-group">
-            <button class="tacno-btn" data-val="A" onclick="selectTacno(this)">A</button>
-            <button class="tacno-btn" data-val="B" onclick="selectTacno(this)">B</button>
-            <button class="tacno-btn" data-val="C" onclick="selectTacno(this)">C</button>
-            <button class="tacno-btn" data-val="D" onclick="selectTacno(this)">D</button>
-            <button class="tacno-btn" data-val="E" onclick="selectTacno(this)">E</button>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <button class="btn-primary" onclick="sacuvajPitanje()">
-          <span class="spinner" id="spinner" style="display:none;"></span>
-          <span id="btn-text">Sacuvaj Pitanje</span>
-        </button>
-      </div>
-    </div>
-
-    <!-- LISTA PITANJA -->
-    <div class="card">
-      <div class="card-header">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
-        </div>
-        <div>
-          <div class="card-title">Baza Pitanja</div>
-          <div class="card-subtitle">Pregled i upravljanje</div>
-        </div>
-      </div>
-      <div class="card-body">
-
-        <div class="search-wrap">
-          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <input type="text" id="pretraga" placeholder="Pretrazi pitanja..." oninput="filtrirajPitanja()" />
-        </div>
-
-        <div class="filter-scroll" id="filter-tabs">
-          <button class="filter-tab active" data-kat="sve" onclick="filterKat(this)">Sve</button>
-          <button class="filter-tab" data-kat="Istorija Srbije" onclick="filterKat(this)">Istorija Srbije</button>
-          <button class="filter-tab" data-kat="Geografija Srbije" onclick="filterKat(this)">Geografija Srbije</button>
-          <button class="filter-tab" data-kat="Kultura i Umetnost" onclick="filterKat(this)">Kultura i Umetnost</button>
-          <button class="filter-tab" data-kat="Sport" onclick="filterKat(this)">Sport</button>
-          <button class="filter-tab" data-kat="Nauka i Tehnologija" onclick="filterKat(this)">Nauka i Tehnologija</button>
-          <button class="filter-tab" data-kat="Knjizevnost" onclick="filterKat(this)">Knjizevnost</button>
-          <button class="filter-tab" data-kat="Muzika" onclick="filterKat(this)">Muzika</button>
-          <button class="filter-tab" data-kat="Film i Televizija" onclick="filterKat(this)">Film i Televizija</button>
-          <button class="filter-tab" data-kat="Biologija i Priroda" onclick="filterKat(this)">Biologija i Priroda</button>
-          <button class="filter-tab" data-kat="Fizika i Hemija" onclick="filterKat(this)">Fizika i Hemija</button>
-          <button class="filter-tab" data-kat="Matematika" onclick="filterKat(this)">Matematika</button>
-          <button class="filter-tab" data-kat="Svetska Istorija" onclick="filterKat(this)">Svetska Istorija</button>
-          <button class="filter-tab" data-kat="Svetska Geografija" onclick="filterKat(this)">Svetska Geografija</button>
-          <button class="filter-tab" data-kat="Politika i Pravo" onclick="filterKat(this)">Politika i Pravo</button>
-          <button class="filter-tab" data-kat="Ekonomija i Biznis" onclick="filterKat(this)">Ekonomija i Biznis</button>
-          <button class="filter-tab" data-kat="Hrana i Kuhinja" onclick="filterKat(this)">Hrana i Kuhinja</button>
-          <button class="filter-tab" data-kat="Moda i Stil" onclick="filterKat(this)">Moda i Stil</button>
-          <button class="filter-tab" data-kat="Religija i Filozofija" onclick="filterKat(this)">Religija i Filozofija</button>
-          <button class="filter-tab" data-kat="Medicina i Zdravlje" onclick="filterKat(this)">Medicina i Zdravlje</button>
-          <button class="filter-tab" data-kat="Opste Znanje" onclick="filterKat(this)">Opste Znanje</button>
-        </div>
-
-        <div class="questions-list" id="questions-list">
-          <div class="empty-state">
-            <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
-            <p>Ucitavanje pitanja...</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
   </div>
+
+  <!-- LISTA PITANJA -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+      </div>
+      <div>
+        <div class="card-title">Baza Pitanja</div>
+        <div class="card-subtitle">Pregled i upravljanje</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="pretraga" placeholder="Pretrazi pitanja..." oninput="filtrirajPitanja()" />
+      </div>
+
+      <div class="filter-scroll">
+        <button class="filter-tab active" data-kat="sve" onclick="filterKat(this)">Sve</button>
+        <button class="filter-tab" data-kat="Geografija" onclick="filterKat(this)">Geografija</button>
+        <button class="filter-tab" data-kat="Istorija" onclick="filterKat(this)">Istorija</button>
+        <button class="filter-tab" data-kat="Knjizevnost" onclick="filterKat(this)">Knjizevnost</button>
+        <button class="filter-tab" data-kat="Umetnost" onclick="filterKat(this)">Umetnost</button>
+        <button class="filter-tab" data-kat="Film" onclick="filterKat(this)">Film</button>
+        <button class="filter-tab" data-kat="Muzika" onclick="filterKat(this)">Muzika</button>
+        <button class="filter-tab" data-kat="Sport" onclick="filterKat(this)">Sport</button>
+        <button class="filter-tab" data-kat="Matematika" onclick="filterKat(this)">Matematika</button>
+        <button class="filter-tab" data-kat="Fizika" onclick="filterKat(this)">Fizika</button>
+        <button class="filter-tab" data-kat="Hemija" onclick="filterKat(this)">Hemija</button>
+        <button class="filter-tab" data-kat="Biologija" onclick="filterKat(this)">Biologija</button>
+        <button class="filter-tab" data-kat="Tehnologija" onclick="filterKat(this)">Tehnologija</button>
+        <button class="filter-tab" data-kat="Astronomija" onclick="filterKat(this)">Astronomija</button>
+        <button class="filter-tab" data-kat="Politika" onclick="filterKat(this)">Politika</button>
+        <button class="filter-tab" data-kat="Ekonomija" onclick="filterKat(this)">Ekonomija</button>
+        <button class="filter-tab" data-kat="Pravo" onclick="filterKat(this)">Pravo</button>
+        <button class="filter-tab" data-kat="Psihologija" onclick="filterKat(this)">Psihologija</button>
+        <button class="filter-tab" data-kat="Sociologija" onclick="filterKat(this)">Sociologija</button>
+        <button class="filter-tab" data-kat="Religija" onclick="filterKat(this)">Religija</button>
+        <button class="filter-tab" data-kat="Opsta kultura" onclick="filterKat(this)">Opsta kultura</button>
+      </div>
+
+      <div class="questions-list" id="questions-list">
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+          <p>Ucitavanje pitanja...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const SUPABASE_URL = 'https://ujamzoupwldtppyveguq.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_EcF3QnSyfxGW_ZJa741PRA_y-xVaH4N';
+
+  // =============================================
+  // NAZIV TABELE — JEDINO MJESTO KOJE TREBA MIJENJATI
+  // =============================================
+  const TABELA = 'quiz_pitanja';
 
   const { createClient } = supabase;
   const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -785,15 +816,23 @@
   let aktivnaKat = 'sve';
   let tacnoOdg = '';
 
+  // =====================
+  // AUTH
+  // =====================
   async function provjeriAdmin() {
-    const { data: { session } } = await db.auth.getSession();
-    if (!session) {
+    try {
+      const { data: { session } } = await db.auth.getSession();
+      if (!session) {
+        window.location.href = 'admin-login.html';
+        return;
+      }
+      document.getElementById('auth-loader').style.display = 'none';
+      document.getElementById('page-content').style.display = 'block';
+      await ucitajPitanja();
+    } catch (e) {
+      console.error('Auth greska:', e);
       window.location.href = 'admin-login.html';
-      return;
     }
-    document.getElementById('auth-loader').style.display = 'none';
-    document.getElementById('page-content').style.display = 'block';
-    ucitajPitanja();
   }
 
   async function odjavi() {
@@ -801,28 +840,40 @@
     window.location.href = 'admin-login.html';
   }
 
+  // =====================
+  // TACAN ODGOVOR
+  // =====================
   function selectTacno(btn) {
-    document.querySelectorAll('.tacno-btn').forEach(b => {
-      b.className = 'tacno-btn';
-    });
+    document.querySelectorAll('.tacno-btn').forEach(b => b.className = 'tacno-btn');
     tacnoOdg = btn.dataset.val;
     btn.classList.add('active-' + tacnoOdg.toLowerCase());
   }
 
+  // =====================
+  // ALERT
+  // =====================
   function showAlert(tip, poruka) {
     const el = document.getElementById('alert');
     el.className = 'alert show alert-' + tip;
     el.textContent = poruka;
-    setTimeout(() => el.classList.remove('show'), 4000);
+    setTimeout(() => el.classList.remove('show'), 5000);
   }
 
+  // =====================
+  // LOADING
+  // =====================
   function setLoading(val) {
+    const btn = document.getElementById('btn-sacuvaj');
     document.getElementById('spinner').style.display = val ? 'inline-block' : 'none';
     document.getElementById('btn-text').textContent = val ? 'Cuvanje...' : 'Sacuvaj Pitanje';
+    btn.disabled = val;
   }
 
+  // =====================
+  // SACUVAJ PITANJE
+  // =====================
   async function sacuvajPitanje() {
-    const kat = document.getElementById('forma-kategorija').value.trim();
+    const kat = document.getElementById('kategorija').value.trim();
     const pit = document.getElementById('pitanje').value.trim();
     const a   = document.getElementById('odg_a').value.trim();
     const b   = document.getElementById('odg_b').value.trim();
@@ -830,44 +881,55 @@
     const d   = document.getElementById('odg_d').value.trim();
     const e   = document.getElementById('odg_e').value.trim();
 
-    if (!kat || !pit || !a || !b || !c || !d || !tacnoOdg) {
-      showAlert('error', 'Molim te popuni sva obavezna polja i izaberi tacan odgovor!');
+    if (!kat || !pit || !a || !b || !c || !d || !e || !tacnoOdg) {
+      showAlert('error', 'Molim te popuni sva polja i izaberi tacan odgovor!');
       return;
     }
 
     setLoading(true);
 
-    const unos = {
-      kategorija:     kat,
-      pitanje:        pit,
-      odgovor_a:      a,
-      odgovor_b:      b,
-      odgovor_c:      c,
-      odgovor_d:      d,
-      tacno_odogovor: tacnoOdg
+    const noviUnos = {
+      kategorija: kat,
+      pitanje:    pit,
+      odgovor_a:  a,
+      odgovor_b:  b,
+      odgovor_c:  c,
+      odgovor_d:  d,
+      odgovor_e:  e,
+      tacno_odogovor: tacnoOdg   /* tacno_odogovor — typo iz baze, ne mijenjati! */
     };
 
-    if (e) unos.odgovor_e = e;
+    console.log('Saljem u bazu:', noviUnos);
 
     const { data, error } = await db
-      .from('pitanja')
-      .insert([unos])
+      .from(TABELA)
+      .insert([noviUnos])
       .select();
 
     setLoading(false);
 
     if (error) {
-      showAlert('error', 'Greska pri cuvanju: ' + error.message);
+      console.error('Supabase greska:', error);
+      showAlert('error', 'Greska: ' + error.message);
       return;
     }
 
-    showAlert('success', 'Pitanje uspesno sacuvano!');
+    console.log('Uspjesno sacuvano:', data);
+    showAlert('success', 'Pitanje uspjesno sacuvano!');
     ocistiFormu();
-    ucitajPitanja();
+
+    if (data && data.length > 0) {
+      svaPitanja.unshift(data[0]);
+      azurirajStats();
+      filtrirajPitanja();
+    }
   }
 
+  // =====================
+  // OCISTI FORMU
+  // =====================
   function ocistiFormu() {
-    document.getElementById('forma-kategorija').value = '';
+    document.getElementById('kategorija').value = '';
     document.getElementById('pitanje').value = '';
     document.getElementById('odg_a').value = '';
     document.getElementById('odg_b').value = '';
@@ -878,4 +940,143 @@
     tacnoOdg = '';
   }
 
-  async function uc
+  // =====================
+  // UCITAJ PITANJA
+  // =====================
+  async function ucitajPitanja() {
+    document.getElementById('questions-list').innerHTML = `
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+        <p>Ucitavanje pitanja...</p>
+      </div>`;
+
+    const { data, error } = await db
+      .from(TABELA)
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(500);
+
+    if (error) {
+      console.error('Greska ucitavanja:', error);
+      document.getElementById('questions-list').innerHTML =
+        `<div class="empty-state"><p>Greska: ${error.message}</p></div>`;
+      return;
+    }
+
+    svaPitanja = data || [];
+    console.log('Ucitano pitanja:', svaPitanja.length);
+    azurirajStats();
+    filtrirajPitanja();
+  }
+
+  // =====================
+  // AZURIRAJ STATISTIKU
+  // =====================
+  function azurirajStats() {
+    document.getElementById('stat-ukupno').textContent = svaPitanja.length;
+    const danas = new Date().toISOString().split('T')[0];
+    const novo = svaPitanja.filter(p => p.created_at && p.created_at.startsWith(danas)).length;
+    document.getElementById('stat-novo').textContent = novo;
+  }
+
+  // =====================
+  // PRIKAZI PITANJA
+  // =====================
+  function prikaziPitanja(lista) {
+    const el = document.getElementById('questions-list');
+
+    if (!lista.length) {
+      el.innerHTML = `
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+          <p>Nema pitanja za prikaz.</p>
+        </div>`;
+      return;
+    }
+
+    el.innerHTML = lista.map((p, i) => `
+      <div class="q-item" style="animation-delay:${Math.min(i * 0.03, 0.3)}s">
+        <div class="q-item-top">
+          <div class="q-text">${escHTML(p.pitanje)}</div>
+          <div class="q-actions">
+            <button class="btn-del" onclick="obrisiPitanje(${p.id})" title="Obrisi">
+              <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="q-meta">
+          <span class="q-cat-pill">${escHTML(p.kategorija)}</span>
+          <span class="q-ans-pill ans-${(p.tacno_odogovor || 'a').toLowerCase()}">
+            Tacno: ${escHTML(p.tacno_odogovor)}
+          </span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // =====================
+  // OBRISI PITANJE
+  // =====================
+  async function obrisiPitanje(id) {
+    if (!confirm('Da li si siguran da zelis da obrises ovo pitanje?')) return;
+
+    const { error } = await db.from(TABELA).delete().eq('id', id);
+
+    if (error) {
+      showAlert('error', 'Greska pri brisanju: ' + error.message);
+      return;
+    }
+
+    svaPitanja = svaPitanja.filter(p => p.id !== id);
+    azurirajStats();
+    showAlert('success', 'Pitanje obrisano.');
+    filtrirajPitanja();
+  }
+
+  // =====================
+  // FILTER + PRETRAGA
+  // =====================
+  function filterKat(btn) {
+    document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    aktivnaKat = btn.dataset.kat;
+    filtrirajPitanja();
+  }
+
+  function filtrirajPitanja() {
+    const term = document.getElementById('pretraga').value.toLowerCase().trim();
+    let lista = svaPitanja;
+
+    if (aktivnaKat !== 'sve') {
+      lista = lista.filter(p => p.kategorija === aktivnaKat);
+    }
+
+    if (term) {
+      lista = lista.filter(p =>
+        (p.pitanje || '').toLowerCase().includes(term) ||
+        (p.kategorija || '').toLowerCase().includes(term)
+      );
+    }
+
+    prikaziPitanja(lista);
+  }
+
+  // =====================
+  // ESCAPE HTML
+  // =====================
+  function escHTML(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // =====================
+  // START
+  // =====================
+  provjeriAdmin();
+</script>
+</body>
+</html>
