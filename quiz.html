@@ -2,7 +2,7 @@
 <html lang="sr">
 <head>
   <meta charset="UTF-8" />
-   <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="icon" type="image/png" href="/favicon.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Pitanja</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -33,7 +33,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 24px 16px;
+      padding: 16px;
       overflow-x: hidden;
     }
 
@@ -60,7 +60,7 @@
 
     .quiz-wrapper {
       width: 100%;
-      max-width: 720px;
+      max-width: 680px;
       position: relative;
       z-index: 1;
     }
@@ -70,7 +70,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 32px;
+      margin-bottom: 14px;
     }
 
     .back-btn {
@@ -80,7 +80,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       color: var(--muted);
-      padding: 8px 16px;
+      padding: 7px 14px;
       border-radius: 100px;
       font-size: 13px;
       font-family: 'DM Sans', sans-serif;
@@ -99,22 +99,40 @@
       color: var(--accent);
       background: rgba(240,192,64,0.1);
       border: 1px solid rgba(240,192,64,0.25);
-      padding: 6px 14px;
+      padding: 5px 12px;
       border-radius: 100px;
     }
 
+    /* ── DOTS ── */
+    .score-dots {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+
+    .dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      transition: all 0.3s;
+    }
+    .dot.correct { background: var(--correct); border-color: var(--correct); }
+    .dot.wrong   { background: var(--wrong);   border-color: var(--wrong); }
+
     /* ── PROGRESS ── */
-    .progress-section { margin-bottom: 28px; }
+    .progress-section { margin-bottom: 10px; }
 
     .progress-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 7px;
     }
 
     .progress-label {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--muted);
       letter-spacing: 0.5px;
       text-transform: uppercase;
@@ -122,14 +140,14 @@
 
     .progress-count {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 22px;
+      font-size: 19px;
       letter-spacing: 1px;
       color: var(--text);
     }
     .progress-count span { color: var(--accent); }
 
     .progress-bar-track {
-      height: 4px;
+      height: 3px;
       background: var(--surface2);
       border-radius: 100px;
       overflow: hidden;
@@ -147,8 +165,8 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 36px 40px;
-      margin-bottom: 20px;
+      padding: 18px 24px;
+      margin-bottom: 10px;
       position: relative;
       overflow: hidden;
     }
@@ -163,17 +181,17 @@
 
     .question-number {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 11px;
+      font-size: 10px;
       letter-spacing: 3px;
       color: var(--muted);
       text-transform: uppercase;
-      margin-bottom: 14px;
+      margin-bottom: 8px;
     }
 
     .question-text {
-      font-size: 20px;
+      font-size: 17px;
       font-weight: 500;
-      line-height: 1.5;
+      line-height: 1.45;
       color: var(--text);
       letter-spacing: -0.2px;
     }
@@ -182,21 +200,21 @@
     .options-grid {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 24px;
+      gap: 7px;
+      margin-bottom: 10px;
     }
 
     .option-btn {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px 20px;
+      border-radius: 10px;
+      padding: 11px 16px;
       cursor: pointer;
       font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
+      font-size: 14px;
       color: var(--text);
       text-align: left;
       transition: all 0.2s;
@@ -220,15 +238,15 @@
     }
 
     .option-letter {
-      width: 34px; height: 34px;
-      border-radius: 8px;
+      width: 28px; height: 28px;
+      border-radius: 6px;
       background: var(--surface2);
       border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 16px;
+      font-size: 14px;
       letter-spacing: 0.5px;
       color: var(--muted);
       flex-shrink: 0;
@@ -268,14 +286,14 @@
 
     /* ── FEEDBACK ── */
     .feedback-bar {
-      padding: 14px 20px;
-      border-radius: 12px;
-      font-size: 14px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 13px;
       font-weight: 500;
-      margin-bottom: 20px;
+      margin-bottom: 8px;
       display: none;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       animation: slideUp 0.3s ease;
     }
 
@@ -294,46 +312,53 @@
     }
 
     @keyframes slideUp {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(6px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     /* ── NEXT BTN ── */
+    .next-btn-wrapper {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .next-btn-wrapper.visible {
+      display: flex;
+      animation: slideUp 0.3s ease;
+    }
+
     .next-btn {
       width: 100%;
-      padding: 16px;
+      padding: 12px;
       background: var(--accent);
       color: #0a0a0f;
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 18px;
+      font-size: 16px;
       letter-spacing: 2px;
       cursor: pointer;
-      display: none;
       transition: all 0.2s;
     }
 
     .next-btn:hover { background: #f7d060; transform: translateY(-1px); }
-    .next-btn.visible { display: block; animation: slideUp 0.3s ease; }
 
-    /* ── DOTS ── */
-    .score-dots {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 32px;
+    .enter-hint {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.5px;
     }
-
-    .dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
+    .enter-hint kbd {
+      display: inline-block;
       background: var(--surface2);
       border: 1px solid var(--border);
-      transition: all 0.3s;
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      color: var(--muted);
     }
-    .dot.correct { background: var(--correct); border-color: var(--correct); }
-    .dot.wrong   { background: var(--wrong);   border-color: var(--wrong); }
 
     /* ── RESULT ── */
     #result-screen {
@@ -342,7 +367,7 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 56px 40px;
+      padding: 44px 36px;
       position: relative;
       overflow: hidden;
     }
@@ -356,13 +381,13 @@
     }
 
     .result-score-ring {
-      width: 140px; height: 140px;
-      margin: 0 auto 28px;
+      width: 130px; height: 130px;
+      margin: 0 auto 22px;
       position: relative;
     }
 
     .result-score-ring svg {
-      width: 140px; height: 140px;
+      width: 130px; height: 130px;
       transform: rotate(-90deg);
     }
 
@@ -386,7 +411,7 @@
 
     .ring-score {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 40px;
+      font-size: 38px;
       letter-spacing: 1px;
       color: var(--text);
       line-height: 1;
@@ -396,31 +421,31 @@
 
     .result-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 36px;
+      font-size: 34px;
       letter-spacing: 2px;
       color: var(--text);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .result-subtitle {
       font-size: 14px;
       color: var(--muted);
-      margin-bottom: 36px;
+      margin-bottom: 24px;
       line-height: 1.6;
     }
 
     .result-actions {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       justify-content: center;
       flex-wrap: wrap;
     }
 
     .result-btn {
-      padding: 13px 28px;
+      padding: 12px 26px;
       border-radius: 10px;
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 16px;
+      font-size: 15px;
       letter-spacing: 2px;
       cursor: pointer;
       border: none;
@@ -447,19 +472,19 @@
     }
 
     .loader {
-      width: 40px; height: 40px;
+      width: 38px; height: 38px;
       border: 3px solid var(--surface2);
       border-top-color: var(--accent);
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
-      margin: 0 auto 20px;
+      margin: 0 auto 18px;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .loading-text {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 14px;
+      font-size: 13px;
       letter-spacing: 3px;
       color: var(--muted);
       text-transform: uppercase;
@@ -469,15 +494,15 @@
     #error-screen {
       display: none;
       text-align: center;
-      padding: 60px 40px;
+      padding: 56px 36px;
       background: var(--surface);
       border: 1px solid rgba(224,92,58,0.2);
       border-radius: var(--radius);
     }
 
     .error-icon {
-      font-size: 40px;
-      margin-bottom: 16px;
+      font-size: 36px;
+      margin-bottom: 14px;
       color: var(--wrong);
       font-family: 'Bebas Neue', sans-serif;
       letter-spacing: 2px;
@@ -491,11 +516,12 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 600px) {
-      .question-card { padding: 24px 20px; }
-      .question-text { font-size: 17px; }
-      .option-btn { font-size: 14px; padding: 14px 16px; gap: 12px; }
-      .result-score-ring { width: 120px; height: 120px; }
-      .result-score-ring svg { width: 120px; height: 120px; }
+      .question-card { padding: 14px 16px; }
+      .question-text { font-size: 15px; }
+      .option-btn { font-size: 13px; padding: 10px 13px; gap: 10px; }
+      .result-score-ring { width: 110px; height: 110px; }
+      .result-score-ring svg { width: 110px; height: 110px; }
+      .enter-hint { display: none; }
     }
   </style>
 </head>
@@ -506,15 +532,15 @@
   <!-- Loading -->
   <div id="loading-screen">
     <div class="loader"></div>
-    <div class="loading-text">Učitavam pitanja...</div>
+    <div class="loading-text">Ucitavam pitanja...</div>
   </div>
 
   <!-- Error -->
   <div id="error-screen">
     <div class="error-icon">GRESKA</div>
-    <p class="error-msg" id="error-msg-text">Došlo je do greške pri učitavanju pitanja.</p>
+    <p class="error-msg" id="error-msg-text">Doslo je do greske pri ucitavanju pitanja.</p>
     <br>
-    <a href="index.html" class="back-btn" style="display:inline-flex;margin-top:16px;">Nazad na početnu</a>
+    <a href="index.html" class="back-btn" style="display:inline-flex;margin-top:16px;">Nazad na pocetnu</a>
   </div>
 
   <!-- Quiz -->
@@ -546,7 +572,7 @@
 
     <div class="question-card">
       <div class="question-number" id="question-number">PITANJE 01</div>
-      <div class="question-text" id="question-text">Učitavam...</div>
+      <div class="question-text" id="question-text">Ucitavam...</div>
     </div>
 
     <div class="options-grid" id="options-grid"></div>
@@ -555,9 +581,15 @@
       <span id="feedback-text"></span>
     </div>
 
-    <button class="next-btn" id="next-btn" onclick="nextQuestion()">
-      Sledeće pitanje
-    </button>
+    <!-- Next dugme + Enter hint zajedno -->
+    <div class="next-btn-wrapper" id="next-btn-wrapper">
+      <button class="next-btn" id="next-btn" onclick="nextQuestion()">
+        Sledece pitanje
+      </button>
+      <div class="enter-hint">
+        ili pritisni <kbd>Enter</kbd> da nastavis
+      </div>
+    </div>
 
   </div>
 
@@ -580,14 +612,14 @@
       </div>
     </div>
 
-    <div class="result-title" id="result-title">ODLIČNO!</div>
-    <div class="result-subtitle" id="result-subtitle">Uspešno si završio kviz.</div>
+    <div class="result-title" id="result-title">ODLICNO!</div>
+    <div class="result-subtitle" id="result-subtitle">Uspesno si zavrsio kviz.</div>
 
-    <div class="score-dots" id="result-dots" style="justify-content:center; margin-bottom:28px;"></div>
+    <div class="score-dots" id="result-dots" style="justify-content:center; margin-bottom:20px;"></div>
 
     <div class="result-actions">
       <button class="result-btn primary" onclick="restartQuiz()">Igraj ponovo</button>
-      <button class="result-btn secondary" onclick="window.location.href='index.html'">Početna strana</button>
+      <button class="result-btn secondary" onclick="window.location.href='index.html'">Pocetna strana</button>
     </div>
   </div>
 
@@ -595,7 +627,7 @@
 
 <script>
   // ============================================================
-  //  KONFIGURACIJA — zameni sa tvojim podacima
+  //  KONFIGURACIJA
   // ============================================================
   const SUPABASE_URL      = 'https://ujamzoupwldtppyveguq.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVqYW16b3Vwd2xkdHBweXZlZ3VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MjI3MjUsImV4cCI6MjA5MTQ5ODcyNX0.sHfuZ3tgJTkfucwiAxWLAK8lOidh1o_hLeh3CSHQxT4';
@@ -603,25 +635,16 @@
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   // ============================================================
 
-  let questions    = [];
-  let currentIdx   = 0;
-  let score        = 0;
-  let answered     = false;
-  let results      = [];
-  let quizMode     = '';   // 'random' | 'brzi' | 'kategorija'
-  let quizLabel    = '';   // naziv za badge
-  let originalUrl  = '';   // sacuvaj URL za restart
+  let questions  = [];
+  let currentIdx = 0;
+  let score      = 0;
+  let answered   = false;
+  let results    = [];
 
   const LETTERS = ['a', 'b', 'c', 'd', 'e'];
 
   // ============================================================
-  //  CITANJE URL PARAMETARA
-  //  Podrzani URL-ovi:
-  //    quiz.html?mod=random              → 20 random iz sve baze
-  //    quiz.html?mod=random&limit=20     → N random iz sve baze
-  //    quiz.html?mod=brzi                → 5 random iz sve baze
-  //    quiz.html?mod=brzi&limit=5        → N random iz sve baze
-  //    quiz.html?kategorija=Geografija   → 20 pitanja iz kategorije
+  //  URL PARAMETRI
   // ============================================================
   function parseUrlParams() {
     const params     = new URLSearchParams(window.location.search);
@@ -632,16 +655,12 @@
     if (mod === 'random') {
       return { mode: 'random', limit: limit || 20, label: 'SVE KATEGORIJE' };
     }
-
     if (mod === 'brzi') {
       return { mode: 'brzi', limit: limit || 5, label: 'BRZI KRUG' };
     }
-
     if (kategorija) {
       return { mode: 'kategorija', limit: limit || 20, label: kategorija.toUpperCase(), kategorija };
     }
-
-    // Nije prosledjen nijedan validan parametar
     return null;
   }
 
@@ -658,27 +677,35 @@
   }
 
   // ============================================================
-  //  FETCH PITANJA — tri razlicita nacina
+  //  FETCH — RANDOM (sva pitanja, shuffle na klijentu)
   // ============================================================
+  async function fetchRandom(limit) {
+    const { data, error } = await supabaseClient
+      .from('quiz_pitanja')
+      .select('*')
+      .limit(1000);
 
-// ============================================================
-//  FETCH RANDOM — dohvata SVA pitanja i nasumicno bira N
-//  Ovo garantuje pravu raznolikost kategorija
-// ============================================================
-async function fetchRandom(limit) {
-  // Dohvati SVA pitanja odjednom (500 redova je malo za browser)
-  const { data, error } = await supabaseClient
-    .from('quiz_pitanja')
-    .select('*')
-    .limit(1000); // sigurnosni maksimum
+    if (error) throw new Error(error.message);
+    if (!data || data.length === 0) throw new Error('Baza pitanja je prazna.');
 
-  if (error) throw new Error(error.message);
-  if (!data || data.length === 0) throw new Error('Baza pitanja je prazna.');
+    return shuffleArray(data).slice(0, limit);
+  }
 
-  // Potpuni shuffle i uzmi prvih N
-  return shuffleArray(data).slice(0, limit);
-}
+  // ============================================================
+  //  FETCH — PO KATEGORIJI
+  // ============================================================
+  async function fetchByKategorija(kategorija, limit) {
+    const { data, error } = await supabaseClient
+      .from('quiz_pitanja')
+      .select('*')
+      .eq('kategorija', kategorija)
+      .limit(500);
 
+    if (error) throw new Error(error.message);
+    if (!data || data.length === 0) throw new Error('Nema pitanja za ovu kategoriju.');
+
+    return shuffleArray(data).slice(0, limit);
+  }
 
   // ============================================================
   //  POMOCNA: Fisher-Yates shuffle
@@ -725,11 +752,18 @@ async function fetchRandom(limit) {
       grid.appendChild(btn);
     });
 
+    // Reset feedback i next wrapper
     document.getElementById('feedback-bar').className = 'feedback-bar';
-    document.getElementById('next-btn').classList.remove('visible');
+    document.getElementById('next-btn-wrapper').classList.remove('visible');
+
+    // Tekst dugmeta
+    document.getElementById('next-btn').textContent = currentIdx < questions.length - 1
+      ? 'Sledece pitanje'
+      : 'Pogledaj rezultat';
 
     renderDots();
 
+    // Animacija pri promeni pitanja
     const card = document.querySelector('.question-card');
     card.style.animation = 'none';
     void card.offsetWidth;
@@ -767,18 +801,18 @@ async function fetchRandom(limit) {
 
     if (isRight) {
       fb.className   = 'feedback-bar correct';
-      ft.textContent = 'Tačno! Odličan odgovor.';
+      ft.textContent = 'Tacno! Odlican odgovor.';
     } else {
       fb.className   = 'feedback-bar wrong';
       const correctText = q['odgovor_' + correct] || correct.toUpperCase();
-      ft.textContent = `Netačno. Tačan odgovor je: ${correctText}`;
+      ft.textContent = 'Netacno. Tacan odgovor je: ' + correctText;
     }
 
-    const nextBtn = document.getElementById('next-btn');
-    nextBtn.textContent = currentIdx < questions.length - 1
-      ? 'Sledeće pitanje'
+    // Azuriraj tekst i pokazi dugme
+    document.getElementById('next-btn').textContent = currentIdx < questions.length - 1
+      ? 'Sledece pitanje'
       : 'Pogledaj rezultat';
-    nextBtn.classList.add('visible');
+    document.getElementById('next-btn-wrapper').classList.add('visible');
   }
 
   // ============================================================
@@ -794,7 +828,19 @@ async function fetchRandom(limit) {
   }
 
   // ============================================================
-  //  DOTS — tracker tacnih/netacnih
+  //  ENTER TIPKA — idi dalje samo ako je odgovoreno
+  // ============================================================
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      const wrapper = document.getElementById('next-btn-wrapper');
+      if (wrapper && wrapper.classList.contains('visible')) {
+        nextQuestion();
+      }
+    }
+  });
+
+  // ============================================================
+  //  DOTS
   // ============================================================
   function renderDots() {
     const container = document.getElementById('score-dots');
@@ -829,11 +875,11 @@ async function fetchRandom(limit) {
     }, 100);
 
     let title, subtitle;
-    if      (pct === 100) { title = 'SAVRŠENO!';    subtitle = 'Sve tačno! Pravi šampion!'; }
-    else if (pct >= 80)   { title = 'ODLIČNO!';     subtitle = `Tačno: ${score} od ${tot}. Sjajan rezultat!`; }
-    else if (pct >= 60)   { title = 'SOLIDNO!';     subtitle = `Tačno: ${score} od ${tot}. Ima prostora za napredak!`; }
-    else if (pct >= 40)   { title = 'MOŽE BOLJE!';  subtitle = `Tačno: ${score} od ${tot}. Pokušaj ponovo!`; }
-    else                  { title = 'POKUŠAJ OPET!';subtitle = `Tačno: ${score} od ${tot}. Ne odustaj!`; }
+    if      (pct === 100) { title = 'SAVRSENO!';    subtitle = 'Sve tacno! Pravi sampion!'; }
+    else if (pct >= 80)   { title = 'ODLICNO!';     subtitle = 'Tacno: ' + score + ' od ' + tot + '. Sjajan rezultat!'; }
+    else if (pct >= 60)   { title = 'SOLIDNO!';     subtitle = 'Tacno: ' + score + ' od ' + tot + '. Ima prostora za napredak!'; }
+    else if (pct >= 40)   { title = 'MOZE BOLJE!';  subtitle = 'Tacno: ' + score + ' od ' + tot + '. Pokusaj ponovo!'; }
+    else                  { title = 'POKUSAJ OPET!';subtitle = 'Tacno: ' + score + ' od ' + tot + '. Ne odustaj!'; }
 
     document.getElementById('result-title').textContent    = title;
     document.getElementById('result-subtitle').textContent = subtitle;
@@ -848,7 +894,7 @@ async function fetchRandom(limit) {
   }
 
   // ============================================================
-  //  RESTART — novi set pitanja istog moda
+  //  RESTART
   // ============================================================
   async function restartQuiz() {
     currentIdx = 0;
@@ -877,38 +923,34 @@ async function fetchRandom(limit) {
   }
 
   // ============================================================
-  //  INIT — glavna funkcija
+  //  INIT
   // ============================================================
   async function init() {
     showScreen('loading-screen');
 
     const config = parseUrlParams();
 
-    // Nije prosledjen nijedan validan parametar
     if (!config) {
       document.getElementById('error-msg-text').textContent =
-        'Nije izabran način testiranja. Vrati se na početnu stranicu i izaberi kategoriju ili način igre.';
+        'Nije izabran nacin testiranja. Vrati se na pocetnu stranicu.';
       showScreen('error-screen');
       return;
     }
 
-    // Postavi badge label
     document.getElementById('category-label').textContent = config.label;
-    document.title = `Kviz - ${config.label}`;
+    document.title = 'Kviz - ' + config.label;
 
     try {
-      // Ucitaj pitanja prema modu
       if (config.mode === 'kategorija') {
         questions = await fetchByKategorija(config.kategorija, config.limit);
       } else {
-        // mod === 'random' ili 'brzi' — oba uzimaju random iz cele baze
         questions = await fetchRandom(config.limit);
       }
 
       if (!questions || questions.length === 0) {
         const msg = config.mode === 'kategorija'
-          ? `Nema pitanja za kategoriju "${config.kategorija}". Dodaj pitanja u admin panelu.`
-          : 'Baza pitanja je prazna. Dodaj pitanja u admin panelu.';
+          ? 'Nema pitanja za kategoriju "' + config.kategorija + '".'
+          : 'Baza pitanja je prazna.';
         document.getElementById('error-msg-text').textContent = msg;
         showScreen('error-screen');
         return;
