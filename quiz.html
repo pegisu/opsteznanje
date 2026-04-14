@@ -661,60 +661,24 @@
   //  FETCH PITANJA — tri razlicita nacina
   // ============================================================
 
-  // Moda 1: Pitanja iz konkretne kategorije
-  async function fetchByKategorija(kategorija, limit) {
-    const { data, error } = await supabaseClient
-      .from('quiz_pitanja')
-      .select('*')
-      .eq('kategorija', kategorija)
-      .limit(limit * 3); // uzimamo vise pa nasumicno biramo
+// ============================================================
+//  FETCH RANDOM — dohvata SVA pitanja i nasumicno bira N
+//  Ovo garantuje pravu raznolikost kategorija
+// ============================================================
+async function fetchRandom(limit) {
+  // Dohvati SVA pitanja odjednom (500 redova je malo za browser)
+  const { data, error } = await supabaseClient
+    .from('quiz_pitanja')
+    .select('*')
+    .limit(1000); // sigurnosni maksimum
 
-    if (error) throw new Error(error.message);
-    return shuffleArray(data || []).slice(0, limit);
-  }
+  if (error) throw new Error(error.message);
+  if (!data || data.length === 0) throw new Error('Baza pitanja je prazna.');
 
-  // Moda 2 i 3: Random pitanja iz CELE baze
-  // Supabase nema direktan random, pa uzimamo veci uzorak i shufflujemo
-  async function fetchRandom(limit) {
-    // Prvo saznajemo ukupan broj pitanja
-    const { count, error: countError } = await supabaseClient
-      .from('quiz_pitanja')
-      .select('*', { count: 'exact', head: true });
+  // Potpuni shuffle i uzmi prvih N
+  return shuffleArray(data).slice(0, limit);
+}
 
-    if (countError) throw new Error(countError.message);
-
-    const totalRows = count || 0;
-
-    if (totalRows === 0) {
-      throw new Error('Baza pitanja je prazna.');
-    }
-
-    // Uzimamo random offset da dobijemo razlicita pitanja svaki put
-    const maxOffset = Math.max(0, totalRows - limit * 3);
-    const offset    = Math.floor(Math.random() * (maxOffset + 1));
-
-    const { data, error } = await supabaseClient
-      .from('quiz_pitanja')
-      .select('*')
-      .range(offset, offset + limit * 3 - 1);
-
-    if (error) throw new Error(error.message);
-
-    // Ako nismo dobili dovoljno (kraj tabele), uzimamo od pocetka
-    let pool = data || [];
-    if (pool.length < limit) {
-      const { data: extraData, error: extraError } = await supabaseClient
-        .from('quiz_pitanja')
-        .select('*')
-        .limit(limit * 3);
-
-      if (!extraError && extraData) {
-        pool = extraData;
-      }
-    }
-
-    return shuffleArray(pool).slice(0, limit);
-  }
 
   // ============================================================
   //  POMOCNA: Fisher-Yates shuffle
