@@ -1255,11 +1255,10 @@
         <p>Ucitavanje pitanja...</p>
       </div>`;
 
-    const { data, error } = await db
+const { data, error } = await db
       .from(TABELA)
       .select('*')
-      .order('created_at', { ascending: false })
-      .limit(500);
+      .order('created_at', { ascending: false });
 
     if (error) {
       console.error('Greska ucitavanja:', error);
